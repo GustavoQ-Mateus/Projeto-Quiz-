@@ -7,6 +7,7 @@
     <!-- Google Fonts: Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 </head>
 <body>
     <!-- Cabeçalho fixo -->
@@ -21,16 +22,20 @@
         <!-- Menu 1: Escolher Dificuldade -->
         <section id="menu-dificuldade" class="menu active">
             <div class="card card-menu transicao">
-                <h1 class="titulo">Bem-vindo!</h1>
-                <!-- ...removido campo de nome do jogador... -->
-                <label for="dificuldade" class="label-dificuldade">Escolha a dificuldade:</label>
-                <select id="dificuldade" class="select-dificuldade">
-                    <option value="Easy">Easy</option>
-                    <option value="Basic">Basic</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Hard">Hard</option>
-                </select>
-                <button id="btn-iniciar" class="btn btn-roxo">Iniciar Quiz</button>
+                                <h1 class="titulo">Bem-vindo!</h1>
+                                <!-- Caixa de texto Webflow-style -->
+                                <div class="webflow-style-input" style="margin-bottom: 18px;">
+                                    <input type="email" id="email" placeholder="What's your email?">
+                                    <button type="submit" id="btn-email"><i class="icon ion-android-arrow-forward"></i></button>
+                                </div>
+                                <label for="dificuldade" class="label-dificuldade">Escolha a dificuldade:</label>
+                                <select id="dificuldade" class="select-dificuldade">
+                                        <option value="Easy">Easy</option>
+                                        <option value="Basic">Basic</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="Hard">Hard</option>
+                                </select>
+                                <button id="btn-iniciar" class="btn btn-roxo">Iniciar Quiz</button>
             </div>
         </section>
 
