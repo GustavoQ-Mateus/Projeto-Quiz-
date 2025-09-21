@@ -135,8 +135,8 @@ btnIniciar.addEventListener('click', () => {
     pontuacao = 0;
     // Seleciona e embaralha perguntas do nível
     if (typeof perguntasGeradas !== 'undefined') {
-        const perguntasNivel = perguntasGeradas.filter(q => q.dificuldade === dificuldadeAtual);
-        perguntasSelecionadas = shuffleArray(perguntasNivel);
+    const perguntasNivel = perguntasGeradas.filter(q => q.dificuldade === dificuldadeAtual);
+    perguntasSelecionadas = shuffleArray(perguntasNivel).slice(0, 6);
     } else {
         perguntasSelecionadas = [];
     }
