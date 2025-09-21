@@ -5,6 +5,11 @@ const menuDificuldade = document.getElementById('menu-dificuldade');
 const menuQuiz = document.getElementById('menu-quiz');
 const menuRanking = document.getElementById('menu-ranking');
 
+// Elementos da caixa de nome
+const inputNome = document.getElementById('nome');
+const btnNome = document.getElementById('btn-email');
+let nomeJogador = '';
+
 // Elementos de controle
 const selectDificuldade = document.getElementById('dificuldade');
 const btnIniciar = document.getElementById('btn-iniciar');
@@ -21,13 +26,15 @@ const barraProgresso = document.getElementById('barra-progresso');
 
 // Ranking
 const listaRanking = document.getElementById('lista-ranking');
-// Simulação de ranking
-const rankingSimulado = [
-    { nome: 'Teste3', pontos: 1200 },
-    { nome: 'Teste2', pontos: 1100 },
-    { nome: 'Teste1', pontos: 950 },
-    { nome: 'Você', pontos: 0 }
-];
+// Ranking dinâmico
+function getRanking(dificuldade = null) {
+    const key = dificuldade ? `quizRanking_${dificuldade}` : `quizRanking_${dificuldadeAtual}`;
+    return JSON.parse(localStorage.getItem(key) || '[]');
+}
+function setRanking(ranking, dificuldade = null) {
+    const key = dificuldade ? `quizRanking_${dificuldade}` : `quizRanking_${dificuldadeAtual}`;
+    localStorage.setItem(key, JSON.stringify(ranking));
+}
 
 // Configurações de tempo por dificuldade
 const temposPorDificuldade = {
@@ -74,12 +81,74 @@ function mostrarMenu(menu) {
     menu.classList.add('active');
 }
 
+// Mensagem de erro/feedback para nome
+function mostrarMensagemNome(msg, cor = 'red', tempo = 2500) {
+    let msgDiv = document.getElementById('msg-nome');
+    if (!msgDiv) {
+        msgDiv = document.createElement('div');
+        msgDiv.id = 'msg-nome';
+        msgDiv.style.margin = '8px 0';
+        msgDiv.style.textAlign = 'center';
+        msgDiv.style.fontWeight = '600';
+        msgDiv.style.fontSize = '1.1rem';
+        msgDiv.style.transition = 'opacity 0.3s';
+        document.querySelector('.card-menu').insertBefore(msgDiv, document.querySelector('.label-dificuldade'));
+    }
+    msgDiv.textContent = msg;
+    msgDiv.style.color = cor;
+    msgDiv.style.opacity = '1';
+    if (tempo > 0) {
+        setTimeout(() => {
+            msgDiv.style.opacity = '0';
+        }, tempo);
+    }
+}
+
+inputNome.addEventListener('input', () => {
+    let msgDiv = document.getElementById('msg-nome');
+    if (msgDiv) msgDiv.style.opacity = '0';
+});
+
+btnNome.addEventListener('click', (e) => {
+    e.preventDefault();
+    const nome = inputNome.value.trim();
+    if (!nome) {
+        mostrarMensagemNome('Por favor, digite seu nome para começar', 'red', 2500);
+        return;
+    }
+    nomeJogador = nome;
+    localStorage.setItem('quizNome', nomeJogador);
+    mostrarMensagemNome('Nome salvo!', 'green', 1500);
+});
+
 // Inicia o quiz
 btnIniciar.addEventListener('click', () => {
+    // Verifica se nome foi salvo
+    nomeJogador = localStorage.getItem('quizNome') || '';
+    if (!nomeJogador) {
+        mostrarMensagemNome('Por favor, digite seu nome para começar', 'red', 2500);
+        inputNome.focus();
+        return;
+    }
     dificuldadeAtual = selectDificuldade.value;
     tempoPergunta = temposPorDificuldade[dificuldadeAtual];
     pontuacao = 0;
-    perguntasSelecionadas = typeof perguntasGeradas !== 'undefined' ? perguntasGeradas.filter(q => q.dificuldade === dificuldadeAtual) : [];
+    // Seleciona e embaralha perguntas do nível
+    if (typeof perguntasGeradas !== 'undefined') {
+        const perguntasNivel = perguntasGeradas.filter(q => q.dificuldade === dificuldadeAtual);
+        perguntasSelecionadas = shuffleArray(perguntasNivel);
+    } else {
+        perguntasSelecionadas = [];
+    }
+// Função para embaralhar array (Fisher-Yates)
+function shuffleArray(array) {
+    let arr = array.slice();
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
     perguntasTotais = perguntasSelecionadas.length;
     perguntasRestantes = perguntasTotais;
     perguntaAtualIndex = 0;
@@ -169,28 +238,53 @@ btnCancelar.addEventListener('click', () => {
 
 // Finaliza quiz
 function finalizarQuiz() {
-    mostrarRanking();
+    // Adiciona ao ranking da dificuldade atual
+    nomeJogador = localStorage.getItem('quizNome') || nomeJogador || 'Você';
+    let ranking = getRanking(dificuldadeAtual);
+    ranking.push({ nome: nomeJogador, pontos: pontuacao });
+    ranking.sort((a, b) => b.pontos - a.pontos);
+    setRanking(ranking, dificuldadeAtual);
+    mostrarRanking(true);
 }
 
 // Exibe ranking simulado
-function mostrarRanking() {
-    // Atualiza pontuação do usuário
-    rankingSimulado[3].pontos = pontuacao;
-    // Ordena ranking
-    const rankingOrdenado = [...rankingSimulado].sort((a, b) => b.pontos - a.pontos);
+function mostrarRanking(adicionado = false) {
+    // Mostra ranking da dificuldade selecionada
+    let ranking = getRanking(dificuldadeAtual);
     listaRanking.innerHTML = '';
-    rankingOrdenado.forEach((item, idx) => {
+    ranking.forEach((item, idx) => {
         const li = document.createElement('li');
         li.textContent = `${idx + 1}º - ${item.nome}: ${item.pontos} pontos`;
         listaRanking.appendChild(li);
     });
     mostrarMenu(menuRanking);
+    if (adicionado) {
+        let msg = document.createElement('div');
+        msg.textContent = 'Você foi adicionado ao ranking!';
+        msg.style.color = '#22c55e';
+        msg.style.textAlign = 'center';
+        msg.style.fontWeight = '600';
+        msg.style.margin = '12px 0 0 0';
+        msg.style.fontSize = '1.1rem';
+        listaRanking.parentNode.insertBefore(msg, listaRanking.nextSibling);
+        setTimeout(() => { msg.remove(); }, 2500);
+    }
 }
 
 // Iniciar novo quiz
 btnNovoQuiz.addEventListener('click', () => {
     mostrarMenu(menuDificuldade);
 });
+
+// Botão de resetar ranking
+const btnResetRanking = document.getElementById('btn-reset-ranking');
+if (btnResetRanking) {
+    btnResetRanking.addEventListener('click', () => {
+        setRanking([], dificuldadeAtual);
+        mostrarRanking();
+        mostrarMensagemNome('Ranking resetado!', '#ef4444', 2000);
+    });
+}
 
 // Inicialização: mostra menu de dificuldade
 mostrarMenu(menuDificuldade);

@@ -25,7 +25,7 @@
                                 <h1 class="titulo">Bem-vindo!</h1>
                                 <!-- Caixa de texto Webflow-style -->
                                 <div class="webflow-style-input" style="margin-bottom: 18px;">
-                                    <input type="email" id="email" placeholder="What's your email?">
+                                    <input type="text" id="nome" placeholder="Coloque seu Nome">
                                     <button type="submit" id="btn-email"><i class="icon ion-android-arrow-forward"></i></button>
                                 </div>
                                 <label for="dificuldade" class="label-dificuldade">Escolha a dificuldade:</label>
@@ -72,8 +72,9 @@
             <div class="card card-ranking transicao">
                 <h2 class="titulo">Ranking de Pontuações</h2>
                 <ul id="lista-ranking">
-                    <!-- Pontuações simuladas -->
+                    <!-- Ranking dinâmico -->
                 </ul>
+                <button id="btn-reset-ranking" class="btn btn-voltar" style="margin-bottom: 8px;">Resetar Ranking</button>
                 <button id="btn-novo-quiz" class="btn btn-roxo">Iniciar Outro Quiz</button>
             </div>
         </section>

@@ -1,5 +1,26 @@
-/* style.css - Estilos modernos e responsivos para o Quiz Lógico */
-/* Webflow-style input importado de botãoadicionar.css */
+
+/*
+====================================================
+Webflow-style Input (Caixa de texto animada)
+----------------------------------------------------
+Estilos para a caixa de texto de email utilizada no menu 1 do Quiz Lógico.
+Inclui animação de gradiente na borda inferior, responsividade e integração com Ionicons.
+----------------------------------------------------
+Principais classes e elementos:
+  .webflow-style-input   - Container flexível da caixa de texto
+  input[type="email"]    - Campo de entrada do email
+  button                 - Botão de envio com ícone
+  :after                 - Borda animada com gradiente
+----------------------------------------------------
+Variáveis CSS:
+  --input-background     - Fundo do input
+  --input-text-inactive  - Cor do texto inativo
+  --input-text-active    - Cor do texto ativo
+----------------------------------------------------
+Para funcionamento do ícone, inclua Ionicons no <head> do HTML:
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+====================================================
+*/
 html { box-sizing: border-box; font-size: 10px; }
 *, *:before, *:after { box-sizing: inherit; }
 body, ul, li  { margin: 0; padding: 0; }
@@ -10,9 +31,9 @@ input { border-style: none; background: transparent; outline: none; }
 button { padding: 0; background: none; border: none; outline: none; }
 
 :root {
-    --input-background: rgba(57, 63, 84, 0.8);
+    --input-background: rgba(246, 247, 251, 0.8);
     --input-text-inactive: #7881A1;
-    --input-text-active: #BFD2FF;
+    --input-text-active: #000000;
 }
 
 .webflow-style-input {
@@ -23,7 +44,7 @@ button { padding: 0; background: none; border: none; outline: none; }
     max-width: 400px;
     margin: 0 auto;
     border-radius: 2px;
-    padding: 1.4rem 2rem 1.6rem;
+    padding: 0.4rem 2rem 0.6rem;
     background: var(--input-background);
 }
 
@@ -38,7 +59,7 @@ button { padding: 0; background: none; border: none; outline: none; }
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
     background-position: 0% 0%;
-    background: linear-gradient(to right, #B294FF, #57E6E6, #FEFFB8, #57E6E6, #B294FF, #57E6E6);
+    background: linear-gradient(to right, #6C63FF, #554ee1, #6C63FF, #554ee1, #6C63FF, #554ee1);
     background-size: 500% auto;
     animation: gradient 3s linear infinite;
 }
@@ -60,7 +81,14 @@ button { padding: 0; background: none; border: none; outline: none; }
     font-size: 2.4rem;
     line-height: 2.4rem;
     vertical-align: middle;
-    transition: color 0.25s;
+    transition: color 0.25s, transform 0.2s;
+    cursor: pointer;
+}
+
+.webflow-style-input button:hover {
+    color: var(--input-text-active);
+    transform: scale(1.15) rotate(8deg);
+    filter: drop-shadow(0 2px 8px #B294FF);
 }
 
 .webflow-style-input button:hover {
