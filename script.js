@@ -181,7 +181,8 @@ function exibirPerguntaAtual() {
     if (!perguntaObj) return;
     // Monta visual dos pares
     let paresHTML = '<div class="pergunta-pares"><strong>Pares:</strong> ' + perguntaObj.pares.map(p => `(${p[0]},${p[1]})`).join(', ') + '</div>';
-    painelPergunta.innerHTML = `${paresHTML}<div class="pergunta-texto">${perguntaObj.pergunta}</div>`;
+    let perguntaHTML = '<div class="painel-pergunta-texto"><strong>Pergunta:</strong> ' + perguntaObj.pergunta + '</div>';
+    painelPergunta.innerHTML = `${paresHTML}${perguntaHTML}`;
 }
 
 // Timer da pergunta

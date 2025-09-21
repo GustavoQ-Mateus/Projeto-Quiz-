@@ -21,21 +21,27 @@
     <main class="main-container">
         <!-- Menu 1: Escolher Dificuldade -->
         <section id="menu-dificuldade" class="menu active">
-            <div class="card card-menu transicao">
-                                <h1 class="titulo">Bem-vindo!</h1>
-                                <!-- Caixa de texto Webflow-style -->
-                                <div class="webflow-style-input" style="margin-bottom: 18px;">
-                                    <input type="text" id="nome" placeholder="Coloque seu Nome">
-                                    <button type="submit" id="btn-email"><i class="icon ion-android-arrow-forward"></i></button>
-                                </div>
-                                <label for="dificuldade" class="label-dificuldade">Escolha a dificuldade:</label>
-                                <select id="dificuldade" class="select-dificuldade">
-                                        <option value="Easy">Easy</option>
-                                        <option value="Basic">Basic</option>
-                                        <option value="Medium">Medium</option>
-                                        <option value="Hard">Hard</option>
-                                </select>
-                                <button id="btn-iniciar" class="btn btn-roxo">Iniciar Quiz</button>
+            <div class="painel-pergunta-row">
+                <div class="card card-menu transicao">
+                    <h1 class="titulo">Bem-vindo!</h1>
+                    <!-- Caixa de texto Webflow-style -->
+                    <div class="webflow-style-input" style="margin-bottom: 18px;">
+                        <input type="text" id="nome" placeholder="Coloque seu Nome">
+                        <button type="submit" id="btn-email"><i class="icon ion-android-arrow-forward"></i></button>
+                    </div>
+                    <label for="dificuldade" class="label-dificuldade">Escolha a dificuldade:</label>
+                    <select id="dificuldade" class="select-dificuldade">
+                        <option value="Easy">Easy</option>
+                        <option value="Basic">Basic</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Hard">Hard</option>
+                    </select>
+                </div>
+                <div class="painel-extra">
+                    <h2 style="color:#6C63FF; font-size:1.3rem; margin-bottom:8px;">Escolha o Conteudo do quiz</h2>
+                    <p style="font-size:1.1rem; color:#222;">Adicione qualquer informação ou componente aqui.</p>
+                    <button id="btn-iniciar" class="btn btn-roxo">Iniciar Quiz</button>
+                </div>
             </div>
         </section>
 
@@ -59,6 +65,7 @@
                         <span id="faltam" class="painel-valor">0</span>
                     </div>
                 </div>
+                <div id="painel-pergunta" class="painel-pergunta"></div>
                 <div class="botoes-resposta">
                     <button id="btn-sim" class="btn btn-roxo">Sim</button>
                     <button id="btn-nao" class="btn btn-roxo">Não</button>

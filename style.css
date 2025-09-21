@@ -1,3 +1,32 @@
+/*
+====================================================
+Painéis lado a lado no Menu 1
+----------------------------------------------------
+Usa flexbox para alinhar o card principal e o painel extra.
+====================================================
+*/
+.painel-pergunta-row {
+    display: flex;
+    gap: 24px;
+    width: 100%;
+    justify-content: center;
+    align-items: flex-start;
+}
+.painel-extra {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(108,99,255,0.07);
+    padding: 28px 18px 20px 18px;
+    min-width: 220px;
+    max-width: 320px;
+    font-size: 1.15rem;
+    color: #222;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
 
 /*
 ====================================================
@@ -193,16 +222,16 @@ body {
     letter-spacing: 1px;
 }
 .label-dificuldade {
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     color: #444;
     margin-bottom: 8px;
 }
 .select-dificuldade {
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid #d1d5db;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #6C63FF;
     margin-bottom: 18px;
-    font-size: 1.1rem;
+    font-size: 1.4rem;
     background: #f3f4f6;
     color: #222;
     width: 100%;
@@ -338,4 +367,40 @@ body {
     .titulo {
         font-size: 1.5rem;
     }
+
+}
+/*
+====================================================
+Painéis de Pares e Pergunta do Quiz
+----------------------------------------------------
+Estilos para os painéis que exibem os pares da relação e o enunciado da pergunta.
+Classes principais:
+    .painel-pergunta         - Container do painel de pergunta
+    .pergunta-pares          - Painel que exibe os pares
+    .painel-pergunta-texto   - Painel que exibe o texto da pergunta
+----------------------------------------------------
+Personalize largura, cor, espaçamento e fonte conforme desejado.
+====================================================
+*/
+.painel-pergunta {
+    width: 100%;
+    background: #f3f4f6;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(108,99,255,0.07);
+    padding: 18px 10px 14px 10px;
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+.pergunta-pares {
+    font-size: 1.20rem;
+    color: #222;
+    font-weight: 500;
+}
+.painel-pergunta-texto {
+    font-size: 1.20rem;
+    color: #222;
+    font-weight: 500;
 }
