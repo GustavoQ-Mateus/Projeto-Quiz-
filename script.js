@@ -1,5 +1,4 @@
-// script.js - Lógica principal do Quiz Lógico
-
+console.log("Script carregado!");
 // Elementos dos menus
 const menuDificuldade = document.getElementById('menu-dificuldade');
 const menuQuiz = document.getElementById('menu-quiz');
@@ -9,6 +8,28 @@ const menuRanking = document.getElementById('menu-ranking');
 const inputNome = document.getElementById('nome');
 const btnNome = document.getElementById('btn-email');
 let nomeJogador = '';
+
+// Elementos dos checkboxes de conteúdo
+const checkLogica = document.getElementById('check-logica');
+const checkRelacao = document.getElementById('check-relacao');
+const checkConjuntos = document.getElementById('check-conjuntos');
+const labelNomeUsuario = document.getElementById('label-nome-usuario');
+
+// Exibe nome salvo no painel-extra
+function atualizarNomeUsuarioPainel() {
+        const nomeSalvo = localStorage.getItem('quizNome') || '';
+        labelNomeUsuario.textContent = nomeSalvo ? `Usuário: ${nomeSalvo}` : '';
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    console.log("DOM carregado!");
+    console.log("perguntasRelacao:", typeof perguntasRelacao, perguntasRelacao && perguntasRelacao.length);
+    console.log("perguntasLogica:", typeof perguntasLogica, perguntasLogica && perguntasLogica.length);
+    console.log("perguntasConjuntos:", typeof perguntasConjuntos, perguntasConjuntos && perguntasConjuntos.length);
+    atualizarNomeUsuarioPainel();
+    inputNome.addEventListener('input', atualizarNomeUsuarioPainel);
+    btnNome.addEventListener('click', atualizarNomeUsuarioPainel);
+});
 
 // Elementos de controle
 const selectDificuldade = document.getElementById('dificuldade');
@@ -133,13 +154,23 @@ btnIniciar.addEventListener('click', () => {
     dificuldadeAtual = selectDificuldade.value;
     tempoPergunta = temposPorDificuldade[dificuldadeAtual];
     pontuacao = 0;
-    // Seleciona e embaralha perguntas do nível
-    if (typeof perguntasGeradas !== 'undefined') {
-    const perguntasNivel = perguntasGeradas.filter(q => q.dificuldade === dificuldadeAtual);
-    perguntasSelecionadas = shuffleArray(perguntasNivel).slice(0, 6);
-    } else {
-        perguntasSelecionadas = [];
+    // Seleção de conteúdo
+    let perguntasConteudo = [];
+    if (checkLogica.checked) {
+        if (typeof perguntasLogica !== 'undefined') perguntasConteudo = perguntasConteudo.concat(perguntasLogica);
     }
+    if (checkRelacao.checked) {
+        if (typeof perguntasRelacao !== 'undefined') perguntasConteudo = perguntasConteudo.concat(perguntasRelacao);
+    }
+    if (checkConjuntos.checked) {
+        if (typeof perguntasConjuntos !== 'undefined') perguntasConteudo = perguntasConteudo.concat(perguntasConjuntos);
+    }
+    if (perguntasConteudo.length === 0) {
+        mostrarMensagemNome('Selecione ao menos um conteúdo!', 'red', 2500);
+        return;
+    }
+    const perguntasNivel = perguntasConteudo.filter(q => q.dificuldade === dificuldadeAtual);
+    perguntasSelecionadas = shuffleArray(perguntasNivel).slice(0, 6);
 // Função para embaralhar array (Fisher-Yates)
 function shuffleArray(array) {
     let arr = array.slice();

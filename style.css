@@ -1,3 +1,18 @@
+/* Checkbox roxo para seleção de conteúdo */
+.checkbox-roxo {
+    font-size: 1.25rem;
+    color: #6C63FF;
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+}
+.checkbox-roxo input[type="checkbox"] {
+    accent-color: #6C63FF;
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+}
 /*
 ====================================================
 Mensagem de feedback do nome
@@ -282,10 +297,13 @@ body {
 .btn-roxo {
     background: #6C63FF;
 }
-.btn-roxo:hover {
-    background: #554ee1;
-    filter: brightness(1.08);
-    box-shadow: 0 4px 16px rgba(108,99,255,0.15);
+.label-escolha-quiz {
+    font-size: 2.3rem;
+    color: #6C63FF;
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-align: center;
+    letter-spacing: 1px;
 }
 .btn-voltar {
     background: #ef4444;

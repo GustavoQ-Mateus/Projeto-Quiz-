@@ -38,8 +38,13 @@
                     </select>
                 </div>
                 <div class="painel-extra">
-                    <h2 style="color:#6C63FF; font-size:1.3rem; margin-bottom:8px;">Escolha o Conteudo do quiz</h2>
-                    <p style="font-size:1.1rem; color:#222;">Adicione qualquer informação ou componente aqui.</p>
+                    <h2 class="label-escolha-quiz">Escolha o conteúdo do quiz</h2>
+                    <div style="margin-bottom: 12px;">
+                        <label class="checkbox-roxo"><input type="checkbox" id="check-logica"> Lógica</label><br>
+                        <label class="checkbox-roxo"><input type="checkbox" id="check-relacao"> Relação</label><br>
+                        <label class="checkbox-roxo"><input type="checkbox" id="check-conjuntos"> Conjuntos</label>
+                    </div>
+                    <div id="label-nome-usuario" style="color:#6C63FF; font-size:1.2rem; margin-bottom:10px;"></div>
                     <button id="btn-iniciar" class="btn btn-roxo">Iniciar Quiz</button>
                 </div>
             </div>
@@ -87,7 +92,9 @@
         </section>
     </main>
 
-    <script src="perguntas.js"></script>
+    <script src="conteudoRelacao.js"></script>
+    <script src="conteudoLogica.js"></script>
+    <script src="conteudoConjuntos.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

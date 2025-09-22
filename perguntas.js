@@ -1,5 +1,5 @@
 
-const perguntasGeradas = [
+const perguntasRelacao = [
   // Easy 1
   {
     "dificuldade": "Easy",
