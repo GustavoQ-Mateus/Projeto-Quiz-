@@ -1,5 +1,31 @@
 /*
 ====================================================
+Mensagem de feedback do nome
+----------------------------------------------------
+Estiliza a label que aparece ao salvar ou errar o nome no menu 1.
+ID principal:
+    #msg-nome
+Personalize cor, fonte, espaçamento e animação conforme desejar.
+====================================================
+*/
+#msg-nome { /* Cor padrão (vermelho) */
+    font-size: 1.9rem;
+    font-weight: 600;
+    margin: 1px 0;
+    text-align: center;
+    padding: 1px 0;
+    border-radius: 1px;
+    transition: opacity 0.3s, color 0.3s;
+}
+
+.msg-nome-red {
+    color: #ef4444 !important;
+}
+.msg-nome-green {
+    color: #22c55e !important;
+}
+/*
+====================================================
 Painéis lado a lado no Menu 1
 ----------------------------------------------------
 Usa flexbox para alinhar o card principal e o painel extra.

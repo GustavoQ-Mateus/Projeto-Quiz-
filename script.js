@@ -87,15 +87,15 @@ function mostrarMensagemNome(msg, cor = 'red', tempo = 2500) {
     if (!msgDiv) {
         msgDiv = document.createElement('div');
         msgDiv.id = 'msg-nome';
-        msgDiv.style.margin = '8px 0';
-        msgDiv.style.textAlign = 'center';
-        msgDiv.style.fontWeight = '600';
-        msgDiv.style.fontSize = '1.1rem';
-        msgDiv.style.transition = 'opacity 0.3s';
         document.querySelector('.card-menu').insertBefore(msgDiv, document.querySelector('.label-dificuldade'));
     }
     msgDiv.textContent = msg;
-    msgDiv.style.color = cor;
+    msgDiv.classList.remove('msg-nome-red', 'msg-nome-green');
+    if (cor === 'green') {
+        msgDiv.classList.add('msg-nome-green');
+    } else {
+        msgDiv.classList.add('msg-nome-red');
+    }
     msgDiv.style.opacity = '1';
     if (tempo > 0) {
         setTimeout(() => {
