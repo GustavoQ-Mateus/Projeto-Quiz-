@@ -7,6 +7,7 @@
     <!-- Google Fonts: Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <!-- BoxedCheck CSS agora está incorporado em style.css -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 </head>
 <body>
@@ -23,12 +24,9 @@
         <section id="menu-dificuldade" class="menu active">
             <div class="painel-pergunta-row">
                 <div class="card card-menu transicao">
-                    <h1 class="titulo">Bem-vindo!</h1>
+                    <h2 class="titulo">Bem-vindo!</h2>
                     <!-- Caixa de texto Webflow-style -->
-                    <div class="webflow-style-input" style="margin-bottom: 18px;">
-                        <input type="text" id="nome" placeholder="Coloque seu Nome">
-                        <button type="submit" id="btn-email"><i class="icon ion-android-arrow-forward"></i></button>
-                    </div>
+                    
                     <label for="dificuldade" class="label-dificuldade">Escolha a dificuldade:</label>
                     <select id="dificuldade" class="select-dificuldade">
                         <option value="Easy">Easy</option>
@@ -36,13 +34,28 @@
                         <option value="Medium">Medium</option>
                         <option value="Hard">Hard</option>
                     </select>
+                    <label for="dificuldade" class="label-nomeescolha">Nome do Jogador:</label>
+                    <div class="webflow-style-input" style="margin-bottom: 18px;">
+                        <input type="text" id="nome" placeholder="Coloque seu Nome">
+                        <button type="submit" id="btn-email"><i class="icon ion-android-arrow-forward"></i></button>
+                    </div>
                 </div>
+                
                 <div class="painel-extra">
                     <h2 class="label-escolha-quiz">Escolha o conteúdo do quiz</h2>
-                    <div style="margin-bottom: 12px;">
-                        <label class="checkbox-roxo"><input type="checkbox" id="check-logica"> Lógica</label><br>
-                        <label class="checkbox-roxo"><input type="checkbox" id="check-relacao"> Relação</label><br>
-                        <label class="checkbox-roxo"><input type="checkbox" id="check-conjuntos"> Conjuntos</label>
+                    <div class="boxed-check-group boxed-check-lg" style="margin-bottom: 12px;">
+                        <label class="boxed-check">
+                            <input class="boxed-check-input" type="radio" name="conteudo-quiz" id="radio-logica" value="logica">
+                            <div class="boxed-check-label">Lógica</div>
+                        </label>
+                        <label class="boxed-check">
+                            <input class="boxed-check-input" type="radio" name="conteudo-quiz" id="radio-relacao" value="relacao">
+                            <div class="boxed-check-label">Relação</div>
+                        </label>
+                        <label class="boxed-check">
+                            <input class="boxed-check-input" type="radio" name="conteudo-quiz" id="radio-conjuntos" value="conjuntos">
+                            <div class="boxed-check-label">Conjuntos</div>
+                        </label>
                     </div>
                     <div id="label-nome-usuario" style="color:#6C63FF; font-size:1.2rem; margin-bottom:10px;"></div>
                     <button id="btn-iniciar" class="btn btn-roxo">Iniciar Quiz</button>

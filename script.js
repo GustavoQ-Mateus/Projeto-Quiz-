@@ -9,10 +9,10 @@ const inputNome = document.getElementById('nome');
 const btnNome = document.getElementById('btn-email');
 let nomeJogador = '';
 
-// Elementos dos checkboxes de conteúdo
-const checkLogica = document.getElementById('check-logica');
-const checkRelacao = document.getElementById('check-relacao');
-const checkConjuntos = document.getElementById('check-conjuntos');
+// Elementos dos radios de conteúdo
+const radioLogica = document.getElementById('radio-logica');
+const radioRelacao = document.getElementById('radio-relacao');
+const radioConjuntos = document.getElementById('radio-conjuntos');
 const labelNomeUsuario = document.getElementById('label-nome-usuario');
 
 // Exibe nome salvo no painel-extra
@@ -154,19 +154,17 @@ btnIniciar.addEventListener('click', () => {
     dificuldadeAtual = selectDificuldade.value;
     tempoPergunta = temposPorDificuldade[dificuldadeAtual];
     pontuacao = 0;
-    // Seleção de conteúdo
+    // Seleção de conteúdo via radio
     let perguntasConteudo = [];
-    if (checkLogica.checked) {
+    if (radioLogica.checked) {
         if (typeof perguntasLogica !== 'undefined') perguntasConteudo = perguntasConteudo.concat(perguntasLogica);
-    }
-    if (checkRelacao.checked) {
+    } else if (radioRelacao.checked) {
         if (typeof perguntasRelacao !== 'undefined') perguntasConteudo = perguntasConteudo.concat(perguntasRelacao);
-    }
-    if (checkConjuntos.checked) {
+    } else if (radioConjuntos.checked) {
         if (typeof perguntasConjuntos !== 'undefined') perguntasConteudo = perguntasConteudo.concat(perguntasConjuntos);
     }
     if (perguntasConteudo.length === 0) {
-        mostrarMensagemNome('Selecione ao menos um conteúdo!', 'red', 2500);
+        mostrarMensagemNome('Selecione um conteúdo!', 'red', 2500);
         return;
     }
     const perguntasNivel = perguntasConteudo.filter(q => q.dificuldade === dificuldadeAtual);
@@ -314,7 +312,17 @@ if (btnResetRanking) {
     btnResetRanking.addEventListener('click', () => {
         setRanking([], dificuldadeAtual);
         mostrarRanking();
-        mostrarMensagemNome('Ranking resetado!', '#ef4444', 2000);
+        // Mensagem no menu de ranking
+        let msg = document.createElement('div');
+        msg.textContent = 'Ranking resetado!';
+        msg.style.color = '#ef4444';
+        msg.style.textAlign = 'center';
+        msg.style.fontWeight = '600';
+        msg.style.margin = '12px 0 0 0';
+        msg.style.fontSize = '1.1rem';
+        const rankingCard = document.querySelector('.card-ranking');
+        if (rankingCard) rankingCard.insertBefore(msg, rankingCard.querySelector('#lista-ranking').nextSibling);
+        setTimeout(() => { msg.remove(); }, 2000);
     });
 }
 
