@@ -1,18 +1,27 @@
 /* Botões radio customizados para seleção de conteúdo */
 .radio-roxo {
     font-size: 1.25rem;
-    color: #6C63FF;
+    color: #0F81C7;
     font-weight: 600;
     margin-bottom: 8px;
     display: flex;
     align-items: center;
     cursor: pointer;
 }
+/* Label do nome do usuário no painel-extra */
+.label-nome-usuario {
+    color: #0F81C7;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 0px;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
 .radio-roxo input[type="radio"] {
     appearance: none;
     width: 22px;
     height: 22px;
-    border: 2px solid #6C63FF;
+    border: 2px solid #0F81C7;
     border-radius: 50%;
     margin-right: 10px;
     background: #fff;
@@ -32,7 +41,7 @@
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: #6C63FF;
+    background: #0F81C7;
     position: absolute;
     top: 4px;
     left: 4px;
@@ -48,20 +57,9 @@
     position: relative;
     overflow: hidden;
     z-index: 1;
-}
-.btn-roxo:after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 4px;
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
-    background: linear-gradient(to right, #6C63FF, #554ee1, #6C63FF, #554ee1, #6C63FF, #554ee1);
+    background: linear-gradient(90deg,  #0F81C7, #06648C, #0F81C7, #06648C, #0F81C7, #06648C);
     background-size: 500% auto;
     animation: gradient 2s linear infinite;
-    z-index: 2;
 }
 
 /* Gradiente animado na barra do header */
@@ -69,6 +67,9 @@
     position: relative;
     z-index: 10;
     overflow: visible;
+    background: linear-gradient(90deg, #0F81C7, #06648C, #0F81C7, #06648C, #0F81C7, #06648C);
+    background-size: 500% auto;
+    animation: gradient 2s linear infinite;
 }
 .header:after {
     content: "";
@@ -79,7 +80,7 @@
     height: 5px;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
-    background: linear-gradient(to right, #6C63FF, #554ee1, #6C63FF, #554ee1, #6C63FF, #554ee1);
+    background: linear-gradient(to right, #0F81C7, #06648C, #0F81C7, #06648C, #0F81C7, #06648C);
     background-size: 500% auto;
     animation: gradient 2s linear infinite;
     z-index: 2;
@@ -87,14 +88,14 @@
 /* Checkbox roxo para seleção de conteúdo */
 .checkbox-roxo {
     font-size: 1.25rem;
-    color: #6C63FF;
+    color: #0F81C7;
     font-weight: 600;
     margin-bottom: 6px;
     display: flex;
     align-items: center;
 }
 .checkbox-roxo input[type="checkbox"] {
-    accent-color: #6C63FF;
+    accent-color: #0F81C7;
     width: 18px;
     height: 18px;
     margin-right: 8px;
@@ -219,7 +220,7 @@ button { padding: 0; background: none; border: none; outline: none; }
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
     background-position: 0% 0%;
-    background: linear-gradient(to right, #6C63FF, #8f8f8f, #6C63FF, #8f8f8f, #6C63FF, #8f8f8f);
+    background: linear-gradient(to right, #0F81C7, #06648C, #0F81C7, #06648C, #0F81C7, #06648C);
     background-size: 500% auto;
     animation: gradient 2s linear infinite;
 }
@@ -248,7 +249,7 @@ button { padding: 0; background: none; border: none; outline: none; }
 .webflow-style-input button:hover {
     color: var(--input-text-active);
     transform: scale(1.15) rotate(8deg);
-    filter: drop-shadow(0 2px 8px #B294FF);
+    filter: drop-shadow(0 2px 8px #0F81C7);
 }
 
 .webflow-style-input button:hover {
@@ -270,7 +271,7 @@ body {
 
 .header {
     width: 100vw;
-    background: #fff;
+    /* Removido background branco para mostrar gradiente animado */
     box-shadow: 0 2px 12px rgba(108,99,255,0.08);
     padding: 0.5rem 0;
     display: flex;
@@ -291,7 +292,7 @@ body {
 .logo-titulo {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #6C63FF;
+    color: #ffffff;
     letter-spacing: 1px;
 }
 
@@ -347,7 +348,7 @@ body {
 .titulo {
     font-size: 2.3rem;
     font-weight: 700;
-    color: #6C63FF;
+    color: #0F81C7;
     margin-bottom: 8px;
     text-align: center;
     letter-spacing: 1px;
@@ -360,7 +361,7 @@ body {
 .select-dificuldade {
     padding: 15px;
     border-radius: 12px;
-    border: 1px solid #6C63FF;
+    border: 1px solid #0F81C7;
     margin-bottom: 18px;
     font-size: 1.4rem;
     background: #f3f4f6;
@@ -370,7 +371,7 @@ body {
 }
 
 .btn {
-    background: #6C63FF;
+    /* Removido background roxo sólido para mostrar gradiente animado */
     color: #fff;
     border: none;
     border-radius: 12px;
@@ -385,11 +386,13 @@ body {
     outline: none;
 }
 .btn-roxo {
-    background: #6C63FF;
+    background:
+    border: 112.5px solid #0F81C7; /* contorno roxo mais espesso */
+    box-shadow: 0 0 0 2px rgba(108,99,255,0.10); /* leve sombra para destaque */
 }
 .label-escolha-quiz {
     font-size: 2.3rem;
-    color: #6C63FF;
+    color: #0F81C7;
     font-weight: 700;
     margin-bottom: 8px;
     text-align: center;
@@ -430,7 +433,7 @@ body {
 }
 .painel-titulo {
     font-size: 1rem;
-    color: #6C63FF;
+    color: #0F81C7;
     font-weight: 600;
     margin-bottom: 2px;
 }
@@ -450,7 +453,7 @@ body {
 }
 .barra-progresso {
     height: 100%;
-    background: linear-gradient(90deg, #6C63FF 60%, #a5a3ff 100%);
+    background: linear-gradient(90deg, #0F81C7 60%, #a5a3ff 100%);
     border-radius: 6px;
     transition: width 0.5s linear;
     width: 100%;
@@ -471,7 +474,7 @@ body {
 }
 #menu-ranking li {
     background: #f3f4f6;
-    color: #6C63FF;
+    color: #0F81C7;
     border-radius: 10px;
     padding: 12px 16px;
     margin-bottom: 8px;
@@ -561,7 +564,7 @@ Personalize largura, cor, espaçamento e fonte conforme desejado.
     }
     .boxed-check-group .boxed-check .boxed-check-input:checked + .boxed-check-label,
     .boxed-check-group .boxed-check .boxed-check-input:not(:disabled) + .boxed-check-label:hover{
-        border-color: #6C63FF;
+        border-color: #0F81C7;
     }
     .boxed-check-group .boxed-check .boxed-check-input:checked + .boxed-check-label::before {
     	content: ' ';
@@ -586,7 +589,7 @@ Personalize largura, cor, espaçamento e fonte conforme desejado.
         cursor: pointer;
         position: relative;
         font-size: 1.55rem;
-        color: #6C63FF;
+        color: #0F81C7;
         font-weight: 600;
         transition: border-color 0.2s, background 0.2s, color 0.2s;
     }
@@ -598,9 +601,9 @@ Personalize largura, cor, espaçamento e fonte conforme desejado.
     }
     /* Custom roxo theme for checked state */
     .boxed-check-group .boxed-check .boxed-check-input:checked + .boxed-check-label {
-        background-color: #6C63FF;
+        background-color: #0F81C7;
         color: #fff;
-        border-color: #6C63FF;
+        border-color: #0F81C7;
     }
     .boxed-check-group .boxed-check .boxed-check-input:checked + .boxed-check-label *{
         color: #fff;

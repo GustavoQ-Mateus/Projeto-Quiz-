@@ -18,7 +18,8 @@ const labelNomeUsuario = document.getElementById('label-nome-usuario');
 // Exibe nome salvo no painel-extra
 function atualizarNomeUsuarioPainel() {
         const nomeSalvo = localStorage.getItem('quizNome') || '';
-        labelNomeUsuario.textContent = nomeSalvo ? `Usuário: ${nomeSalvo}` : '';
+    labelNomeUsuario.textContent = nomeSalvo ? `Usuário: ${nomeSalvo}` : '';
+    labelNomeUsuario.className = 'label-nome-usuario';
 }
 
 window.addEventListener('DOMContentLoaded', () => {

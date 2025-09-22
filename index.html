@@ -43,21 +43,25 @@
                 
                 <div class="painel-extra">
                     <h2 class="label-escolha-quiz">Escolha o conteúdo do quiz</h2>
-                    <div class="boxed-check-group boxed-check-lg" style="margin-bottom: 12px;">
-                        <label class="boxed-check">
-                            <input class="boxed-check-input" type="radio" name="conteudo-quiz" id="radio-logica" value="logica">
-                            <div class="boxed-check-label">Lógica</div>
-                        </label>
-                        <label class="boxed-check">
-                            <input class="boxed-check-input" type="radio" name="conteudo-quiz" id="radio-relacao" value="relacao">
-                            <div class="boxed-check-label">Relação</div>
-                        </label>
-                        <label class="boxed-check">
-                            <input class="boxed-check-input" type="radio" name="conteudo-quiz" id="radio-conjuntos" value="conjuntos">
-                            <div class="boxed-check-label">Conjuntos</div>
-                        </label>
+                    <div class="painel painel-card painel-conteudo" style="width:100%; margin-bottom:10px;">
+                        <div class="boxed-check-group boxed-check-lg">
+                            <label class="boxed-check">
+                                <input class="boxed-check-input" type="radio" name="conteudo-quiz" id="radio-logica" value="logica">
+                                <div class="boxed-check-label">Lógica</div>
+                            </label>
+                            <label class="boxed-check">
+                                <input class="boxed-check-input" type="radio" name="conteudo-quiz" id="radio-relacao" value="relacao">
+                                <div class="boxed-check-label">Relação</div>
+                            </label>
+                            <label class="boxed-check">
+                                <input class="boxed-check-input" type="radio" name="conteudo-quiz" id="radio-conjuntos" value="conjuntos">
+                                <div class="boxed-check-label">Conjuntos</div>
+                            </label>
+                        </div>
                     </div>
-                    <div id="label-nome-usuario" style="color:#6C63FF; font-size:1.2rem; margin-bottom:10px;"></div>
+                    <div class="painel painel-card painel-usuario" style="width:100%; margin-bottom:10px;">
+                        <span id="label-nome-usuario" class="label-nome-usuario"></span>
+                    </div>
                     <button id="btn-iniciar" class="btn btn-roxo">Iniciar Quiz</button>
                 </div>
             </div>
