@@ -1,5 +1,4 @@
-// dom.js
-export const elementos = {
+window.elementos = {
     menuDificuldade: document.getElementById('menu-dificuldade'),
     menuQuiz: document.getElementById('menu-quiz'),
     menuRanking: document.getElementById('menu-ranking'),
@@ -35,9 +34,8 @@ export const elementos = {
     cardRanking: document.querySelector('.card-ranking')
 };
 
-// Validação para garantir que todos os elementos foram encontrados
-Object.entries(elementos).forEach(([key, value]) => {
-    if (!value) {
-        console.warn(`Elemento "${key}" não encontrado no DOM. Verifique o HTML.`);
+for (let key in window.elementos) {
+    if (!window.elementos[key]) {
+        console.warn('Elemento "' + key + '" não encontrado no DOM. Verifique o HTML.');
     }
-});
+}
