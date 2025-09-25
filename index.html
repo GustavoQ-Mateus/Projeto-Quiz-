@@ -4,14 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Lógico</title>
-    <!-- Google Fonts: Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <!-- BoxedCheck CSS agora está incorporado em style.css -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 </head>
 <body>
-    <!-- Cabeçalho fixo -->
     <header class="header">
         <div class="logo">
             <span class="logo-emoji">🧠</span>
@@ -20,13 +17,11 @@
     </header>
 
     <main class="main-container">
-        <!-- Menu 1: Escolher Dificuldade -->
         <section id="menu-dificuldade" class="menu active">
             <div class="painel-pergunta-row">
                 <div class="card card-menu transicao">
                     <h2 class="titulo">Bem-vindo!</h2>
-                    <!-- Caixa de texto Webflow-style -->
-                    
+
                     <label for="dificuldade" class="label-dificuldade">Escolha a dificuldade:</label>
                     <select id="dificuldade" class="select-dificuldade">
                         <option value="Easy">Easy</option>
@@ -68,7 +63,6 @@
             </div>
         </section>
 
-        <!-- Menu 2: Tela do Quiz -->
         <section id="menu-quiz" class="menu">
             <div class="card card-quiz transicao">
                 <div class="painel-quiz-grid">
@@ -97,12 +91,10 @@
             </div>
         </section>
 
-        <!-- Menu 3: Ranking -->
         <section id="menu-ranking" class="menu">
             <div class="card card-ranking transicao">
                 <h2 class="titulo">Ranking de Pontuações</h2>
                 <ul id="lista-ranking">
-                    <!-- Ranking dinâmico -->
                 </ul>
                 <button id="btn-reset-ranking" class="btn btn-voltar" style="margin-bottom: 8px;">Resetar Ranking</button>
                 <button id="btn-novo-quiz" class="btn btn-roxo">Iniciar Outro Quiz</button>
