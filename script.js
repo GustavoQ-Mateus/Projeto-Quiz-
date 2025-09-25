@@ -343,14 +343,11 @@ function exibirPerguntaLogica() {
     const perguntaObj = logicaPerguntasSelecionadas[logicaPerguntaAtualIndex];
     if (!perguntaObj) return;
     let perguntaHTML = `<div class="painel-pergunta-texto"><strong>Pergunta:</strong> ${perguntaObj.pergunta}</div>`;
-    let alternativasHTML = `
-      <div class="card card-alternativas-logica">
-        <div class="alternativas-logica">
-    `;
+    let alternativasHTML = '<div class="alternativas-logica">';
     perguntaObj.alternativas.forEach((alt, idx) => {
         alternativasHTML += `<button class="btn btn-roxo btn-alternativa-logica" data-idx="${idx}">${alt}</button>`;
     });
-    alternativasHTML += '</div></div>';
+    alternativasHTML += '</div>';
     painelPergunta.innerHTML = perguntaHTML + alternativasHTML;
     painelPergunta.querySelectorAll('.btn-alternativa-logica').forEach(btn => {
         btn.onclick = (e) => responderLogicaQuiz(parseInt(btn.dataset.idx));

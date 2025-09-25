@@ -1,19 +1,5 @@
 /* Card especial para alternativas de múltipla escolha do quiz de Lógica */
-.card-alternativas-logica {
-    background: #f8f7ff;
-    border-radius: 16px;
-    box-shadow: 0 4px 18px rgba(114,76,249,0.10);
-    padding: 22px 18px 18px 18px;
-    margin: 0 auto 18px auto;
-    width: 100%;
-    max-width: 420px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    border: 2px solid #724CF9;
-    animation: fadeIn 0.7s;
-}
+/* Card de alternativas do quiz de Lógica, inspirado no painel-extra do menu 1 */
 /* Botões radio customizados para seleção de conteúdo */
 .radio-roxo {
     font-size: 1.25rem;
