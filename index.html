@@ -21,7 +21,7 @@
             <div class="painel-pergunta-row">
                 <div class="card card-menu transicao">
                     <h2 class="titulo">Bem-vindo!</h2>
-
+                    <div id="msg-nome" style="opacity: 0;"></div>
                     <label for="dificuldade" class="label-dificuldade">Escolha a dificuldade:</label>
                     <select id="dificuldade" class="select-dificuldade">
                         <option value="Easy">Easy</option>
@@ -29,7 +29,7 @@
                         <option value="Medium">Medium</option>
                         <option value="Hard">Hard</option>
                     </select>
-                    <label for="dificuldade" class="label-nomeescolha">Nome do Jogador:</label>
+                    <label for="nome" class="label-nomeescolha">Nome do Jogador:</label>
                     <div class="webflow-style-input" style="margin-bottom: 18px;">
                         <input type="text" id="nome" placeholder="Coloque seu Nome">
                         <button type="submit" id="btn-email"><i class="icon ion-android-arrow-forward"></i></button>
@@ -39,7 +39,6 @@
                 <div class="painel-extra">
                     <h2 class="label-escolha-quiz">Escolha o conteúdo do quiz</h2>
                     <div class="painel painel-card painel-conteudo" style="width:100%; margin-bottom:10px;">
-                        
                         <div class="boxed-check-group boxed-check-lg">
                             <label class="boxed-check">
                                 <input class="boxed-check-input" type="radio" name="conteudo-quiz" id="radio-logica" value="logica">
@@ -82,7 +81,13 @@
                         <span id="faltam" class="painel-valor">0</span>
                     </div>
                 </div>
-                <div id="painel-pergunta" class="painel-pergunta"></div>
+                <div id="painel-pergunta" class="painel-pergunta">
+                    <div class="pergunta-pares"></div>
+                    <div class="painel-pergunta-texto"></div>
+                    <div class="card card-alternativas-logica" style="display: none;">
+                        <div class="alternativas-logica"></div>
+                    </div>
+                </div>
                 <div class="botoes-resposta">
                     <button id="btn-sim" class="btn btn-roxo">Sim</button>
                     <button id="btn-nao" class="btn btn-roxo">Não</button>
@@ -94,8 +99,8 @@
         <section id="menu-ranking" class="menu">
             <div class="card card-ranking transicao">
                 <h2 class="titulo">Ranking de Pontuações</h2>
-                <ul id="lista-ranking">
-                </ul>
+                <div id="msg-ranking" style="opacity: 0; color: #22c55e; text-align: center; font-weight: 600; margin: 12px 0 0 0; font-size: 1.1rem;"></div>
+                <ul id="lista-ranking"></ul>
                 <button id="btn-reset-ranking" class="btn btn-voltar" style="margin-bottom: 8px;">Resetar Ranking</button>
                 <button id="btn-novo-quiz" class="btn btn-roxo">Iniciar Outro Quiz</button>
             </div>
@@ -105,6 +110,7 @@
     <script src="conteudoRelacao.js"></script>
     <script src="conteudoLogica.js"></script>
     <script src="conteudoConjuntos.js"></script>
-    <script src="script.js"></script>
+    <script type="module" src="dom.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
