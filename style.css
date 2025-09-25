@@ -1,4 +1,3 @@
-/* Botões radio customizados para seleção de conteúdo */
 .radio-roxo {
     font-size: 1.25rem;
     color: #724CF9;
@@ -8,7 +7,6 @@
     align-items: center;
     cursor: pointer;
 }
-/* Label do nome do usuário no painel-extra */
 .label-nome-usuario {
     color: #724CF9;
     font-size: 1.4rem;
@@ -51,8 +49,6 @@
 .radio-roxo input[type="radio"]:checked:after {
     opacity: 1;
 }
-
-/* Gradiente animado nos botões roxos */
 .btn-roxo {
     position: relative;
     overflow: hidden;
@@ -61,8 +57,6 @@
     background-size: 500% auto;
     animation: gradient 6s linear infinite;
 }
-
-/* Gradiente animado na barra do header */
 .header {
     position: relative;
     z-index: 10;
@@ -84,7 +78,6 @@
     animation: gradient 6s linear infinite;
     z-index: 2;
 }
-/* Checkbox roxo para seleção de conteúdo */
 .checkbox-roxo {
     font-size: 1.25rem;
     color: #724CF9;
@@ -99,17 +92,7 @@
     height: 18px;
     margin-right: 8px;
 }
-/*
-====================================================
-Mensagem de feedback do nome
-----------------------------------------------------
-Estiliza a label que aparece ao salvar ou errar o nome no menu 1.
-ID principal:
-    #msg-nome
-Personalize cor, fonte, espaçamento e animação conforme desejar.
-====================================================
-*/
-#msg-nome { /* Cor padrão (vermelho) */
+#msg-nome {
     font-size: 1.9rem;
     font-weight: 600;
     margin: 1px 0;
@@ -118,20 +101,12 @@ Personalize cor, fonte, espaçamento e animação conforme desejar.
     border-radius: 1px;
     transition: opacity 0.3s, color 0.3s;
 }
-
 .msg-nome-red {
     color: #ef4444 !important;
 }
 .msg-nome-green {
     color: #22c55e !important;
 }
-/*
-====================================================
-Painéis lado a lado no Menu 1
-----------------------------------------------------
-Usa flexbox para alinhar o card principal e o painel extra.
-====================================================
-*/
 .painel-pergunta-row {
     display: flex;
     gap: 24px;
@@ -154,29 +129,6 @@ Usa flexbox para alinhar o card principal e o painel extra.
     align-items: center;
     justify-content: flex-start;
 }
-
-/*
-====================================================
-Webflow-style Input (Caixa de texto animada)
-----------------------------------------------------
-Estilos para a caixa de texto de email utilizada no menu 1 do Quiz Lógico.
-Inclui animação de gradiente na borda inferior, responsividade e integração com Ionicons.
-----------------------------------------------------
-Principais classes e elementos:
-  .webflow-style-input   - Container flexível da caixa de texto
-  input[type="email"]    - Campo de entrada do email
-  button                 - Botão de envio com ícone
-  :after                 - Borda animada com gradiente
-----------------------------------------------------
-Variáveis CSS:
-  --input-background     - Fundo do input
-  --input-text-inactive  - Cor do texto inativo
-  --input-text-active    - Cor do texto ativo
-----------------------------------------------------
-Para funcionamento do ícone, inclua Ionicons no <head> do HTML:
-<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-====================================================
-*/
 html { box-sizing: border-box; font-size: 10px; }
 *, *:before, *:after { box-sizing: inherit; }
 body, ul, li  { margin: 0; padding: 0; }
@@ -185,7 +137,6 @@ p, h1, h2, h3, h4, h5, h6 { margin-top: 0; }
 a { text-decoration: none; }
 input { border-style: none; background: transparent; outline: none; }
 button { padding: 0; background: none; border: none; outline: none; }
-
 :root {
     --input-background: rgba(246, 247, 251, 0.8);
     --input-text-inactive: #7881A1;
@@ -207,7 +158,6 @@ button { padding: 0; background: none; border: none; outline: none; }
     padding: 0.4rem 2rem 0.6rem;
     background: var(--input-background);
 }
-
 .webflow-style-input:after {
     content: "";
     position: absolute;
@@ -223,7 +173,6 @@ button { padding: 0; background: none; border: none; outline: none; }
     background-size: 500% auto;
     animation: gradient 2s linear infinite;
 }
-
 .webflow-style-input input {
     flex-grow: 1;
     color: var(--input-text-active);
@@ -231,11 +180,9 @@ button { padding: 0; background: none; border: none; outline: none; }
     line-height: 2.4rem;
     vertical-align: middle;
 }
-
 .webflow-style-input input::-webkit-input-placeholder {
     color: var(--input-text-inactive);
 }
-
 .webflow-style-input button {
     color: var(--input-text-inactive);
     font-size: 2.4rem;
@@ -244,22 +191,18 @@ button { padding: 0; background: none; border: none; outline: none; }
     transition: color 0.25s, transform 0.2s;
     cursor: pointer;
 }
-
 .webflow-style-input button:hover {
     color: var(--input-text-active);
     transform: scale(1.15) rotate(8deg);
     filter: drop-shadow(0 2px 8px #724CF9);
 }
-
 .webflow-style-input button:hover {
     color: var(--input-text-active);
 }
-
 @keyframes gradient {
     0% { background-position: 0 0; }
     100% { background-position: 100% 0; }
 }
-
 body {
     margin: 0;
     font-family: 'Poppins', Arial, sans-serif;
@@ -267,10 +210,8 @@ body {
     min-height: 100vh;
     color: #222;
 }
-
 .header {
     width: 100vw;
-    /* Removido background branco para mostrar gradiente animado */
     box-shadow: 0 2px 12px rgba(108,99,255,0.08);
     padding: 0.5rem 0;
     display: flex;
@@ -294,7 +235,6 @@ body {
     color: #724CF9;
     letter-spacing: 1px;
 }
-
 .main-container {
     min-height: 90vh;
     display: flex;
@@ -302,7 +242,6 @@ body {
     justify-content: center;
     padding: 2vw;
 }
-
 .menu {
     display: none;
     width: 100%;
@@ -321,7 +260,6 @@ body {
     transform: translateY(0);
     z-index: 2;
 }
-
 .card {
     background: #fff;
     border-radius: 18px;
@@ -343,7 +281,6 @@ body {
     from { opacity: 0; transform: scale(0.97) translateY(20px); }
     to { opacity: 1; transform: scale(1) translateY(0); }
 }
-
 .titulo {
     font-size: 2.3rem;
     font-weight: 700;
@@ -368,9 +305,7 @@ body {
     width: 100%;
     box-sizing: border-box;
 }
-
 .btn {
-    /* Removido background roxo sólido para mostrar gradiente animado */
     color: #fff;
     border: none;
     border-radius: 12px;
@@ -385,9 +320,8 @@ body {
     outline: none;
 }
 .btn-roxo {
-    background:
-    border: 112.5px solid #724CF9; /* contorno roxo mais espesso */
-    box-shadow: 0 0 0 2px rgba(108,99,255,0.10); /* leve sombra para destaque */
+    border: 112.5px solid #724CF9;
+    box-shadow: 0 0 0 2px rgba(108,99,255,0.10);
 }
 .label-escolha-quiz {
     font-size: 2.3rem;
@@ -410,7 +344,6 @@ body {
     background: #b91c1c;
     box-shadow: 0 4px 16px rgba(239,68,68,0.15);
 }
-
 .painel-quiz-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -441,7 +374,6 @@ body {
     font-weight: 700;
     color: #222;
 }
-
 .barra-progresso-container {
     width: 100%;
     height: 8px;
@@ -457,14 +389,12 @@ body {
     transition: width 0.5s linear;
     width: 100%;
 }
-
 .botoes-resposta {
     display: flex;
     gap: 24px;
     width: 100%;
     margin-bottom: 8px;
 }
-
 #menu-ranking ul {
     list-style: none;
     padding: 0;
@@ -482,7 +412,6 @@ body {
     box-shadow: 0 1px 4px rgba(108,99,255,0.05);
     letter-spacing: 0.5px;
 }
-
 @media (max-width: 700px) {
     .main-container {
         padding: 2vw 0;
@@ -503,21 +432,7 @@ body {
     .titulo {
         font-size: 1.5rem;
     }
-
 }
-/*
-====================================================
-Painéis de Pares e Pergunta do Quiz
-----------------------------------------------------
-Estilos para os painéis que exibem os pares da relação e o enunciado da pergunta.
-Classes principais:
-    .painel-pergunta         - Container do painel de pergunta
-    .pergunta-pares          - Painel que exibe os pares
-    .painel-pergunta-texto   - Painel que exibe o texto da pergunta
-----------------------------------------------------
-Personalize largura, cor, espaçamento e fonte conforme desejado.
-====================================================
-*/
 .painel-pergunta {
     width: 100%;
     background: #f3f4f6;
@@ -535,79 +450,76 @@ Personalize largura, cor, espaçamento e fonte conforme desejado.
     color: #222;
     font-weight: 500;
 }
-    /* ================= BoxedCheck Styles (flyArtist v1.0.7) ================= */
-    .boxed-check-group,
-    .boxed-check-group .boxed-check {
-        position: relative;
-        margin-bottom: 5px;
-    }
-    .boxed-check-group .boxed-check {
-        display: block;
-    }
-    .boxed-check-group .boxed-check:last-child {
-        margin-bottom: 0;
-    }
-    .boxed-check-group .boxed-check.boxed-check-inline {
-        display: inline-block;
-        margin-bottom: 0;
-    }
-    .boxed-check-group .boxed-check .boxed-check-input {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        display: none;
-    }
-    .boxed-check-group .boxed-check .boxed-check-input:disabled + .boxed-check-label {
-        border: 1px dashed #bec2c6;
-        opacity: .4;
-        cursor: not-allowed;
-    }
-    .boxed-check-group .boxed-check .boxed-check-input:checked + .boxed-check-label,
-    .boxed-check-group .boxed-check .boxed-check-input:not(:disabled) + .boxed-check-label:hover{
-        border-color: #724CF9;
-    }
-    .boxed-check-group .boxed-check .boxed-check-input:checked + .boxed-check-label::before {
-    	content: ' ';
-    	position: absolute;
-    	width: 10px;
-    	height: 6px;
-    	border-width: 0 0 2px 2px;
-    	border-style: solid;
-    	-webkit-transform: rotate(-45deg);
-    	transform: rotate(-45deg);
-    	right: 4px;
-    	top: 6px;
-        border-color: #fff;
-    }
-    .boxed-check-group .boxed-check .boxed-check-label {
-        display: block;
-        background-color: #ffffff;
-        border: 1px solid #ced4da;
-        padding: .5rem 3.2rem;
-        margin: 0;
-        border-radius: .25rem;
-        cursor: pointer;
-        position: relative;
-        font-size: 1.55rem;
-        color: #724CF9;
-        font-weight: 600;
-        transition: border-color 0.2s, background 0.2s, color 0.2s;
-    }
-    .boxed-check-group.boxed-check-sm .boxed-check .boxed-check-label {
-        padding: .2rem 1.3rem;
-    }
-    .boxed-check-group.boxed-check-lg .boxed-check .boxed-check-label {
-        padding: .8rem 1.3rem;
-    }
-    /* Custom roxo theme for checked state */
-    .boxed-check-group .boxed-check .boxed-check-input:checked + .boxed-check-label {
-        background-color: #724CF9;
-        color: #fff;
-        border-color: #724CF9;
-    }
-    .boxed-check-group .boxed-check .boxed-check-input:checked + .boxed-check-label *{
-        color: #fff;
-    }
-    /* ================= End BoxedCheck Styles ================= */
+.boxed-check-group,
+.boxed-check-group .boxed-check {
+    position: relative;
+    margin-bottom: 5px;
+}
+.boxed-check-group .boxed-check {
+    display: block;
+}
+.boxed-check-group .boxed-check:last-child {
+    margin-bottom: 0;
+}
+.boxed-check-group .boxed-check.boxed-check-inline {
+    display: inline-block;
+    margin-bottom: 0;
+}
+.boxed-check-group .boxed-check .boxed-check-input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    display: none;
+}
+.boxed-check-group .boxed-check .boxed-check-input:disabled + .boxed-check-label {
+    border: 1px dashed #bec2c6;
+    opacity: .4;
+    cursor: not-allowed;
+}
+.boxed-check-group .boxed-check .boxed-check-input:checked + .boxed-check-label,
+.boxed-check-group .boxed-check .boxed-check-input:not(:disabled) + .boxed-check-label:hover{
+    border-color: #724CF9;
+}
+.boxed-check-group .boxed-check .boxed-check-input:checked + .boxed-check-label::before {
+    content: ' ';
+    position: absolute;
+    width: 10px;
+    height: 6px;
+    border-width: 0 0 2px 2px;
+    border-style: solid;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    right: 4px;
+    top: 6px;
+    border-color: #fff;
+}
+.boxed-check-group .boxed-check .boxed-check-label {
+    display: block;
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
+    padding: .5rem 3.2rem;
+    margin: 0;
+    border-radius: .25rem;
+    cursor: pointer;
+    position: relative;
+    font-size: 1.55rem;
+    color: #724CF9;
+    font-weight: 600;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+.boxed-check-group.boxed-check-sm .boxed-check .boxed-check-label {
+    padding: .2rem 1.3rem;
+}
+.boxed-check-group.boxed-check-lg .boxed-check .boxed-check-label {
+    padding: .8rem 1.3rem;
+}
+.boxed-check-group .boxed-check .boxed-check-input:checked + .boxed-check-label {
+    background-color: #724CF9;
+    color: #fff;
+    border-color: #724CF9;
+}
+.boxed-check-group .boxed-check .boxed-check-input:checked + .boxed-check-label *{
+    color: #fff;
+}
 .painel-pergunta-texto {
     font-size: 1.20rem;
     color: #222;
