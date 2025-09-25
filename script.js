@@ -144,6 +144,32 @@ btnNome.addEventListener('click', (e) => {
 });
 
 // Inicia o quiz
+btnIniciar.addEventListener('click', () => {
+    // Verifica se nome foi salvo
+    nomeJogador = localStorage.getItem('quizNome') || '';
+    if (!nomeJogador) {
+        mostrarMensagemNome('Por favor, digite seu nome para começar', 'red', 2500);
+        inputNome.focus();
+        return;
+    }
+    dificuldadeAtual = selectDificuldade.value;
+    tempoPergunta = temposPorDificuldade[dificuldadeAtual];
+    pontuacao = 0;
+    // Seleção de conteúdo via radio
+    let perguntasConteudo = [];
+    if (radioLogica.checked) {
+        if (typeof perguntasLogica !== 'undefined') perguntasConteudo = perguntasConteudo.concat(perguntasLogica);
+    } else if (radioRelacao.checked) {
+        if (typeof perguntasRelacao !== 'undefined') perguntasConteudo = perguntasConteudo.concat(perguntasRelacao);
+    } else if (radioConjuntos.checked) {
+        if (typeof perguntasConjuntos !== 'undefined') perguntasConteudo = perguntasConteudo.concat(perguntasConjuntos);
+    }
+    if (perguntasConteudo.length === 0) {
+        mostrarMensagemNome('Selecione um conteúdo!', 'red', 2500);
+        return;
+    }
+    const perguntasNivel = perguntasConteudo.filter(q => q.dificuldade === dificuldadeAtual);
+    perguntasSelecionadas = shuffleArray(perguntasNivel).slice(0, 6);
 // Função para embaralhar array (Fisher-Yates)
 function shuffleArray(array) {
     let arr = array.slice();
@@ -153,6 +179,15 @@ function shuffleArray(array) {
     }
     return arr;
 }
+    perguntasTotais = perguntasSelecionadas.length;
+    perguntasRestantes = perguntasTotais;
+    perguntaAtualIndex = 0;
+    painelPontuacao.textContent = pontuacao;
+    painelFaltam.textContent = perguntasRestantes;
+    mostrarMenu(menuQuiz);
+    criarPainelPergunta();
+    proximaPergunta();
+});
 
 // Função para iniciar próxima pergunta
 function proximaPergunta() {
@@ -292,148 +327,5 @@ if (btnResetRanking) {
     });
 }
 
-// --- QUIZ DE LÓGICA: fluxo separado ---
-// Variáveis exclusivas para o quiz de lógica
-let logicaPerguntasSelecionadas = [];
-let logicaPerguntaAtualIndex = 0;
-let logicaPontuacao = 0;
-let logicaTimer = null;
-let logicaTempoRestante = 0;
-let logicaTempoInicioPergunta = null;
-let logicaDificuldadeAtual = 'Easy';
-let logicaPerguntasTotais = 0;
-let logicaPerguntasRestantes = 0;
-
-// Função para iniciar quiz de lógica
-function iniciarQuizLogica(dificuldade) {
-    logicaDificuldadeAtual = dificuldade;
-    logicaPontuacao = 0;
-    // Filtra perguntas pela dificuldade
-    const perguntasNivel = perguntasLogica.filter(q => q.dificuldade === dificuldade);
-    logicaPerguntasSelecionadas = shuffleArray(perguntasNivel).slice(0, 6);
-    logicaPerguntasTotais = logicaPerguntasSelecionadas.length;
-    logicaPerguntasRestantes = logicaPerguntasTotais;
-    logicaPerguntaAtualIndex = 0;
-    painelPontuacao.textContent = logicaPontuacao;
-    painelFaltam.textContent = logicaPerguntasRestantes;
-    mostrarMenu(menuQuiz);
-    criarPainelPergunta();
-    proximaPerguntaLogica();
-}
-
-// Função para próxima pergunta de lógica
-function proximaPerguntaLogica() {
-    if (logicaPerguntasRestantes <= 0 || logicaPerguntaAtualIndex >= logicaPerguntasSelecionadas.length) {
-        finalizarQuizLogica();
-        return;
-    }
-    logicaTempoRestante = tempoPergunta;
-    painelTempo.textContent = logicaTempoRestante;
-    logicaTempoInicioPergunta = Date.now();
-    logicaPerguntasRestantes--;
-    painelFaltam.textContent = logicaPerguntasRestantes;
-    atualizarBarraProgresso(1);
-    exibirPerguntaLogica();
-    iniciarTimerLogica();
-}
-
-// Exibe pergunta e alternativas
-function exibirPerguntaLogica() {
-    criarPainelPergunta();
-    const perguntaObj = logicaPerguntasSelecionadas[logicaPerguntaAtualIndex];
-    if (!perguntaObj) return;
-    let perguntaHTML = `<div class="painel-pergunta-texto"><strong>Pergunta:</strong> ${perguntaObj.pergunta}</div>`;
-    let alternativasHTML = `
-      <div class="card card-alternativas-logica">
-        <div class="alternativas-logica">
-    `;
-    perguntaObj.alternativas.forEach((alt, idx) => {
-        alternativasHTML += `<button class="btn btn-roxo btn-alternativa-logica" data-idx="${idx}">${alt}</button>`;
-    });
-    alternativasHTML += '</div></div>';
-    painelPergunta.innerHTML = perguntaHTML + alternativasHTML;
-    painelPergunta.querySelectorAll('.btn-alternativa-logica').forEach(btn => {
-        btn.onclick = (e) => responderLogicaQuiz(parseInt(btn.dataset.idx));
-    });
-}
-
-// Timer para lógica
-function iniciarTimerLogica() {
-    clearInterval(logicaTimer);
-    logicaTimer = setInterval(() => {
-        logicaTempoRestante--;
-        painelTempo.textContent = logicaTempoRestante;
-        atualizarBarraProgresso(logicaTempoRestante / tempoPergunta);
-        if (logicaTempoRestante <= 0) {
-            clearInterval(logicaTimer);
-            atualizarBarraProgresso(0);
-            responderLogicaQuiz(null, true);
-        }
-    }, 1000);
-}
-
-// Responde e feedback visual
-function responderLogicaQuiz(idx, tempoEsgotado = false) {
-    clearInterval(logicaTimer);
-    const perguntaObj = logicaPerguntasSelecionadas[logicaPerguntaAtualIndex];
-    const correta = perguntaObj && idx === perguntaObj.respostaCorreta;
-    painelPergunta.querySelectorAll('.btn-alternativa-logica').forEach((btn, i) => {
-        btn.disabled = true;
-        if (i === perguntaObj.respostaCorreta) {
-            btn.style.background = '#22c55e';
-            btn.style.color = '#fff';
-        }
-        if (idx === i && !correta) {
-            btn.style.background = '#ef4444';
-            btn.style.color = '#fff';
-        }
-    });
-    // Pontuação igual ao quiz de relação
-    if (correta && !tempoEsgotado) {
-        let pontos = 100;
-        let tempoGasto = (Date.now() - logicaTempoInicioPergunta) / 1000;
-        let bonus = Math.max(0, Math.round((tempoPergunta - tempoGasto) * 5));
-        logicaPontuacao += pontos + bonus;
-    }
-    painelPontuacao.textContent = logicaPontuacao;
-    setTimeout(() => {
-        logicaPerguntaAtualIndex++;
-        proximaPerguntaLogica();
-    }, 1200);
-}
-
-// Finaliza quiz de lógica e ranking
-function finalizarQuizLogica() {
-    nomeJogador = localStorage.getItem('quizNome') || nomeJogador || 'Você';
-    let ranking = getRanking(logicaDificuldadeAtual);
-    ranking.push({ nome: nomeJogador, pontos: logicaPontuacao });
-    ranking.sort((a, b) => b.pontos - a.pontos);
-    setRanking(ranking, logicaDificuldadeAtual);
-    mostrarRanking(true);
-}
-
-// --- INTEGRAÇÃO: Detecta início do quiz de lógica ---
-if (btnIniciar) {
-    btnIniciar.addEventListener('click', (e) => {
-        if (radioLogica && radioLogica.checked) {
-            e.preventDefault();
-            nomeJogador = localStorage.getItem('quizNome') || '';
-            if (!nomeJogador) {
-                mostrarMensagemNome('Por favor, digite seu nome para começar', 'red', 2500);
-                inputNome.focus();
-                return;
-            }
-            logicaDificuldadeAtual = selectDificuldade.value;
-            tempoPergunta = temposPorDificuldade[logicaDificuldadeAtual];
-            iniciarQuizLogica(logicaDificuldadeAtual);
-            // Esconde os botões Sim/Não e mostra alternativas
-            document.querySelector('.botoes-resposta').style.display = 'none';
-            return; // Impede execução do fluxo padrão
-        } else {
-            // Mostra os botões Sim/Não para outros conteúdos
-            document.querySelector('.botoes-resposta').style.display = '';
-            // O fluxo padrão segue normalmente
-        }
-    });
-}
-// --- FIM QUIZ DE LÓGICA ---
+// Inicialização: mostra menu de dificuldade
+mostrarMenu(menuDificuldade);
