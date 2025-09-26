@@ -1,3 +1,197 @@
+/* === MELHORIAS: TEMA CLARO/ESCURO, ANIMAÇÕES, ACESSIBILIDADE, PROGRESSO, RANKING, ÍCONES === */
+:root {
+    --color-bg: #f6f7fb;
+    --color-card: #fff;
+    --color-primary: #724CF9;
+    --color-secondary: #564592;
+    --color-danger: #ef4444;
+    --color-success: #22c55e;
+    --color-text: #222;
+    --color-card-alt: #f3f4f6;
+    --shadow-card: 0 8px 32px rgba(108,99,255,0.10);
+    --shadow-btn: 0 2px 8px rgba(108,99,255,0.08);
+    --ranking-gold: #ffd700;
+    --ranking-silver: #c0c0c0;
+    --ranking-bronze: #cd7f32;
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-bg: #181825;
+        --color-card: #232339;
+        --color-primary: #a196ff;
+        --color-secondary: #332b5c;
+        --color-danger: #b91c1c;
+        --color-success: #16a34a;
+        --color-text: #eaeaea;
+        --color-card-alt: #232339;
+        --shadow-card: 0 8px 32px rgba(108,99,255,0.22);
+        --shadow-btn: 0 2px 8px rgba(108,99,255,0.12);
+    }
+}
+body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: 'Poppins', Arial, sans-serif;
+    transition: background 0.6s, color 0.6s;
+}
+.card, .painel-card, .painel-extra, .painel-pergunta, .painel-usuario {
+    background: var(--color-card);
+    box-shadow: var(--shadow-card);
+    transition: background 0.4s, box-shadow 0.3s, transform 0.2s;
+}
+.card:hover, .painel-card:hover, .painel-extra.card-menu:hover, .card.card-ranking:hover {
+    transform: scale(1.03);
+    box-shadow: 0 12px 36px rgba(108,99,255,0.18);
+}
+.menu {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.7s;
+}
+.menu.active {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 2;
+}
+.card-menu, .card-quiz, .card-ranking {
+    animation: fadeIn 0.7s;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.97) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.btn, .btn-roxo, .btn-voltar {
+    border-radius: 12px;
+    padding: 16px 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin: 0.5rem 0;
+    box-shadow: var(--shadow-btn);
+    transition: background 0.2s, box-shadow 0.2s, filter 0.2s, transform 0.2s;
+    outline: none;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+}
+.btn:active {
+    filter: brightness(0.95);
+    transform: scale(0.97);
+}
+.btn:focus-visible, .btn-roxo:focus-visible, .btn-voltar:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+.btn-roxo {
+    background: linear-gradient(50deg, var(--color-primary), var(--color-secondary), var(--color-primary));
+    border: 2.5px solid var(--color-primary);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+.btn-roxo .icon, .btn-roxo .emoji {
+    font-size: 1.4em;
+    margin-right: 0.4em;
+}
+.btn-voltar {
+    background: var(--color-danger);
+    color: #fff;
+}
+.btn-voltar:hover {
+    background: #b91c1c;
+    box-shadow: 0 4px 16px rgba(239,68,68,0.15);
+}
+.barra-progresso-container {
+    position: relative;
+    width: 100%;
+    height: 10px;
+    background: #e0e7ff;
+    border-radius: 6px;
+    margin-top: 6px;
+    overflow: hidden;
+}
+.barra-progresso {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-primary) 60%, #a5a3ff 100%);
+    border-radius: 6px;
+    transition: width 0.5s linear, background 0.4s;
+    width: 100%;
+    position: relative;
+}
+.barra-progresso[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-card);
+    color: var(--color-primary);
+    padding: 5px 12px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(108,99,255,0.18);
+    font-size: 1rem;
+    font-weight: 600;
+    white-space: nowrap;
+    z-index: 4;
+}
+#lista-ranking li {
+    background: var(--color-card-alt);
+    color: var(--color-primary);
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    font-size: 1.08rem;
+    box-shadow: 0 1px 4px rgba(108,99,255,0.05);
+    letter-spacing: 0.5px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+}
+#lista-ranking li:nth-child(1) {
+    background: var(--ranking-gold);
+    color: #222;
+}
+#lista-ranking li:nth-child(2) {
+    background: var(--ranking-silver);
+    color: #222;
+}
+#lista-ranking li:nth-child(3) {
+    background: var(--ranking-bronze);
+    color: #222;
+}
+#lista-ranking .ranking-medal {
+    font-size: 1.5em;
+    margin-right: 0.3em;
+}
+button[aria-label], .btn[aria-label] {
+    outline: none;
+}
+button[role="button"], .btn[role="button"] {
+    cursor: pointer;
+}
+[tabindex] { outline: none; }
+.btn, .btn-roxo, .btn-voltar, .boxed-check-label, .select-dificuldade {
+    filter: none;
+}
+.logo-emoji, .logo-titulo, .btn .icon, .btn .emoji {
+    user-select: none;
+}
+.card, .painel-card, .painel-extra, .painel-pergunta, .painel-usuario {
+    transition: box-shadow 0.3s, background 0.4s, transform 0.2s;
+}
+.card:focus-within, .painel-card:focus-within, .painel-extra.card-menu:focus-within, .card.card-ranking:focus-within {
+    box-shadow: 0 12px 36px rgba(108,99,255,0.22);
+    transform: scale(1.02);
+}
+/* ========== FIM DAS MELHORIAS ========== */
+
+/* === SEU CSS ORIGINAL ABAIXO (NÃO REMOVA NADA!) === */
 .radio-roxo {
     font-size: 1.25rem;
     color: #724CF9;
