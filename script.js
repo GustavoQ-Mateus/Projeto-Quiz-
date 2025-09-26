@@ -1,4 +1,4 @@
-// script.js
+// scriptAlterado.js
 const CONFIG = {
     DIFICULDADE_PADRAO: 'Easy',
     PERGUNTAS_TOTAIS: 10,
@@ -11,6 +11,9 @@ const CONFIG = {
         ERRO: '#ef4444'
     }
 };
+
+// Use o objeto global elementos fornecido pelo dom.js
+const elementos = window.elementos;
 
 let nomeJogador = '';
 const temposPorDificuldade = {
@@ -48,10 +51,6 @@ function atualizarNomeUsuarioPainel() {
 }
 
 window.addEventListener('DOMContentLoaded', function () {
-    console.log("[Inicialização] DOM carregado!");
-    console.log("[Inicialização] perguntasRelacao:", typeof perguntasRelacao, perguntasRelacao && perguntasRelacao.length);
-    console.log("[Inicialização] perguntasLogica:", typeof perguntasLogica, perguntasLogica && perguntasLogica.length);
-    console.log("[Inicialização] perguntasConjuntos:", typeof perguntasConjuntos, perguntasConjuntos && perguntasConjuntos.length);
     atualizarNomeUsuarioPainel();
     elementos.inputNome.addEventListener('input', function () {
         elementos.msgNome.style.opacity = '0';
@@ -99,14 +98,12 @@ function mostrarMensagemNome(msg, cor, tempo) {
 }
 
 elementos.btnIniciar.addEventListener('click', function (e) {
-    console.log("[Quiz] Iniciando quiz, radioLogica.checked:", elementos.radioLogica.checked);
     nomeJogador = localStorage.getItem('quizNome') || '';
     if (!nomeJogador) {
         mostrarMensagemNome('Por favor, digite seu nome para começar', CONFIG.CORES.ERRO, CONFIG.MENSAGEM_TEMPO_PADRAO);
         elementos.inputNome.focus();
         return;
     }
-    // Limpar ambos os temporizadores para evitar sobreposição
     clearInterval(timer);
     clearInterval(logicaTimer);
     if (elementos.radioLogica.checked) {
@@ -117,7 +114,6 @@ elementos.btnIniciar.addEventListener('click', function (e) {
             mostrarMensagemNome('Erro: Dificuldade inválida para o quiz de Lógica.', CONFIG.CORES.ERRO, CONFIG.MENSAGEM_TEMPO_PADRAO);
             return;
         }
-        console.log("[Quiz] Iniciando quiz de Lógica, dificuldade:", logicaDificuldadeAtual);
         iniciarQuizLogica(logicaDificuldadeAtual);
         elementos.botoesResposta.style.display = 'none';
         return;
@@ -154,7 +150,6 @@ elementos.btnIniciar.addEventListener('click', function (e) {
     perguntaAtualIndex = 0;
     elementos.painelPontuacao.textContent = pontuacao;
     elementos.painelFaltam.textContent = perguntasRestantes;
-    console.log('[Quiz] Iniciando quiz de Relação com ' + perguntasTotais + ' perguntas, tempo por pergunta: ' + tempoPergunta + 's');
     mostrarMenu(elementos.menuQuiz);
     proximaPergunta();
 });
@@ -173,13 +168,8 @@ function proximaPergunta() {
         finalizarQuiz();
         return;
     }
-    // Limpar temporizador antes de iniciar
     clearInterval(timer);
     tempoRestante = tempoPergunta;
-    if (!tempoRestante) {
-        console.warn('[Relação] Erro: tempoPergunta não definido. Valor atual: ' + tempoPergunta);
-        return;
-    }
     elementos.painelTempo.textContent = tempoRestante;
     tempoInicioPergunta = Date.now();
     perguntasRestantes--;
@@ -192,27 +182,20 @@ function proximaPergunta() {
 function exibirPerguntaAtual() {
     const perguntaObj = perguntasSelecionadas[perguntaAtualIndex];
     if (!perguntaObj) {
-        console.warn('[Relação] Erro: Nenhuma pergunta encontrada no índice ' + perguntaAtualIndex);
         finalizarQuiz();
         return;
     }
     elementos.perguntaPares.innerHTML = '<strong>Pares:</strong> ' + perguntaObj.pares.map(p => '(' + p[0] + ',' + p[1] + ')').join(', ');
     elementos.painelPerguntaTexto.innerHTML = '<strong>Pergunta:</strong> ' + perguntaObj.pergunta;
-    elementos.cardAlternativasLogica.style.display = 'none';
-    console.log('[Relação] Exibindo pergunta ' + (perguntaAtualIndex + 1) + ': ' + perguntaObj.pergunta);
+    elementos.cardAlternativasLogica.style.display = 'none'; // Oculta painel de alternativas para quiz não lógico
 }
 
 function iniciarTimer() {
-    if (!elementos.painelTempo) {
-        console.warn('[Relação] Erro: Elemento painelTempo não encontrado.');
-        return;
-    }
     clearInterval(timer);
     timer = setInterval(function () {
         tempoRestante--;
         elementos.painelTempo.textContent = tempoRestante;
         atualizarBarraProgresso(tempoRestante / tempoPergunta);
-        console.log('[Relação] Tempo restante: ' + tempoRestante + 's');
         if (tempoRestante <= 0) {
             clearInterval(timer);
             atualizarBarraProgresso(0);
@@ -224,8 +207,6 @@ function iniciarTimer() {
 function atualizarBarraProgresso(percent) {
     if (elementos.barraProgresso) {
         elementos.barraProgresso.style.width = Math.max(0, percent * 100) + '%';
-    } else {
-        console.warn('[Relação] Erro: Elemento barraProgresso não encontrado.');
     }
 }
 
@@ -238,9 +219,6 @@ function responderQuiz(respostaUsuario, tempoEsgotado) {
         const tempoGasto = (Date.now() - tempoInicioPergunta) / 1000;
         const bonus = Math.max(0, Math.round((tempoPergunta - tempoGasto) * 5));
         pontuacao += pontos + bonus;
-        console.log('[Relação] Resposta correta! Pontos: ' + pontos + ', Bônus: ' + bonus);
-    } else {
-        console.log('[Relação] Resposta incorreta ou tempo esgotado.');
     }
     elementos.painelPontuacao.textContent = pontuacao;
     perguntaAtualIndex++;
@@ -250,20 +228,16 @@ function responderQuiz(respostaUsuario, tempoEsgotado) {
 elementos.btnSim.addEventListener('click', function () {
     responderQuiz(true);
 });
-
 elementos.btnNao.addEventListener('click', function () {
     responderQuiz(false);
 });
-
 elementos.btnCancelar.addEventListener('click', function () {
-    console.log('[Quiz] Cancelando quiz, limpando temporizadores');
     clearInterval(timer);
     clearInterval(logicaTimer);
     mostrarRanking();
 });
 
 function finalizarQuiz() {
-    console.log('[Quiz] Finalizando quiz, limpando temporizadores');
     clearInterval(timer);
     clearInterval(logicaTimer);
     nomeJogador = localStorage.getItem('quizNome') || nomeJogador || 'Você';
@@ -293,7 +267,6 @@ function mostrarRanking(adicionado) {
 }
 
 elementos.btnNovoQuiz.addEventListener('click', function () {
-    console.log('[Quiz] Iniciando novo quiz, limpando temporizadores');
     clearInterval(timer);
     clearInterval(logicaTimer);
     mostrarMenu(elementos.menuDificuldade);
@@ -312,8 +285,8 @@ if (elementos.btnResetRanking) {
     });
 }
 
+// ---- LÓGICA ----
 function iniciarQuizLogica(dificuldade) {
-    console.log('[Lógica] Iniciando quiz de Lógica, dificuldade:', dificuldade);
     logicaDificuldadeAtual = dificuldade;
     logicaPontuacao = 0;
     const perguntasNivel = perguntasLogica.filter(function (q) { return q.dificuldade === dificuldade; });
@@ -346,10 +319,10 @@ function proximaPerguntaLogica() {
     iniciarTimerLogica();
 }
 
+// Painel de alternativas agora está lateral e fora do painel principal
 function exibirPerguntaLogica() {
     const perguntaObj = logicaPerguntasSelecionadas[logicaPerguntaAtualIndex];
     if (!perguntaObj) {
-        console.warn('[Lógica] Erro: Nenhuma pergunta encontrada no índice ' + logicaPerguntaAtualIndex);
         finalizarQuizLogica();
         return;
     }
@@ -361,7 +334,7 @@ function exibirPerguntaLogica() {
         alternativasHTML += '<button class="btn btn-roxo btn-alternativa-logica" data-idx="' + i + '">' + perguntaObj.alternativas[i] + '</button>';
     }
     elementos.alternativasLogica.innerHTML = alternativasHTML;
-    const botoes = elementos.painelPergunta.querySelectorAll('.btn-alternativa-logica');
+    const botoes = elementos.cardAlternativasLogica.querySelectorAll('.btn-alternativa-logica');
     for (let i = 0; i < botoes.length; i++) {
         botoes[i].onclick = function () {
             responderLogicaQuiz(parseInt(this.getAttribute('data-idx')));
@@ -370,16 +343,11 @@ function exibirPerguntaLogica() {
 }
 
 function iniciarTimerLogica() {
-    if (!elementos.painelTempo) {
-        console.warn('[Lógica] Erro: Elemento painelTempo não encontrado.');
-        return;
-    }
     clearInterval(logicaTimer);
     logicaTimer = setInterval(function () {
         logicaTempoRestante--;
         elementos.painelTempo.textContent = logicaTempoRestante;
         atualizarBarraProgresso(logicaTempoRestante / tempoPergunta);
-        console.log('[Lógica] Tempo restante: ' + logicaTempoRestante + 's');
         if (logicaTempoRestante <= 0) {
             clearInterval(logicaTimer);
             atualizarBarraProgresso(0);
@@ -392,7 +360,7 @@ function responderLogicaQuiz(idx, tempoEsgotado) {
     clearInterval(logicaTimer);
     const perguntaObj = logicaPerguntasSelecionadas[logicaPerguntaAtualIndex];
     const correta = perguntaObj && idx === perguntaObj.respostaCorreta;
-    const botoes = elementos.painelPergunta.querySelectorAll('.btn-alternativa-logica');
+    const botoes = elementos.cardAlternativasLogica.querySelectorAll('.btn-alternativa-logica');
     for (let i = 0; i < botoes.length; i++) {
         botoes[i].disabled = true;
         if (i === perguntaObj.respostaCorreta) {
@@ -418,7 +386,6 @@ function responderLogicaQuiz(idx, tempoEsgotado) {
 }
 
 function finalizarQuizLogica() {
-    console.log('[Lógica] Finalizando quiz de Lógica, limpando temporizadores');
     clearInterval(logicaTimer);
     clearInterval(timer);
     nomeJogador = localStorage.getItem('quizNome') || nomeJogador || 'Você';
