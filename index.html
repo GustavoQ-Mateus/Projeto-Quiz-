@@ -63,36 +63,40 @@
         </section>
 
         <section id="menu-quiz" class="menu">
-            <div class="card card-quiz transicao">
-                <div class="painel-quiz-grid">
-                    <div class="painel painel-card pontuacao">
-                        <span class="painel-titulo">Pontuação</span>
-                        <span id="pontuacao" class="painel-valor">0</span>
-                    </div>
-                    <div class="painel painel-card tempo">
-                        <span class="painel-titulo">Tempo</span>
-                        <span id="tempo" class="painel-valor">00</span>s
-                        <div class="barra-progresso-container">
-                            <div id="barra-progresso" class="barra-progresso"></div>
+            <!-- Novo container flex para painel principal e alternativas -->
+            <div class="painel-pergunta-row">
+                <div class="card card-quiz transicao">
+                    <div class="painel-quiz-grid">
+                        <div class="painel painel-card pontuacao">
+                            <span class="painel-titulo">Pontuação</span>
+                            <span id="pontuacao" class="painel-valor">0</span>
+                        </div>
+                        <div class="painel painel-card tempo">
+                            <span class="painel-titulo">Tempo</span>
+                            <span id="tempo" class="painel-valor">00</span>s
+                            <div class="barra-progresso-container">
+                                <div id="barra-progresso" class="barra-progresso"></div>
+                            </div>
+                        </div>
+                        <div class="painel painel-card faltam">
+                            <span class="painel-titulo">Perguntas faltam</span>
+                            <span id="faltam" class="painel-valor">0</span>
                         </div>
                     </div>
-                    <div class="painel painel-card faltam">
-                        <span class="painel-titulo">Perguntas faltam</span>
-                        <span id="faltam" class="painel-valor">0</span>
+                    <div id="painel-pergunta" class="painel-pergunta">
+                        <div class="pergunta-pares"></div>
+                        <div class="painel-pergunta-texto"></div>
                     </div>
-                </div>
-                <div id="painel-pergunta" class="painel-pergunta">
-                    <div class="pergunta-pares"></div>
-                    <div class="painel-pergunta-texto"></div>
-                    <div class="card card-alternativas-logica" style="display: none;">
-                        <div class="alternativas-logica"></div>
+                    <div class="botoes-resposta">
+                        <button id="btn-sim" class="btn btn-roxo">Sim</button>
+                        <button id="btn-nao" class="btn btn-roxo">Não</button>
                     </div>
+                    <button id="btn-cancelar" class="btn btn-voltar">Cancelar/Voltar</button>
                 </div>
-                <div class="botoes-resposta">
-                    <button id="btn-sim" class="btn btn-roxo">Sim</button>
-                    <button id="btn-nao" class="btn btn-roxo">Não</button>
+                <!-- Painel de alternativas fica ao lado agora -->
+                <div class="card card-alternativas-logica" style="display: none;">
+                    <div class="alternativas-logica"></div>
                 </div>
-                <button id="btn-cancelar" class="btn btn-voltar">Cancelar/Voltar</button>
             </div>
         </section>
 
