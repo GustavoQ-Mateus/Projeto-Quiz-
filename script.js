@@ -45,6 +45,17 @@ let logicaDificuldadeAtual = CONFIG.DIFICULDADE_PADRAO;
 let logicaPerguntasTotais = 0;
 let logicaPerguntasRestantes = 0;
 
+// --- CONJUNTOS ---
+let conjuntosPerguntasSelecionadas = [];
+let conjuntosPerguntaAtualIndex = 0;
+let conjuntosPontuacao = 0;
+let conjuntosTimer = null;
+let conjuntosTempoRestante = 0;
+let conjuntosTempoInicioPergunta = null;
+let conjuntosDificuldadeAtual = CONFIG.DIFICULDADE_PADRAO;
+let conjuntosPerguntasTotais = 0;
+let conjuntosPerguntasRestantes = 0;
+
 function atualizarNomeUsuarioPainel() {
     const nomeSalvo = localStorage.getItem('quizNome') || '';
     elementos.labelNomeUsuario.textContent = nomeSalvo ? 'Usuário: ' + nomeSalvo : '';
@@ -134,6 +145,7 @@ elementos.btnIniciar.addEventListener('click', function (e) {
     }
     clearInterval(timer);
     clearInterval(logicaTimer);
+    clearInterval(conjuntosTimer);
     if (elementos.radioLogica.checked) {
         e.preventDefault();
         logicaDificuldadeAtual = elementos.selectDificuldade.value;
@@ -143,6 +155,17 @@ elementos.btnIniciar.addEventListener('click', function (e) {
             return;
         }
         iniciarQuizLogica(logicaDificuldadeAtual);
+        elementos.botoesResposta.style.display = 'none';
+        return;
+    } else if (elementos.radioConjuntos.checked) {
+        e.preventDefault();
+        conjuntosDificuldadeAtual = elementos.selectDificuldade.value;
+        tempoPergunta = temposPorDificuldade[conjuntosDificuldadeAtual];
+        if (!tempoPergunta) {
+            mostrarMensagemNome('Erro: Dificuldade inválida para o quiz de Conjuntos.', CONFIG.CORES.ERRO, CONFIG.MENSAGEM_TEMPO_PADRAO);
+            return;
+        }
+        iniciarQuizConjuntos(conjuntosDificuldadeAtual);
         elementos.botoesResposta.style.display = 'none';
         return;
     }
@@ -303,6 +326,116 @@ if (elementos.btnResetRanking) {
             elementos.msgRanking.style.opacity = '0';
         }, CONFIG.RANKING_MENSAGEM_TEMPO);
     });
+}
+
+// ---- CONJUNTOS ----
+function iniciarQuizConjuntos(dificuldade) {
+    conjuntosDificuldadeAtual = dificuldade;
+    conjuntosPontuacao = 0;
+    const perguntasNivel = perguntasConjuntos.filter(function (q) { return q.dificuldade === dificuldade; });
+    if (perguntasNivel.length === 0) {
+        mostrarMensagemNome('Erro: Nenhuma pergunta disponível para a dificuldade selecionada.', CONFIG.CORES.ERRO, CONFIG.MENSAGEM_TEMPO_PADRAO);
+        return;
+    }
+    conjuntosPerguntasSelecionadas = shuffleArray(perguntasNivel).slice(0, 6).map(embaralharAlternativas);
+    conjuntosPerguntasTotais = conjuntosPerguntasSelecionadas.length;
+    conjuntosPerguntasRestantes = conjuntosPerguntasTotais;
+    conjuntosPerguntaAtualIndex = 0;
+    elementos.painelPontuacao.textContent = conjuntosPontuacao;
+    elementos.painelFaltam.textContent = conjuntosPerguntasRestantes;
+    mostrarMenu(elementos.menuQuiz);
+    proximaPerguntaConjuntos();
+}
+
+function proximaPerguntaConjuntos() {
+    if (conjuntosPerguntasRestantes <= 0 || conjuntosPerguntaAtualIndex >= conjuntosPerguntasSelecionadas.length) {
+        finalizarQuizConjuntos();
+        return;
+    }
+    conjuntosTempoRestante = tempoPergunta;
+    elementos.painelTempo.textContent = conjuntosTempoRestante;
+    conjuntosTempoInicioPergunta = Date.now();
+    conjuntosPerguntasRestantes--;
+    elementos.painelFaltam.textContent = conjuntosPerguntasRestantes;
+    atualizarBarraProgresso(1);
+    exibirPerguntaConjuntos();
+    iniciarTimerConjuntos();
+}
+
+function exibirPerguntaConjuntos() {
+    const perguntaObj = conjuntosPerguntasSelecionadas[conjuntosPerguntaAtualIndex];
+    if (!perguntaObj) {
+        finalizarQuizConjuntos();
+        return;
+    }
+    elementos.perguntaPares.innerHTML = '';
+    elementos.painelPerguntaTexto.innerHTML = '<strong>Pergunta:</strong> ' + perguntaObj.pergunta;
+    elementos.cardAlternativasLogica.style.display = 'block';
+    let alternativasHTML = '';
+    for (let i = 0; i < perguntaObj.alternativas.length; i++) {
+        alternativasHTML += '<button class="btn btn-roxo btn-alternativa-logica" data-idx="' + i + '">' + perguntaObj.alternativas[i] + '</button>';
+    }
+    elementos.alternativasLogica.innerHTML = alternativasHTML;
+    const botoes = elementos.cardAlternativasLogica.querySelectorAll('.btn-alternativa-logica');
+    for (let i = 0; i < botoes.length; i++) {
+        botoes[i].onclick = function () {
+            responderConjuntosQuiz(parseInt(this.getAttribute('data-idx')));
+        };
+    }
+}
+
+function iniciarTimerConjuntos() {
+    clearInterval(conjuntosTimer);
+    conjuntosTimer = setInterval(function () {
+        conjuntosTempoRestante--;
+        elementos.painelTempo.textContent = conjuntosTempoRestante;
+        atualizarBarraProgresso(conjuntosTempoRestante / tempoPergunta);
+        if (conjuntosTempoRestante <= 0) {
+            clearInterval(conjuntosTimer);
+            atualizarBarraProgresso(0);
+            responderConjuntosQuiz(null, true);
+        }
+    }, 1000);
+}
+
+function responderConjuntosQuiz(idx, tempoEsgotado) {
+    clearInterval(conjuntosTimer);
+    const perguntaObj = conjuntosPerguntasSelecionadas[conjuntosPerguntaAtualIndex];
+    const correta = perguntaObj && idx === perguntaObj.respostaCorreta;
+    const botoes = elementos.cardAlternativasLogica.querySelectorAll('.btn-alternativa-logica');
+    for (let i = 0; i < botoes.length; i++) {
+        botoes[i].disabled = true;
+        if (i === perguntaObj.respostaCorreta) {
+            botoes[i].style.background = CONFIG.CORES.SUCESSO;
+            botoes[i].style.color = '#fff';
+        }
+        if (idx === i && !correta) {
+            botoes[i].style.background = CONFIG.CORES.ERRO;
+            botoes[i].style.color = '#fff';
+        }
+    }
+    if (correta && !tempoEsgotado) {
+        const pontos = 100;
+        const tempoGasto = (Date.now() - conjuntosTempoInicioPergunta) / 1000;
+        const bonus = Math.max(0, Math.round((tempoPergunta - tempoGasto) * 5));
+        conjuntosPontuacao += pontos + bonus;
+    }
+    elementos.painelPontuacao.textContent = conjuntosPontuacao;
+    setTimeout(function () {
+        conjuntosPerguntaAtualIndex++;
+        proximaPerguntaConjuntos();
+    }, CONFIG.LOGICA_FEEDBACK_TEMPO);
+}
+
+function finalizarQuizConjuntos() {
+    clearInterval(conjuntosTimer);
+    clearInterval(timer);
+    nomeJogador = localStorage.getItem('quizNome') || nomeJogador || 'Você';
+    const ranking = getRanking(conjuntosDificuldadeAtual);
+    ranking.push({ nome: nomeJogador, pontos: conjuntosPontuacao });
+    ranking.sort(function (a, b) { return b.pontos - a.pontos; });
+    setRanking(ranking, conjuntosDificuldadeAtual);
+    mostrarRanking(true);
 }
 
 // ---- LÓGICA ----
