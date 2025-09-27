@@ -1,4 +1,6 @@
-// scriptAlterado.js
+// scriptEmbaralhado.js
+// Este arquivo é uma cópia de script.js com embaralhamento das alternativas das perguntas de lógica e conjuntos.
+
 const CONFIG = {
     DIFICULDADE_PADRAO: 'Easy',
     PERGUNTAS_TOTAIS: 10,
@@ -12,7 +14,6 @@ const CONFIG = {
     }
 };
 
-// Use o objeto global elementos fornecido pelo dom.js
 const elementos = window.elementos;
 
 let nomeJogador = '';
@@ -97,6 +98,32 @@ function mostrarMensagemNome(msg, cor, tempo) {
     }
 }
 
+// Função para embaralhar alternativas e atualizar respostaCorreta
+function embaralharAlternativas(pergunta) {
+    if (!pergunta.alternativas || typeof pergunta.respostaCorreta !== 'number') return pergunta;
+    const alternativas = pergunta.alternativas.map((alt, idx) => ({ texto: alt, originalIndex: idx }));
+    for (let i = alternativas.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [alternativas[i], alternativas[j]] = [alternativas[j], alternativas[i]];
+    }
+    const novaRespostaCorreta = alternativas.findIndex(alt => alt.originalIndex === pergunta.respostaCorreta);
+    return {
+        ...pergunta,
+        alternativas: alternativas.map(alt => alt.texto),
+        respostaCorreta: novaRespostaCorreta
+    };
+}
+
+function shuffleArray(array) {
+    const arr = array.slice();
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+// --- ALTERAÇÃO: embaralhar alternativas ao selecionar perguntas ---
 elementos.btnIniciar.addEventListener('click', function (e) {
     nomeJogador = localStorage.getItem('quizNome') || '';
     if (!nomeJogador) {
@@ -144,7 +171,8 @@ elementos.btnIniciar.addEventListener('click', function (e) {
         mostrarMensagemNome('Erro: Nenhuma pergunta disponível para a dificuldade selecionada.', CONFIG.CORES.ERRO, CONFIG.MENSAGEM_TEMPO_PADRAO);
         return;
     }
-    perguntasSelecionadas = shuffleArray(perguntasNivel).slice(0, 6);
+    // Embaralha alternativas de cada pergunta
+    perguntasSelecionadas = shuffleArray(perguntasNivel).slice(0, 6).map(embaralharAlternativas);
     perguntasTotais = perguntasSelecionadas.length;
     perguntasRestantes = perguntasTotais;
     perguntaAtualIndex = 0;
@@ -153,15 +181,6 @@ elementos.btnIniciar.addEventListener('click', function (e) {
     mostrarMenu(elementos.menuQuiz);
     proximaPergunta();
 });
-
-function shuffleArray(array) {
-    const arr = array.slice();
-    for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
-}
 
 function proximaPergunta() {
     if (perguntasRestantes <= 0 || perguntaAtualIndex >= perguntasSelecionadas.length) {
@@ -187,7 +206,7 @@ function exibirPerguntaAtual() {
     }
     elementos.perguntaPares.innerHTML = '<strong>Pares:</strong> ' + perguntaObj.pares.map(p => '(' + p[0] + ',' + p[1] + ')').join(', ');
     elementos.painelPerguntaTexto.innerHTML = '<strong>Pergunta:</strong> ' + perguntaObj.pergunta;
-    elementos.cardAlternativasLogica.style.display = 'none'; // Oculta painel de alternativas para quiz não lógico
+    elementos.cardAlternativasLogica.style.display = 'none';
 }
 
 function iniciarTimer() {
@@ -294,7 +313,8 @@ function iniciarQuizLogica(dificuldade) {
         mostrarMensagemNome('Erro: Nenhuma pergunta disponível para a dificuldade selecionada.', CONFIG.CORES.ERRO, CONFIG.MENSAGEM_TEMPO_PADRAO);
         return;
     }
-    logicaPerguntasSelecionadas = shuffleArray(perguntasNivel).slice(0, 6);
+    // Embaralha alternativas de cada pergunta de lógica
+    logicaPerguntasSelecionadas = shuffleArray(perguntasNivel).slice(0, 6).map(embaralharAlternativas);
     logicaPerguntasTotais = logicaPerguntasSelecionadas.length;
     logicaPerguntasRestantes = logicaPerguntasTotais;
     logicaPerguntaAtualIndex = 0;
@@ -319,7 +339,6 @@ function proximaPerguntaLogica() {
     iniciarTimerLogica();
 }
 
-// Painel de alternativas agora está lateral e fora do painel principal
 function exibirPerguntaLogica() {
     const perguntaObj = logicaPerguntasSelecionadas[logicaPerguntaAtualIndex];
     if (!perguntaObj) {
