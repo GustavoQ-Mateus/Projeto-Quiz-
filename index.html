@@ -1,3 +1,9 @@
+<!--
+    index.html
+    Estrutura principal do Quiz Lógico.
+    Contém cabeçalho, menus de dificuldade, quiz, ranking e scripts necessários.
+    Cada seção é comentada para facilitar manutenção e entendimento.
+-->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -9,6 +15,7 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 </head>
 <body>
+    <!-- Cabeçalho do site com logo e título -->
     <header class="header">
         <div class="logo">
             <span class="logo-emoji" aria-label="Cérebro" role="img">🧠</span>
@@ -16,9 +23,12 @@
         </div>
     </header>
 
+    <!-- Área principal do site -->
     <main class="main-container">
+        <!-- Menu inicial: seleção de dificuldade, nome e conteúdo do quiz -->
         <section id="menu-dificuldade" class="menu active">
             <div class="painel-pergunta-row">
+                <!-- Card de boas-vindas e seleção de dificuldade/nome -->
                 <div class="card card-menu transicao">
                     <h2 class="titulo">Bem-vindo!</h2>
                     <div id="msg-nome" style="opacity: 0;"></div>
@@ -39,6 +49,7 @@
                 </div>
                 
                 <!-- Painel extra agora recebe card-menu para animação -->
+                <!-- Card para escolha do conteúdo do quiz -->
                 <div class="painel-extra card-menu">
                     <h2 class="label-escolha-quiz">Escolha o conteúdo do quiz</h2>
                     <div class="painel painel-card painel-conteudo" style="width:100%; margin-bottom:10px;">
@@ -68,7 +79,8 @@
             </div>
         </section>
 
-        <section id="menu-quiz" class="menu">
+    <!-- Menu do quiz: painel de perguntas, alternativas e controles -->
+    <section id="menu-quiz" class="menu">
             <!-- Novo container flex para painel principal e alternativas -->
             <div class="painel-pergunta-row">
                 <div class="card card-quiz transicao">
@@ -115,7 +127,8 @@
             </div>
         </section>
 
-        <section id="menu-ranking" class="menu">
+    <!-- Menu de ranking: exibe pontuações e opções de reset/iniciar novo quiz -->
+    <section id="menu-ranking" class="menu">
             <!-- Ranking agora tem card-ranking para animação -->
             <div class="card card-ranking transicao">
                 <h2 class="titulo">Ranking de Pontuações</h2>
@@ -141,6 +154,7 @@
         </section>
     </main>
 
+    <!-- Scripts de conteúdo e lógica do quiz -->
     <script src="conteudoRelacao.js"></script>
     <script src="conteudoLogica.js"></script>
     <script src="conteudoConjuntos.js"></script>

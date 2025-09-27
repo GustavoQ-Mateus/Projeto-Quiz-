@@ -1,6 +1,8 @@
-// scriptEmbaralhado.js
-// Este arquivo é uma cópia de script.js com embaralhamento das alternativas das perguntas de lógica e conjuntos.
+// script.js
+// Lógica principal do Quiz Lógico
+// Controla fluxo do quiz, embaralhamento de alternativas, ranking, timers e interação com o DOM
 
+// Configurações globais do quiz
 const CONFIG = {
     DIFICULDADE_PADRAO: 'Easy',
     PERGUNTAS_TOTAIS: 10,
@@ -14,9 +16,12 @@ const CONFIG = {
     }
 };
 
+// Referência aos elementos do DOM definidos em dom.js
 const elementos = window.elementos;
 
+// Variáveis de estado do quiz
 let nomeJogador = '';
+// Tempo limite por dificuldade
 const temposPorDificuldade = {
     Easy: 18,
     Basic: 15,
@@ -46,6 +51,7 @@ let logicaPerguntasTotais = 0;
 let logicaPerguntasRestantes = 0;
 
 // --- CONJUNTOS ---
+// Controle de estado para quiz de conjuntos
 let conjuntosPerguntasSelecionadas = [];
 let conjuntosPerguntaAtualIndex = 0;
 let conjuntosPontuacao = 0;
@@ -56,12 +62,14 @@ let conjuntosDificuldadeAtual = CONFIG.DIFICULDADE_PADRAO;
 let conjuntosPerguntasTotais = 0;
 let conjuntosPerguntasRestantes = 0;
 
+// Atualiza o nome do usuário no painel do quiz
 function atualizarNomeUsuarioPainel() {
     const nomeSalvo = localStorage.getItem('quizNome') || '';
     elementos.labelNomeUsuario.textContent = nomeSalvo ? 'Usuário: ' + nomeSalvo : '';
     elementos.labelNomeUsuario.className = 'label-nome-usuario';
 }
 
+// Inicialização: configura eventos e atualiza painel ao carregar página
 window.addEventListener('DOMContentLoaded', function () {
     atualizarNomeUsuarioPainel();
     elementos.inputNome.addEventListener('input', function () {
@@ -81,16 +89,19 @@ window.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+// Recupera ranking do localStorage para a dificuldade selecionada
 function getRanking(dificuldade) {
     const key = dificuldade ? 'quizRanking_' + dificuldade : 'quizRanking_' + dificuldadeAtual;
     return localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key)) : [];
 }
 
+// Salva ranking no localStorage para a dificuldade selecionada
 function setRanking(ranking, dificuldade) {
     const key = dificuldade ? 'quizRanking_' + dificuldade : 'quizRanking_' + dificuldadeAtual;
     localStorage.setItem(key, JSON.stringify(ranking));
 }
 
+// Exibe o menu desejado e oculta os outros
 function mostrarMenu(menu) {
     const menus = [elementos.menuDificuldade, elementos.menuQuiz, elementos.menuRanking];
     for (let i = 0; i < menus.length; i++) {
@@ -98,6 +109,7 @@ function mostrarMenu(menu) {
     }
 }
 
+// Exibe mensagem de feedback para o nome do usuário
 function mostrarMensagemNome(msg, cor, tempo) {
     elementos.msgNome.textContent = msg;
     elementos.msgNome.classList.remove('msg-nome-red', 'msg-nome-green');
@@ -111,6 +123,7 @@ function mostrarMensagemNome(msg, cor, tempo) {
 }
 
 // Função para embaralhar alternativas e atualizar respostaCorreta
+// Embaralha alternativas de uma pergunta e atualiza respostaCorreta
 function embaralharAlternativas(pergunta) {
     if (!pergunta.alternativas || typeof pergunta.respostaCorreta !== 'number') return pergunta;
     const alternativas = pergunta.alternativas.map((alt, idx) => ({ texto: alt, originalIndex: idx }));
@@ -126,6 +139,7 @@ function embaralharAlternativas(pergunta) {
     };
 }
 
+// Embaralha um array (Fisher-Yates)
 function shuffleArray(array) {
     const arr = array.slice();
     for (let i = arr.length - 1; i > 0; i--) {
@@ -136,6 +150,7 @@ function shuffleArray(array) {
 }
 
 // --- ALTERAÇÃO: embaralhar alternativas ao selecionar perguntas ---
+// Evento de início do quiz: seleciona perguntas, embaralha e inicia quiz
 elementos.btnIniciar.addEventListener('click', function (e) {
     nomeJogador = localStorage.getItem('quizNome') || '';
     if (!nomeJogador) {
@@ -206,6 +221,7 @@ elementos.btnIniciar.addEventListener('click', function (e) {
     proximaPergunta();
 });
 
+// Avança para a próxima pergunta do quiz
 function proximaPergunta() {
     if (perguntasRestantes <= 0 || perguntaAtualIndex >= perguntasSelecionadas.length) {
         finalizarQuiz();
@@ -222,6 +238,7 @@ function proximaPergunta() {
     iniciarTimer();
 }
 
+// Exibe a pergunta atual no painel do quiz
 function exibirPerguntaAtual() {
     const perguntaObj = perguntasSelecionadas[perguntaAtualIndex];
     if (!perguntaObj) {
@@ -233,6 +250,7 @@ function exibirPerguntaAtual() {
     elementos.cardAlternativasLogica.style.display = 'none';
 }
 
+// Inicia o timer da pergunta
 function iniciarTimer() {
     clearInterval(timer);
     timer = setInterval(function () {
@@ -247,12 +265,14 @@ function iniciarTimer() {
     }, 1000);
 }
 
+// Atualiza a barra de progresso do tempo
 function atualizarBarraProgresso(percent) {
     if (elementos.barraProgresso) {
         elementos.barraProgresso.style.width = Math.max(0, percent * 100) + '%';
     }
 }
 
+// Processa resposta do usuário e avança quiz
 function responderQuiz(respostaUsuario, tempoEsgotado) {
     clearInterval(timer);
     const perguntaObj = perguntasSelecionadas[perguntaAtualIndex];
@@ -268,6 +288,7 @@ function responderQuiz(respostaUsuario, tempoEsgotado) {
     proximaPergunta();
 }
 
+// Eventos dos botões de resposta Sim/Não e Cancelar
 elementos.btnSim.addEventListener('click', function () {
     responderQuiz(true);
 });
@@ -280,6 +301,7 @@ elementos.btnCancelar.addEventListener('click', function () {
     mostrarRanking();
 });
 
+// Finaliza o quiz, salva pontuação no ranking e exibe ranking
 function finalizarQuiz() {
     clearInterval(timer);
     clearInterval(logicaTimer);
@@ -291,6 +313,7 @@ function finalizarQuiz() {
     mostrarRanking(true);
 }
 
+// Exibe o ranking de pontuações
 function mostrarRanking(adicionado) {
     const ranking = getRanking(dificuldadeAtual);
     elementos.listaRanking.innerHTML = '';
@@ -309,12 +332,14 @@ function mostrarRanking(adicionado) {
     }
 }
 
+// Evento para iniciar novo quiz
 elementos.btnNovoQuiz.addEventListener('click', function () {
     clearInterval(timer);
     clearInterval(logicaTimer);
     mostrarMenu(elementos.menuDificuldade);
 });
 
+// Evento para resetar ranking
 if (elementos.btnResetRanking) {
     elementos.btnResetRanking.addEventListener('click', function () {
         setRanking([], dificuldadeAtual);
@@ -329,6 +354,8 @@ if (elementos.btnResetRanking) {
 }
 
 // ---- CONJUNTOS ----
+// Funções específicas para quiz de conjuntos
+// Inicia quiz de conjuntos
 function iniciarQuizConjuntos(dificuldade) {
     conjuntosDificuldadeAtual = dificuldade;
     conjuntosPontuacao = 0;
@@ -347,6 +374,7 @@ function iniciarQuizConjuntos(dificuldade) {
     proximaPerguntaConjuntos();
 }
 
+// Avança para próxima pergunta de conjuntos
 function proximaPerguntaConjuntos() {
     if (conjuntosPerguntasRestantes <= 0 || conjuntosPerguntaAtualIndex >= conjuntosPerguntasSelecionadas.length) {
         finalizarQuizConjuntos();
@@ -362,6 +390,7 @@ function proximaPerguntaConjuntos() {
     iniciarTimerConjuntos();
 }
 
+// Exibe pergunta de conjuntos e alternativas
 function exibirPerguntaConjuntos() {
     const perguntaObj = conjuntosPerguntasSelecionadas[conjuntosPerguntaAtualIndex];
     if (!perguntaObj) {
@@ -384,6 +413,7 @@ function exibirPerguntaConjuntos() {
     }
 }
 
+// Inicia timer para perguntas de conjuntos
 function iniciarTimerConjuntos() {
     clearInterval(conjuntosTimer);
     conjuntosTimer = setInterval(function () {
@@ -398,6 +428,7 @@ function iniciarTimerConjuntos() {
     }, 1000);
 }
 
+// Processa resposta do usuário no quiz de conjuntos
 function responderConjuntosQuiz(idx, tempoEsgotado) {
     clearInterval(conjuntosTimer);
     const perguntaObj = conjuntosPerguntasSelecionadas[conjuntosPerguntaAtualIndex];
@@ -427,6 +458,7 @@ function responderConjuntosQuiz(idx, tempoEsgotado) {
     }, CONFIG.LOGICA_FEEDBACK_TEMPO);
 }
 
+// Finaliza quiz de conjuntos, salva ranking e exibe ranking
 function finalizarQuizConjuntos() {
     clearInterval(conjuntosTimer);
     clearInterval(timer);
@@ -439,6 +471,7 @@ function finalizarQuizConjuntos() {
 }
 
 // ---- LÓGICA ----
+// Funções específicas para quiz de lógica
 function iniciarQuizLogica(dificuldade) {
     logicaDificuldadeAtual = dificuldade;
     logicaPontuacao = 0;

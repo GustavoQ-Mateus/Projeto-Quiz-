@@ -1,4 +1,11 @@
+/*
+    style.css
+    Estilos para o Quiz Lógico
+    Inclui tema claro/escuro, animações, acessibilidade, progresso, ranking e ícones
+    Comentários explicam cada bloco principal de regras
+*/
 /* === MELHORIAS: TEMA CLARO/ESCURO, ANIMAÇÕES, ACESSIBILIDADE, PROGRESSO, RANKING, ÍCONES === */
+/* Variáveis de cor para tema claro */
 :root {
     --color-bg: #f6f7fb;
     --color-card: #fff;
@@ -14,6 +21,7 @@
     --ranking-silver: #c0c0c0;
     --ranking-bronze: #cd7f32;
 }
+/* Tema escuro: sobrescreve variáveis de cor */
 @media (prefers-color-scheme: dark) {
     :root {
         --color-bg: #181825;
@@ -28,34 +36,41 @@
         --shadow-btn: 0 2px 8px rgba(108,99,255,0.12);
     }
 }
+/* Estilo do corpo da página */
 body {
     background: var(--color-bg);
     color: var(--color-text);
     font-family: 'Poppins', Arial, sans-serif;
     transition: background 0.6s, color 0.6s;
 }
+/* Estilo dos cards e painéis principais */
 .card, .painel-card, .painel-extra, .painel-pergunta, .painel-usuario {
     background: var(--color-card);
     box-shadow: var(--shadow-card);
     transition: background 0.4s, box-shadow 0.3s, transform 0.2s;
 }
+/* Efeito hover nos cards */
 .card:hover, .painel-card:hover, .painel-extra.card-menu:hover, .card.card-ranking:hover {
     transform: scale(1.03);
     box-shadow: 0 12px 36px rgba(108,99,255,0.18);
 }
+/* Menu principal: transição de visibilidade */
 .menu {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.7s;
 }
+/* Menu ativo: visível e interativo */
 .menu.active {
     opacity: 1;
     pointer-events: auto;
     z-index: 2;
 }
+/* Animação de entrada dos cards */
 .card-menu, .card-quiz, .card-ranking {
     animation: fadeIn 0.7s;
 }
+/* Keyframes para animação de fadeIn */
 @keyframes fadeIn {
     from { opacity: 0; transform: scale(0.97) translateY(20px); }
     to { opacity: 1; transform: scale(1) translateY(0); }

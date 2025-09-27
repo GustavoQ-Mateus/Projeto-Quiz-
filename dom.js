@@ -1,3 +1,6 @@
+// dom.js
+// Mapeia e armazena referências aos principais elementos do DOM usados no quiz
+// Facilita o acesso aos elementos em outros scripts
 window.elementos = {
     menuDificuldade: document.getElementById('menu-dificuldade'),
     menuQuiz: document.getElementById('menu-quiz'),
@@ -34,6 +37,7 @@ window.elementos = {
     cardRanking: document.querySelector('.card-ranking')
 };
 
+// Validação: alerta se algum elemento não foi encontrado no DOM
 for (let key in window.elementos) {
     if (!window.elementos[key]) {
         console.warn('Elemento "' + key + '" não encontrado no DOM. Verifique o HTML.');
