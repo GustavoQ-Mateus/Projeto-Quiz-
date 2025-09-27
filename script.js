@@ -66,6 +66,7 @@ window.addEventListener('DOMContentLoaded', function () {
         nomeJogador = nome;
         localStorage.setItem('quizNome', nomeJogador);
         mostrarMensagemNome('Nome salvo!', CONFIG.CORES.SUCESSO, CONFIG.MENSAGEM_TEMPO_SUCESSO);
+            atualizarNomeUsuarioPainel(); // Atualiza o painel imediatamente
     });
 });
 
