@@ -1,9 +1,3 @@
-<!--
-    index.html
-    Estrutura principal do Quiz Lógico.
-    Contém cabeçalho, menus de dificuldade, quiz, ranking e scripts necessários.
-    Cada seção é comentada para facilitar manutenção e entendimento.
--->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -11,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Lógico</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Usa a folha fixa que importa a original e aplica overrides seguros -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 </head>
 <body>
-    <!-- Cabeçalho do site com logo e título -->
     <header class="header">
         <div class="logo">
             <span class="logo-emoji" aria-label="Cérebro" role="img">🧠</span>
@@ -23,12 +17,9 @@
         </div>
     </header>
 
-    <!-- Área principal do site -->
     <main class="main-container">
-        <!-- Menu inicial: seleção de dificuldade, nome e conteúdo do quiz -->
         <section id="menu-dificuldade" class="menu active">
             <div class="painel-pergunta-row">
-                <!-- Card de boas-vindas e seleção de dificuldade/nome -->
                 <div class="card card-menu transicao">
                     <h2 class="titulo">Bem-vindo!</h2>
                     <div id="msg-nome" style="opacity: 0;"></div>
@@ -47,9 +38,6 @@
                         </button>
                     </div>
                 </div>
-                
-                <!-- Painel extra agora recebe card-menu para animação -->
-                <!-- Card para escolha do conteúdo do quiz -->
                 <div class="painel-extra card-menu">
                     <h2 class="label-escolha-quiz">Escolha o conteúdo do quiz</h2>
                     <div class="painel painel-card painel-conteudo" style="width:100%; margin-bottom:10px;">
@@ -79,9 +67,7 @@
             </div>
         </section>
 
-    <!-- Menu do quiz: painel de perguntas, alternativas e controles -->
-    <section id="menu-quiz" class="menu">
-            <!-- Novo container flex para painel principal e alternativas -->
+        <section id="menu-quiz" class="menu">
             <div class="painel-pergunta-row">
                 <div class="card card-quiz transicao">
                     <div class="painel-quiz-grid">
@@ -120,28 +106,17 @@
                         Cancelar/Voltar
                     </button>
                 </div>
-                <!-- Painel de alternativas fica ao lado agora -->
                 <div class="card card-alternativas-logica" style="display: none;">
                     <div class="alternativas-logica"></div>
                 </div>
             </div>
         </section>
 
-    <!-- Menu de ranking: exibe pontuações e opções de reset/iniciar novo quiz -->
-    <section id="menu-ranking" class="menu">
-            <!-- Ranking agora tem card-ranking para animação -->
+        <section id="menu-ranking" class="menu">
             <div class="card card-ranking transicao">
                 <h2 class="titulo">Ranking de Pontuações</h2>
                 <div id="msg-ranking" style="opacity: 0; color: #22c55e; text-align: center; font-weight: 600; margin: 12px 0 0 0; font-size: 1.1rem;"></div>
-                <ul id="lista-ranking">
-                    <!-- Os três primeiros lugares terão medalhas/emoji via JS -->
-                    <!-- Exemplo de como deve ser renderizado via JS:
-                    <li><span class="ranking-medal">🥇</span> 1º - Nome: pontos</li>
-                    <li><span class="ranking-medal">🥈</span> 2º - Nome: pontos</li>
-                    <li><span class="ranking-medal">🥉</span> 3º - Nome: pontos</li>
-                    <li>4º - Nome: pontos</li>
-                    -->
-                </ul>
+                <ul id="lista-ranking"></ul>
                 <button id="btn-reset-ranking" class="btn btn-voltar" style="margin-bottom: 8px;" aria-label="Resetar Ranking" role="button" tabindex="0">
                     <span class="icon ion-trash-a"></span>
                     Resetar Ranking
@@ -154,7 +129,7 @@
         </section>
     </main>
 
-    <!-- Scripts de conteúdo e lógica do quiz -->
+    <!-- Scripts -->
     <script src="conteudoRelacao.js"></script>
     <script src="conteudoLogica.js"></script>
     <script src="conteudoConjuntos.js"></script>
