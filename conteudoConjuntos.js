@@ -1,5 +1,4 @@
 const perguntasConjuntos = [
-
   // Pergunta Easy 1
   {
     dificuldade: "Easy",
@@ -682,11 +681,11 @@ const perguntasConjuntos = [
   },
   // Pergunta Hard 11
   {
-    dificuldade: "Hard",
-    pergunta: "Qual é o complementar de (A ∩ B) ∪ C no universo U se A={1,2}, B={2,3}, C={3,4}, U={1,2,3,4,5}?",
-    alternativas: ["{5}", "{1,5}", "{4,5}", "{2,5}"],
-    respostaCorreta: 0,
-    explicacao: "A ∩ B = {2}, união com C = {2,3,4}, complementar em U = {5}."
+  dificuldade: "Hard",
+  pergunta: "Qual é o complementar de (A ∩ B) ∪ C no universo U se A={1,2}, B={2,3}, C={3,4}, U={1,2,3,4,5}?",
+  alternativas: ["{5}", "{1,5}", "{4,5}", "{2,5}"],
+  respostaCorreta: 1,
+  explicacao: "A ∩ B = {2}, união com C = {2,3,4}, complementar em U = {1,2,3,4,5} - {2,3,4} = {1,5}."
   },
   // Pergunta Hard 12
   {
