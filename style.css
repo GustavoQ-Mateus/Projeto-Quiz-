@@ -677,6 +677,7 @@ body {
 .boxed-check-group .boxed-check .boxed-check-input {
     -webkit-appearance: none;
     -moz-appearance: none;
+    appearance: none;
     display: none;
 }
 .boxed-check-group .boxed-check .boxed-check-input:disabled + .boxed-check-label {
@@ -733,4 +734,25 @@ body {
     font-size: 1.20rem;
     color: #222;
     font-weight: 500;
+}
+
+/* === Overrides incorporados de style.fixed.css para manter tema claro/escuro por variáveis === */
+/* Estes overrides garantem que regras tardias com cores fixas não quebrem o tema dinâmico */
+body {
+    background: var(--color-bg) !important;
+    color: var(--color-text) !important;
+}
+.header {
+    background: var(--color-card) !important;
+}
+.card, .painel-card, .painel-extra, .painel-pergunta, .painel-usuario {
+    background: var(--color-card) !important;
+    box-shadow: var(--shadow-card) !important;
+}
+.barra-progresso {
+    background: linear-gradient(90deg, var(--color-primary) 60%, #a5a3ff 100%) !important;
+}
+#lista-ranking li {
+    background: var(--color-card-alt) !important;
+    color: var(--color-primary) !important;
 }
