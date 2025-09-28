@@ -585,11 +585,11 @@ const perguntasLogica = [
   },
   // Pergunta Medium 24
   {
-    dificuldade: "Medium",
-    pergunta: "Qual é o resultado de (P ∧ Q) ∧ (¬P ∨ ¬Q) quando P=V e Q=V?",
-    alternativas: ["V", "F", "Depende", "Indefinido"],
-    respostaCorreta: 0,
-    explicacao: "P ∧ Q = V, ¬P ∨ ¬Q = F ∨ F = F, mas revisando: (V ∧ V) ∧ (¬V ∨ ¬V) = V ∧ F = F. Correção: V ∧ V = V."
+  dificuldade: "Medium",
+  pergunta: "Qual é o resultado de (P ∧ Q) ∧ (¬P ∨ ¬Q) quando P=V e Q=V?",
+  alternativas: ["V", "F", "Depende", "Indefinido"],
+  respostaCorreta: 1,
+  explicacao: "Para P=V e Q=V, temos P ∧ Q = V ∧ V = V, ¬P = F, ¬Q = F, ¬P ∨ ¬Q = F ∨ F = F, então (P ∧ Q) ∧ (¬P ∨ ¬Q) = V ∧ F = F."
   },
   // Pergunta Medium 25
   {
