@@ -75,6 +75,17 @@ Detalhes técnicos:
 - Cores: ajuste as variáveis em `style.css` para cada tema (`[data-theme="light"]` e `[data-theme="dark"]`).
 - Durações: `CONFIG` em `script.js` controla tempos de mensagens, feedback e cálculo de bônus.
 - Quantidade de questões: altere os slices (`.slice(0, 6)`) em `script.js` para aumentar/diminuir por rodada.
+## Interface
+---
+### Tema Claro
+<img width="1317" height="637" alt="{0FDAD276-1476-46B1-8A4A-F8F19A90763E}" src="https://github.com/user-attachments/assets/5715c04d-5be8-423a-b9cb-1ee9edc7a86c" />
+<img width="1314" height="637" alt="image" src="https://github.com/user-attachments/assets/b266dad8-9d1a-46be-aca8-18e1646b5f87" />
+<img width="1315" height="639" alt="{5CBBA35C-A292-455D-B949-372F22A2F7F4}" src="https://github.com/user-attachments/assets/124299b1-0952-4536-9900-f72c4abfe536" />
+
+### Tema Escuro
+<img width="1311" height="639" alt="{5D131614-D267-4D29-AB01-76FD5C0CC1DD}" src="https://github.com/user-attachments/assets/eea5d93a-d6b9-4def-a86c-21a017174b6a" />
+<img width="1315" height="636" alt="image" src="https://github.com/user-attachments/assets/2966f7c9-bb15-4ccb-9bea-237762309af3" />
+<img width="1312" height="635" alt="image" src="https://github.com/user-attachments/assets/fbcc4343-dc19-4328-9003-7e4d2c345c4a" />
 
 ## Autor
 
