@@ -1,3 +1,19 @@
+/* === Overrides: remover transições/elevacao dos dois painéis do card de menu === */
+/* Aplica somente aos painéis internos do painel-extra.card-menu (painel-conteudo e painel-usuario) */
+.painel-extra.card-menu .painel-card,
+.painel-extra.card-menu .painel.painel-card {
+    transition: none !important;
+}
+
+.painel-extra.card-menu .painel-card:hover,
+.painel-extra.card-menu .painel-card:focus,
+.painel-extra.card-menu .painel-card:focus-visible,
+.painel-extra.card-menu .painel.painel-card:hover,
+.painel-extra.card-menu .painel.painel-card:focus,
+.painel-extra.card-menu .painel.painel-card:focus-visible {
+    transform: none !important;
+    box-shadow: var(--shadow-card) !important;
+}
 /*
     style.css
     Estilos para o Quiz Lógico
@@ -7,34 +23,64 @@
 /* === MELHORIAS: TEMA CLARO/ESCURO, ANIMAÇÕES, ACESSIBILIDADE, PROGRESSO, RANKING, ÍCONES === */
 /* Variáveis de cor para tema claro */
 :root {
-    --color-bg: #f6f7fb;
-    --color-card: #fff;
-    --color-primary: #724CF9;
-    --color-secondary: #564592;
-    --color-danger: #ef4444;
-    --color-success: #22c55e;
-    --color-text: #222;
-    --color-card-alt: #f3f4f6;
-    --shadow-card: 0 8px 32px rgba(108,99,255,0.10);
-    --shadow-btn: 0 2px 8px rgba(108,99,255,0.08);
-    --ranking-gold: #ffd700;
-    --ranking-silver: #c0c0c0;
-    --ranking-bronze: #cd7f32;
+  --color-bg: #f7f8fc;        /* fundo */
+  --color-card: #ffffff;      /* cartões/superfícies */
+  --color-card-alt: #f2f4ff;  /* superfícies secundárias */
+  --color-primary: #6f5cff;   /* roxo principal (match com dark) */
+  --color-secondary: #5148c5; /* roxo secundário */
+  --color-text: #1f2937;      /* texto padrão */
+  --color-muted: #667085;     /* rótulos/subtítulos */
+  --color-border: #e5e7eb;    /* bordas sutis */
+  --color-track: #e9edf7;     /* trilho da barra de progresso */
+
+  --color-danger: #ef4444;    /* erro */
+  --color-success: #16a34a;   /* sucesso */
+
+  --shadow-card: 0 8px 32px rgba(17,24,39,0.08);
+  --shadow-btn: 0 3px 12px rgba(111,92,255,0.18);
+
+  --ranking-gold: #ffd700;
+  --ranking-silver: #c0c0c0;
+  --ranking-bronze: #cd7f32;
+
+    /* Variáveis padrão para títulos/valores (tema claro) */
+    --color-panel-title: var(--color-primary);  /* rótulos dos painéis */
+    --color-pairs-text: var(--color-text);      /* texto dos pares */
+    --color-question-text: var(--color-text);   /* texto da pergunta */
+    --color-score-value: var(--color-text);  /* Pontuação (tema claro) */
+    --color-time-value: var(--color-text);   /* Tempo (tema claro) */
+    --color-remaining-value: var(--color-text); /* Perguntas faltam (tema claro) */
 }
 /* Tema escuro: sobrescreve variáveis de cor */
 @media (prefers-color-scheme: dark) {
-    :root {
-        --color-bg: #181825;
-        --color-card: #232339;
-        --color-primary: #a196ff;
-        --color-secondary: #332b5c;
-        --color-danger: #b91c1c;
-        --color-success: #16a34a;
-        --color-text: #eaeaea;
-        --color-card-alt: #232339;
-        --shadow-card: 0 8px 32px rgba(108,99,255,0.22);
-        --shadow-btn: 0 2px 8px rgba(108,99,255,0.12);
-    }
+  :root {
+    --color-bg: #0f1117;         /* fundo da página */
+    --color-card: #151a23;       /* superfícies/card principal */
+    --color-card-alt: #1b2230;   /* superfícies secundárias */
+    --color-primary: #9b87fd;    /* roxo de destaque no dark */
+    --color-secondary: #6e56cf;  /* roxo secundário */
+    --color-text: #e6eaf2;       /* texto principal */
+    --color-danger: #ff6b6b;     /* feedback erro no dark */
+    --color-success: #2bdc81;    /* feedback sucesso no dark */
+    --shadow-card: 0 10px 30px rgba(0,0,0,0.55);
+    --shadow-btn: 0 4px 16px rgba(0,0,0,0.40);
+
+    /* extras úteis no dark */
+    --color-border: #2a3244;     /* borda sutil */
+    --color-muted: #a1a8b3;      /* rótulos/subtítulos */
+        --color-track: #253050;      /* trilho da barra de progresso */
+
+        /* Ajustes das novas variáveis de texto/valores no dark */
+        /* Títulos dos painéis (Pontuação/Tempo/Faltam) */
+        --color-panel-title: #6f5cff;
+        /* Textos dos pares e da pergunta */
+        --color-pairs-text: #e5e7eb;
+        --color-question-text: #f1f5f9;
+                /* Valores: pontuação, tempo, faltam (tema escuro) */
+                --color-score-value: var(--color-text);
+                --color-time-value: var(--color-text);
+                --color-remaining-value: var(--color-text);
+  }
 }
 /* Estilo do corpo da página */
 body {
@@ -43,6 +89,10 @@ body {
     font-family: 'Poppins', Arial, sans-serif;
     transition: background 0.6s, color 0.6s;
 }
+.barra-progresso-container { background: var(--color-track); }
+.painel-card, .painel-extra, .painel-pergunta, .painel-usuario { border: 1px solid var(--color-border); }
+.label-nome-usuario, .label-dificuldade, .painel-titulo { color: var(--color-muted); }
+
 /* Estilo dos cards e painéis principais */
 .card, .painel-card, .painel-extra, .painel-pergunta, .painel-usuario {
     background: var(--color-card);
@@ -124,7 +174,7 @@ body {
     position: relative;
     width: 100%;
     height: 10px;
-    background: #e0e7ff;
+    background: var(--color-track);
     border-radius: 6px;
     margin-top: 6px;
     overflow: hidden;
@@ -225,6 +275,8 @@ button[role="button"], .btn[role="button"] {
     letter-spacing: 0.5px;
 }
 .radio-roxo input[type="radio"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
     appearance: none;
     width: 22px;
     height: 22px;
@@ -420,7 +472,7 @@ body {
     color: #222;
 }
 .header {
-    width: 100vw;
+    width: 100%;
     box-shadow: 0 2px 12px rgba(108,99,255,0.08);
     padding: 0.5rem 0;
     display: flex;
@@ -485,10 +537,6 @@ body {
 }
 .card-menu, .card-quiz, .card-ranking {
     animation: fadeIn 0.7s;
-}
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.97) translateY(20px); }
-    to { opacity: 1; transform: scale(1) translateY(0); }
 }
 .titulo {
     font-size: 2.3rem;
@@ -586,7 +634,7 @@ body {
 .barra-progresso-container {
     width: 100%;
     height: 8px;
-    background: #e0e7ff;
+    background: var(--color-track);
     border-radius: 6px;
     margin-top: 6px;
     overflow: hidden;
@@ -629,6 +677,17 @@ body {
         min-width: 90vw;
         max-width: 98vw;
         padding: 18px 6vw;
+    }
+    /* Empilha os dois painéis do menu verticalmente e ocupa a largura completa */
+    .painel-pergunta-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+    }
+    .painel-extra {
+        width: 100%;
+        max-width: 98vw;
+        min-width: 0;
     }
     .painel-quiz-grid {
         grid-template-columns: 1fr;
@@ -755,4 +814,110 @@ body {
 #lista-ranking li {
     background: var(--color-card-alt) !important;
     color: var(--color-primary) !important;
+}
+
+/* Aplicação das cores nos spans de valor */
+#pontuacao.painel-valor { color: var(--color-score-value) !important; }
+#tempo.painel-valor { color: var(--color-time-value) !important; }
+#faltam.painel-valor { color: var(--color-remaining-value) !important; }
+
+/* Regras aplicadas (no final, com !important para prevalecer) */
+.painel-titulo {
+    color: var(--color-panel-title) !important;
+}
+.pergunta-pares {
+    color: var(--color-pairs-text) !important;
+}
+.painel-pergunta-texto {
+    color: var(--color-question-text) !important;
+}
+
+/* Evita overflow horizontal: header já usa width:100% globalmente */
+
+/* (consolidado no bloco dark acima) */
+/* ====== Configurações (engrenagem) e toggle de tema ====== */
+.settings-btn {
+    position: absolute;
+    right: 12px;
+    top: 10px;
+    font-size: 22px;
+    color: var(--color-primary);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+.settings-btn:hover { filter: brightness(1.1); }
+
+.settings-panel {
+    position: absolute;
+    right: 12px;
+    top: 48px;
+    background: var(--color-card);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-card);
+    border-radius: 10px;
+    padding: 12px 14px;
+    min-width: 220px;
+    display: none;
+    z-index: 20;
+}
+.settings-panel.open { display: block; }
+.settings-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.settings-label { font-size: 1rem; color: var(--color-text); }
+
+/* Switch control */
+.switch { position: relative; display: inline-block; width: 48px; height: 26px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .2s; border-radius: 999px; }
+.slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; transition: .2s; border-radius: 50%; }
+.switch input:checked + .slider { background-color: var(--color-primary); }
+.switch input:checked + .slider:before { transform: translateX(22px); }
+
+/* ====== Forçar tema via atributo data-theme no html/body ====== */
+[data-theme="light"] {
+    --color-bg: #f7f8fc;
+    --color-card: #ffffff;
+    --color-card-alt: #f2f4ff;
+    --color-primary: #6f5cff;
+    --color-secondary: #5148c5;
+    --color-text: #1f2937;
+    --color-muted: #667085;
+    --color-border: #e5e7eb;
+    --color-track: #e9edf7;
+    --color-danger: #ef4444;
+    --color-success: #16a34a;
+    --shadow-card: 0 8px 32px rgba(17,24,39,0.08);
+    --shadow-btn: 0 3px 12px rgba(111,92,255,0.18);
+    --ranking-gold: #ffd700;
+    --ranking-silver: #c0c0c0;
+    --ranking-bronze: #cd7f32;
+    --color-panel-title: var(--color-primary);
+    --color-pairs-text: var(--color-text);
+    --color-question-text: var(--color-text);
+    --color-score-value: var(--color-text);
+    --color-time-value: var(--color-text);
+    --color-remaining-value: var(--color-text);
+}
+
+[data-theme="dark"] {
+    --color-bg: #0f1117;
+    --color-card: #151a23;
+    --color-card-alt: #1b2230;
+    --color-primary: #9b87fd;
+    --color-secondary: #6e56cf;
+    --color-text: #e6eaf2;
+    --color-danger: #ff6b6b;
+    --color-success: #2bdc81;
+    --shadow-card: 0 10px 30px rgba(0,0,0,0.55);
+    --shadow-btn: 0 4px 16px rgba(0,0,0,0.40);
+    --color-border: #2a3244;
+    --color-muted: #a1a8b3;
+    --color-track: #253050;
+    --color-panel-title: #6f5cff;
+    --color-pairs-text: #e5e7eb;
+    --color-question-text: #f1f5f9;
+    --color-score-value: var(--color-text);
+    --color-time-value: var(--color-text);
+    --color-remaining-value: var(--color-text);
 }

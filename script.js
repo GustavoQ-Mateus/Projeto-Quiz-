@@ -75,6 +75,40 @@ function atualizarNomeUsuarioPainel() {
 // Inicialização
 window.addEventListener('DOMContentLoaded', function () {
     atualizarNomeUsuarioPainel();
+    try {
+        var savedTheme = localStorage.getItem('quizTheme');
+        if (savedTheme === 'dark' || savedTheme === 'light') {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        }
+    } catch (_) {}
+    var btnConfig = document.getElementById('btn-config');
+    var settingsPanel = document.getElementById('settings-panel');
+    var toggleDark = document.getElementById('toggle-dark');
+    if (btnConfig && settingsPanel) {
+        btnConfig.addEventListener('click', function () {
+            var isOpen = settingsPanel.classList.contains('open');
+            settingsPanel.classList.toggle('open', !isOpen);
+            settingsPanel.setAttribute('aria-hidden', String(isOpen));
+        });
+        document.addEventListener('click', function (ev) {
+            if (!settingsPanel.classList.contains('open')) return;
+            var target = ev.target;
+            var inside = settingsPanel.contains(target) || (btnConfig && btnConfig.contains(target));
+            if (!inside) {
+                settingsPanel.classList.remove('open');
+                settingsPanel.setAttribute('aria-hidden', 'true');
+            }
+        });
+    }
+    if (toggleDark) {
+        var current = document.documentElement.getAttribute('data-theme');
+        toggleDark.checked = current === 'dark';
+        toggleDark.addEventListener('change', function () {
+            var theme = toggleDark.checked ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+            try { localStorage.setItem('quizTheme', theme); } catch (_) {}
+        });
+    }
     elementos.inputNome.addEventListener('input', function () {
         elementos.msgNome.style.opacity = '0';
     });
