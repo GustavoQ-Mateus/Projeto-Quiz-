@@ -38,7 +38,7 @@
         <div class="hero-container">
             <div class="hero-copy">
                 <p class="hero-eyebrow">Desafie seu raciocínio</p>
-                <p class="hero-highlight" aria-live="polite"><span id="hero-highlight-label">Lógica</span> em destaque</p>
+                
                 <h1 id="hero-title">Aprenda lógica jogando: rápido, divertido e direto ao ponto</h1>
                 <p class="hero-subhead">Em ~2 minutos você responde 10 perguntas, sem cadastro. Evolua sua velocidade de raciocínio e dispute o topo do ranking.</p>
                 <div class="hero-ctas">
@@ -47,7 +47,6 @@
                 </div>
                 <div class="hero-social-proof" aria-live="polite">
                     <span class="icon ion-ios-people"></span>
-                    <span id="hero-social-count">+12.000 participantes</span>
                 </div>
             </div>
             <div class="hero-preview" aria-hidden="false">
@@ -76,8 +75,8 @@
                         <option value="Hard">Hard</option>
                     </select>
                     <label for="nome" class="label-nomeescolha">Nome do Jogador:</label>
-                    <div class="webflow-style-input" style="margin-bottom: 18px;">
-                        <input type="text" id="nome" placeholder="Coloque seu Nome" aria-label="Seu nome">
+                    <div class="input-hero">
+                        <input type="text" id="nome" placeholder="Coloque seu Nome" aria-label="Seu nome" autocomplete="name" inputmode="text">
                         <button type="submit" id="btn-email" aria-label="Confirmar nome" role="button" tabindex="0">
                             <i class="icon ion-android-arrow-forward"></i>
                         </button>
@@ -210,6 +209,20 @@
     <script src="conteudoRelacao.js"></script>
     <script src="conteudoLogica.js"></script>
     <script src="conteudoConjuntos.js"></script>
+        <!-- Shim: expõe os arrays de perguntas no window para acesso consistente pelo módulo hero.js -->
+        <script>
+            (function(){
+                try {
+                    if (typeof perguntasRelacao !== 'undefined' && !Array.isArray(window.perguntasRelacao)) window.perguntasRelacao = perguntasRelacao;
+                } catch (_) {}
+                try {
+                    if (typeof perguntasLogica !== 'undefined' && !Array.isArray(window.perguntasLogica)) window.perguntasLogica = perguntasLogica;
+                } catch (_) {}
+                try {
+                    if (typeof perguntasConjuntos !== 'undefined' && !Array.isArray(window.perguntasConjuntos)) window.perguntasConjuntos = perguntasConjuntos;
+                } catch (_) {}
+            })();
+        </script>
     <script type="module" src="dom.js"></script>
     <script type="module" src="script.js"></script>
     <script type="module" src="scripts/hero.js"></script>
