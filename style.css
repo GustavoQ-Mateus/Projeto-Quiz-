@@ -278,6 +278,13 @@ button[role="button"], .btn[role="button"] {
     padding: clamp(24px, 4vw, 40px);
     gap: clamp(14px, 2vw, 20px);
 }
+#menu-quiz .card.card-quiz,
+#menu-ranking .card.card-ranking {
+    width: min(100%, 720px);
+    max-width: 720px;
+    padding: clamp(24px, 4vw, 40px);
+    gap: clamp(14px, 2vw, 20px);
+}
 #menu-dificuldade .label-nome-usuario,
 #menu-dificuldade .label-dificuldade {
     color: var(--color-muted);
@@ -285,22 +292,40 @@ button[role="button"], .btn[role="button"] {
     font-weight: 600;
     letter-spacing: .2px;
 }
-#menu-dificuldade .webflow-style-input {
-    border-radius: 12px;
-    padding: 0.6rem 1rem 0.8rem;
+/* limpeza: removido .webflow-style-input do menu de dificuldade */
+#menu-dificuldade .input-hero {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     background: var(--color-card-alt);
-    box-shadow: none;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 8px 10px 8px 12px;
+    margin-bottom: 12px;
 }
-#menu-dificuldade .webflow-style-input:after {
-    height: 2px;
-    background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
-}
-#menu-dificuldade .webflow-style-input input {
+#menu-dificuldade .input-hero input {
+    flex: 1 1 auto;
     font-size: 1.1rem;
     color: var(--color-text);
+    line-height: 1.35; /* ritmo vertical consistente */
 }
-#menu-dificuldade .webflow-style-input button:hover {
-    filter: drop-shadow(0 2px 8px var(--color-primary));
+#menu-dificuldade .input-hero input::placeholder { color: var(--color-muted); }
+#menu-dificuldade .input-hero button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-pill);
+    background: linear-gradient(50deg, var(--color-primary), var(--color-secondary));
+    color: #fff;
+    border: 2px solid var(--color-primary);
+    box-shadow: var(--shadow-btn);
+}
+#menu-dificuldade .input-hero button .icon { font-size: 20px; }
+#menu-dificuldade .input-hero button:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
 }
 #menu-dificuldade .select-dificuldade {
     border-radius: 12px;
@@ -309,6 +334,7 @@ button[role="button"], .btn[role="button"] {
     color: var(--color-text);
     font-size: 1.1rem;
     padding: 14px;
+    margin-bottom: 10px; /* afinado */
 }
 #menu-dificuldade .boxed-check-label {
     border-radius: 12px;
@@ -346,6 +372,11 @@ button[role="button"], .btn[role="button"] {
     max-width: 98vw;
     padding: 20px 16px;
   }
+    #menu-quiz .card.card-quiz,
+    #menu-ranking .card.card-ranking {
+        max-width: 98vw;
+        padding: 20px 16px;
+    }
 }
 
 /* === Hero: ajuste dos painéis da coluna direita (#menu-dificuldade) === */
@@ -353,6 +384,7 @@ button[role="button"], .btn[role="button"] {
     gap: 12px;
     align-items: stretch;
 }
+#menu-dificuldade .painel-pergunta-row { gap: 16px; } /* afinado o espaçamento horizontal */
 #menu-dificuldade .label-escolha-quiz {
     color: var(--color-text);
     font-size: 1.25rem;
@@ -518,67 +550,12 @@ p, h1, h2, h3, h4, h5, h6 { margin-top: 0; }
 a { text-decoration: none; }
 input { border-style: none; background: transparent; outline: none; }
 button { padding: 0; background: none; border: none; outline: none; }
-:root {
-    --input-background: rgba(246, 247, 251, 0.8);
-    --input-text-inactive: #7881A1;
-    --input-text-active: #000000;
-}
 .label-nomeescolha {
     font-size: 1.5rem;
     color: var(--color-muted);
     margin-bottom: -15px;
 }
-.webflow-style-input {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-    border-radius: 2px;
-    padding: 0.4rem 2rem 0.6rem;
-    background: var(--input-background);
-}
-.webflow-style-input:after {
-    content: "";
-    position: absolute;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    z-index: 999;
-    height: 3px;
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
-    background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
-    background-size: auto;
-    animation: none;
-}
-.webflow-style-input input {
-    flex-grow: 1;
-    color: var(--input-text-active);
-    font-size: 1.4rem;
-    line-height: 2.4rem;
-    vertical-align: middle;
-}
-.webflow-style-input input::-webkit-input-placeholder {
-    color: var(--input-text-inactive);
-}
-.webflow-style-input button {
-    color: var(--input-text-inactive);
-    font-size: 2.4rem;
-    line-height: 2.4rem;
-    vertical-align: middle;
-    transition: color 0.25s, transform 0.2s;
-    cursor: pointer;
-}
-.webflow-style-input button:hover {
-    color: var(--input-text-active);
-    transform: scale(1.15) rotate(8deg);
-    filter: drop-shadow(0 2px 8px var(--color-primary));
-}
-.webflow-style-input button:hover {
-    color: var(--input-text-active);
-}
+/* (removido: .webflow-style-input legado não é mais usado) */
 @keyframes gradient {
     0% { background-position: 0 0; }
     100% { background-position: 100% 0; }
