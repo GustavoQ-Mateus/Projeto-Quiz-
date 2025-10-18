@@ -153,8 +153,10 @@ function setRanking(ranking, conteudo, dificuldade) {
 function mostrarMenu(menu) {
     const menus = [elementos.menuDificuldade, elementos.menuQuiz, elementos.menuRanking];
     for (let i = 0; i < menus.length; i++) {
-        menus[i].classList.toggle('active', menus[i] === menu);
+        if (!menus[i]) continue;
+        menus[i].classList.remove('active', 'reflow');
     }
+    if (menu) menu.classList.add('reflow');
 }
 
 function mostrarMensagemNome(msg, cor, tempo) {
