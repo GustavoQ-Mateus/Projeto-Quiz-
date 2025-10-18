@@ -50,6 +50,9 @@
     --color-score-value: var(--color-text);  /* Pontuação (tema claro) */
     --color-time-value: var(--color-text);   /* Tempo (tema claro) */
     --color-remaining-value: var(--color-text); /* Perguntas faltam (tema claro) */
+
+    /* Raio padrão para botões em estilo pill */
+    --radius-pill: 999px;
 }
 /* Tema escuro: sobrescreve variáveis de cor */
 @media (prefers-color-scheme: dark) {
@@ -90,7 +93,7 @@ body {
     transition: background 0.6s, color 0.6s;
 }
 .barra-progresso-container { background: var(--color-track); }
-.painel-card, .painel-extra, .painel-pergunta, .painel-usuario { border: 1px solid var(--color-border); }
+.card, .painel-card, .painel-extra, .painel-pergunta, .painel-usuario { border: 1px solid var(--color-border); }
 .label-nome-usuario, .label-dificuldade, .painel-titulo { color: var(--color-muted); }
 
 /* Estilo dos cards e painéis principais */
@@ -101,8 +104,8 @@ body {
 }
 /* Efeito hover nos cards */
 .card:hover, .painel-card:hover, .painel-extra.card-menu:hover, .card.card-ranking:hover {
-    transform: scale(1.03);
-    box-shadow: 0 12px 36px rgba(108,99,255,0.18);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-card);
 }
 /* Menu principal: transição de visibilidade */
 .menu {
@@ -110,7 +113,6 @@ body {
     pointer-events: none;
     transition: opacity 0.7s;
 }
-/* Menu ativo: visível e interativo */
 .menu.active {
     opacity: 1;
     pointer-events: auto;
@@ -126,7 +128,7 @@ body {
     to { opacity: 1; transform: scale(1) translateY(0); }
 }
 .btn, .btn-roxo, .btn-voltar {
-    border-radius: 12px;
+    border-radius: var(--radius-pill);
     padding: 16px 0;
     font-size: 1.15rem;
     font-weight: 600;
@@ -181,7 +183,7 @@ body {
 }
 .barra-progresso {
     height: 100%;
-    background: linear-gradient(90deg, var(--color-primary) 60%, #a5a3ff 100%);
+    background: linear-gradient(90deg, var(--color-primary) 60%, var(--color-secondary) 100%);
     border-radius: 6px;
     transition: width 0.5s linear, background 0.4s;
     width: 100%;
@@ -220,15 +222,15 @@ body {
 }
 #lista-ranking li:nth-child(1) {
     background: var(--ranking-gold);
-    color: #222;
+    color: var(--color-text);
 }
 #lista-ranking li:nth-child(2) {
     background: var(--ranking-silver);
-    color: #222;
+    color: var(--color-text);
 }
 #lista-ranking li:nth-child(3) {
     background: var(--ranking-bronze);
-    color: #222;
+    color: var(--color-text);
 }
 #lista-ranking .ranking-medal {
     font-size: 1.5em;
@@ -257,9 +259,127 @@ button[role="button"], .btn[role="button"] {
 /* ========== FIM DAS MELHORIAS ========== */
 
 /* === SEU CSS ORIGINAL ABAIXO (NÃO REMOVA NADA!) === */
+.menu.reflow {
+    position: static;
+    display: block;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    width: 100%;
+    height: auto;
+    z-index: 1;
+}
+
+/* Padronização específica do #menu-dificuldade no estilo Hero */
+#menu-dificuldade { scroll-margin-top: 88px; }
+#menu-dificuldade .card {
+    width: min(100%, 720px);
+    max-width: 720px;
+    padding: clamp(24px, 4vw, 40px);
+    gap: clamp(14px, 2vw, 20px);
+}
+#menu-dificuldade .label-nome-usuario,
+#menu-dificuldade .label-dificuldade {
+    color: var(--color-muted);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: .2px;
+}
+#menu-dificuldade .webflow-style-input {
+    border-radius: 12px;
+    padding: 0.6rem 1rem 0.8rem;
+    background: var(--color-card-alt);
+    box-shadow: none;
+}
+#menu-dificuldade .webflow-style-input:after {
+    height: 2px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+}
+#menu-dificuldade .webflow-style-input input {
+    font-size: 1.1rem;
+    color: var(--color-text);
+}
+#menu-dificuldade .webflow-style-input button:hover {
+    filter: drop-shadow(0 2px 8px var(--color-primary));
+}
+#menu-dificuldade .select-dificuldade {
+    border-radius: 12px;
+    border: 1px solid var(--color-primary);
+    background: var(--color-card-alt);
+    color: var(--color-text);
+    font-size: 1.1rem;
+    padding: 14px;
+}
+#menu-dificuldade .boxed-check-label {
+    border-radius: 12px;
+    font-size: 1.1rem;
+    background-color: var(--color-card);
+    border: 1px solid var(--color-border);
+    color: var(--color-primary);
+}
+#menu-dificuldade .boxed-check-input:not(:disabled) + .boxed-check-label:hover {
+    border-color: var(--color-primary);
+}
+#menu-dificuldade .boxed-check-input:checked + .boxed-check-label {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #fff;
+}
+#menu-dificuldade .btn,
+#menu-dificuldade .btn-roxo,
+#menu-dificuldade .btn-voltar {
+    min-height: 48px;
+}
+#menu-dificuldade .btn-roxo {
+    background: linear-gradient(50deg, var(--color-primary), var(--color-secondary));
+    border: 2px solid var(--color-primary);
+    color: #fff;
+}
+#menu-dificuldade .btn:focus-visible,
+#menu-dificuldade .btn-roxo:focus-visible,
+#menu-dificuldade .btn-voltar:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+@media (max-width: 700px) {
+  #menu-dificuldade .card {
+    max-width: 98vw;
+    padding: 20px 16px;
+  }
+}
+
+/* === Hero: ajuste dos painéis da coluna direita (#menu-dificuldade) === */
+#menu-dificuldade .painel-extra.card-menu {
+    gap: 12px;
+    align-items: stretch;
+}
+#menu-dificuldade .label-escolha-quiz {
+    color: var(--color-text);
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 6px;
+}
+#menu-dificuldade .painel-card.painel-conteudo,
+#menu-dificuldade .painel-card.painel-usuario {
+    padding: 16px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    box-shadow: var(--shadow-card);
+    background: var(--color-card);
+}
+#menu-dificuldade .painel-card.painel-usuario {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+}
+#menu-dificuldade .boxed-check-group.boxed-check-lg { margin: 0; }
+#menu-dificuldade .boxed-check-group.boxed-check-lg .boxed-check { margin-bottom: 8px; }
+#menu-dificuldade .boxed-check-group.boxed-check-lg .boxed-check:last-child { margin-bottom: 0; }
+/* === fim ajustes coluna direita === */
 .radio-roxo {
     font-size: 1.25rem;
-    color: #724CF9;
+    color: var(--color-primary);
     font-weight: 600;
     margin-bottom: 8px;
     display: flex;
@@ -267,7 +387,7 @@ button[role="button"], .btn[role="button"] {
     cursor: pointer;
 }
 .label-nome-usuario {
-    color: #724CF9;
+    color: var(--color-primary);
     font-size: 1.4rem;
     font-weight: 600;
     margin-bottom: 0px;
@@ -280,7 +400,7 @@ button[role="button"], .btn[role="button"] {
     appearance: none;
     width: 22px;
     height: 22px;
-    border: 2px solid #724CF9;
+    border: 2px solid var(--color-primary);
     border-radius: 50%;
     margin-right: 10px;
     background: #fff;
@@ -300,7 +420,7 @@ button[role="button"], .btn[role="button"] {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: #724CF9;
+    background: var(--color-primary);
     position: absolute;
     top: 4px;
     left: 4px;
@@ -314,16 +434,16 @@ button[role="button"], .btn[role="button"] {
     position: relative;
     overflow: hidden;
     z-index: 1;
-    background: linear-gradient(50deg,  #724CF9, #564592, #724CF9, #564592, #724CF9, #564592);
-    background-size: 500% auto;
-    animation: gradient 6s linear infinite;
+    background: linear-gradient(50deg, var(--color-primary), var(--color-secondary), var(--color-primary));
+    background-size: auto;
+    animation: none;
 }
 .header {
     position: relative;
     z-index: 10;
     overflow: visible;
-    background: #ffffff;
-    background-size: 500% auto;
+    background: var(--color-card);
+    background-size: auto;
 }
 .header:after {
     content: "";
@@ -331,24 +451,24 @@ button[role="button"], .btn[role="button"] {
     left: 0;
     right: 0;
     bottom: 0;
-    height: 5px;
+    height: 3px;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
-    background: linear-gradient(to right, #724CF9, #564592, #724CF9, #564592, #724CF9, #564592);
-    background-size: 500% auto;
-    animation: gradient 6s linear infinite;
+    background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+    background-size: auto;
+    animation: none;
     z-index: 2;
 }
 .checkbox-roxo {
     font-size: 1.25rem;
-    color: #724CF9;
+    color: var(--color-primary);
     font-weight: 600;
     margin-bottom: 6px;
     display: flex;
     align-items: center;
 }
 .checkbox-roxo input[type="checkbox"] {
-    accent-color: #724CF9;
+    accent-color: var(--color-primary);
     width: 18px;
     height: 18px;
     margin-right: 8px;
@@ -363,10 +483,10 @@ button[role="button"], .btn[role="button"] {
     transition: opacity 0.3s, color 0.3s;
 }
 .msg-nome-red {
-    color: #ef4444 !important;
+    color: var(--color-danger) !important;
 }
 .msg-nome-green {
-    color: #22c55e !important;
+    color: var(--color-success) !important;
 }
 .painel-pergunta-row {
     display: flex;
@@ -383,7 +503,7 @@ button[role="button"], .btn[role="button"] {
     min-width: 220px;
     max-width: 320px;
     font-size: 1.15rem;
-    color: #222;
+    color: var(--color-text);
     font-weight: 500;
     display: flex;
     flex-direction: column;
@@ -405,7 +525,7 @@ button { padding: 0; background: none; border: none; outline: none; }
 }
 .label-nomeescolha {
     font-size: 1.5rem;
-    color: #444;
+    color: var(--color-muted);
     margin-bottom: -15px;
 }
 .webflow-style-input {
@@ -429,10 +549,9 @@ button { padding: 0; background: none; border: none; outline: none; }
     height: 3px;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
-    background-position: 0% 0%;
-    background: linear-gradient(to right, #724CF9, #564592, #724CF9, #564592, #724CF9, #564592);
-    background-size: 500% auto;
-    animation: gradient 2s linear infinite;
+    background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+    background-size: auto;
+    animation: none;
 }
 .webflow-style-input input {
     flex-grow: 1;
@@ -455,7 +574,7 @@ button { padding: 0; background: none; border: none; outline: none; }
 .webflow-style-input button:hover {
     color: var(--input-text-active);
     transform: scale(1.15) rotate(8deg);
-    filter: drop-shadow(0 2px 8px #724CF9);
+    filter: drop-shadow(0 2px 8px var(--color-primary));
 }
 .webflow-style-input button:hover {
     color: var(--input-text-active);
@@ -467,9 +586,9 @@ button { padding: 0; background: none; border: none; outline: none; }
 body {
     margin: 0;
     font-family: 'Poppins', Arial, sans-serif;
-    background: #f6f7fb;
+    background: var(--color-bg);
     min-height: 100vh;
-    color: #222;
+    color: var(--color-text);
 }
 .header {
     width: 100%;
@@ -493,7 +612,7 @@ body {
 .logo-titulo {
     font-size: 1.7rem;
     font-weight: 700;
-    color: #724CF9;
+    color: var(--color-primary);
     letter-spacing: 1px;
 }
 .main-container {
@@ -522,9 +641,9 @@ body {
     z-index: 2;
 }
 .card {
-    background: #fff;
-    border-radius: 18px;
-    box-shadow: 0 8px 32px rgba(108,99,255,0.10);
+    background: var(--color-card);
+    border-radius: 16px;
+    box-shadow: var(--shadow-card);
     padding: 36px 32px;
     min-width: 320px;
     max-width: 420px;
@@ -541,31 +660,31 @@ body {
 .titulo {
     font-size: 2.3rem;
     font-weight: 700;
-    color: #724CF9;
+    color: var(--color-primary);
     margin-bottom: 8px;
     text-align: center;
     letter-spacing: 1px;
 }
 .label-dificuldade {
     font-size: 1.5rem;
-    color: #444;
+    color: var(--color-muted);
     margin-bottom: -15px;
 }
 .select-dificuldade {
     padding: 15px;
     border-radius: 12px;
-    border: 1px solid #724CF9;
+    border: 1px solid var(--color-primary);
     margin-bottom: 18px;
     font-size: 1.4rem;
-    background: #f3f4f6;
-    color: #222;
+    background: var(--color-card-alt);
+    color: var(--color-text);
     width: 100%;
     box-sizing: border-box;
 }
 .btn {
     color: #fff;
     border: none;
-    border-radius: 12px;
+    border-radius: var(--radius-pill);
     padding: 16px 0;
     font-size: 1.15rem;
     font-weight: 600;
@@ -577,12 +696,12 @@ body {
     outline: none;
 }
 .btn-roxo {
-    border: 2.5px solid #724CF9;
+    border: 2.5px solid var(--color-primary);
     box-shadow: 0 0 0 2px rgba(108,99,255,0.10);
 }
 .label-escolha-quiz {
     font-size: 2.3rem;
-    color: #724CF9;
+    color: var(--color-primary);
     font-weight: 700;
     margin-bottom: 8px;
     text-align: center;
@@ -591,7 +710,7 @@ body {
 .btn-voltar {
     background: #ef4444;
     color: #fff;
-    border-radius: 12px;
+    border-radius: var(--radius-pill);
     margin-top: 8px;
     font-weight: 600;
     box-shadow: 0 2px 8px rgba(239,68,68,0.08);
@@ -609,9 +728,9 @@ body {
     margin-bottom: 18px;
 }
 .painel-card {
-    background: #f3f4f6;
-    border-radius: 14px;
-    box-shadow: 0 2px 8px rgba(108,99,255,0.07);
+    background: var(--color-card);
+    border-radius: 16px;
+    box-shadow: var(--shadow-card);
     padding: 18px 10px 14px 10px;
     display: flex;
     flex-direction: column;
@@ -622,14 +741,14 @@ body {
 }
 .painel-titulo {
     font-size: 1rem;
-    color: #724CF9;
+    color: var(--color-panel-title);
     font-weight: 600;
     margin-bottom: 2px;
 }
 .painel-valor {
     font-size: 1.3rem;
     font-weight: 700;
-    color: #222;
+    color: var(--color-text);
 }
 .barra-progresso-container {
     width: 100%;
@@ -641,7 +760,7 @@ body {
 }
 .barra-progresso {
     height: 100%;
-    background: linear-gradient(90deg, #724CF9 60%, #a5a3ff 100%);
+    background: linear-gradient(90deg, var(--color-primary) 60%, var(--color-secondary) 100%);
     border-radius: 6px;
     transition: width 0.5s linear;
     width: 100%;
@@ -659,8 +778,8 @@ body {
     width: 100%;
 }
 #menu-ranking li {
-    background: #f3f4f6;
-    color: #724CF9;
+    background: var(--color-card-alt);
+    color: var(--color-primary);
     border-radius: 10px;
     padding: 12px 16px;
     margin-bottom: 8px;
@@ -703,9 +822,9 @@ body {
 }
 .painel-pergunta {
     width: 100%;
-    background: #f3f4f6;
-    border-radius: 14px;
-    box-shadow: 0 2px 8px rgba(108,99,255,0.07);
+    background: var(--color-card-alt);
+    border-radius: 16px;
+    box-shadow: var(--shadow-card);
     padding: 18px 10px 14px 10px;
     margin-bottom: 18px;
     display: flex;
@@ -715,7 +834,7 @@ body {
 }
 .pergunta-pares {
     font-size: 1.20rem;
-    color: #222;
+    color: var(--color-text);
     font-weight: 500;
 }
 .boxed-check-group,
@@ -737,7 +856,16 @@ body {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    display: none;
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    overflow: hidden;
 }
 .boxed-check-group .boxed-check .boxed-check-input:disabled + .boxed-check-label {
     border: 1px dashed #bec2c6;
@@ -746,7 +874,7 @@ body {
 }
 .boxed-check-group .boxed-check .boxed-check-input:checked + .boxed-check-label,
 .boxed-check-group .boxed-check .boxed-check-input:not(:disabled) + .boxed-check-label:hover{
-    border-color: #724CF9;
+    border-color: var(--color-primary);
 }
 .boxed-check-group .boxed-check .boxed-check-input:checked + .boxed-check-label::before {
     content: ' ';
@@ -763,15 +891,15 @@ body {
 }
 .boxed-check-group .boxed-check .boxed-check-label {
     display: block;
-    background-color: #ffffff;
-    border: 1px solid #ced4da;
+    background-color: var(--color-card);
+    border: 1px solid var(--color-border);
     padding: .5rem 3.2rem;
     margin: 0;
     border-radius: .25rem;
     cursor: pointer;
     position: relative;
     font-size: 1.55rem;
-    color: #724CF9;
+    color: var(--color-primary);
     font-weight: 600;
     transition: border-color 0.2s, background 0.2s, color 0.2s;
 }
@@ -782,16 +910,16 @@ body {
     padding: .8rem 1.3rem;
 }
 .boxed-check-group .boxed-check .boxed-check-input:checked + .boxed-check-label {
-    background-color: #724CF9;
+    background-color: var(--color-primary);
     color: #fff;
-    border-color: #724CF9;
+    border-color: var(--color-primary);
 }
 .boxed-check-group .boxed-check .boxed-check-input:checked + .boxed-check-label *{
     color: #fff;
 }
 .painel-pergunta-texto {
     font-size: 1.20rem;
-    color: #222;
+    color: var(--color-text);
     font-weight: 500;
 }
 
@@ -809,7 +937,7 @@ body {
     box-shadow: var(--shadow-card) !important;
 }
 .barra-progresso {
-    background: linear-gradient(90deg, var(--color-primary) 60%, #a5a3ff 100%) !important;
+    background: linear-gradient(90deg, var(--color-primary) 60%, var(--color-secondary) 100%) !important;
 }
 #lista-ranking li {
     background: var(--color-card-alt) !important;
