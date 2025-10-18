@@ -1,6 +1,6 @@
 # Projeto Quiz Lógico
 
-Um quiz de lógica/relacionamentos e conjuntos feito em HTML, CSS e JavaScript puro, com ranking persistente por conteúdo e dificuldade, progressão com tempo, e suporte a tema claro/escuro com alternância manual via painel de configurações.
+Um quiz de lógica/relacionamentos e conjuntos feito em HTML, CSS e JavaScript puro, com ranking persistente por conteúdo e dificuldade, progressão com tempo, e suporte a tema claro/escuro. Agora com landing em estilo Hero Playful/Flat 2.0, tokens de design e melhorias de acessibilidade e desempenho.
 
 ## Recursos principais
 
@@ -15,22 +15,29 @@ Um quiz de lógica/relacionamentos e conjuntos feito em HTML, CSS e JavaScript p
 - Ranking com persistência local (localStorage) separado por conteúdo e dificuldade
 	- Medalhas para os 3 primeiros (🥇🥈🥉)
 	- Botão para limpar o ranking atual
-- Tema claro/escuro com variáveis CSS
-	- Alternância manual via botão de engrenagem no cabeçalho (painel “Configurações”)
-	- Preferência fica salva e é aplicada no próximo acesso
-- Responsivo e com pequenos aprimoramentos de acessibilidade (labels, foco visível, sem hover agressivo em mobile)
+- Tema claro/escuro com variáveis CSS (tokens), com alternância manual via painel de configurações (preferência salva)
+- Responsivo e com melhorias de a11y (skip link, foco visível, motion respeita Prefer-Reduced-Motion)
+
+### Novidades na landing (Hero)
+- Hero em estilo Playful/Flat 2.0 com tokens de design.
+- CTA “Começar agora” abre o menu de dificuldade no fluxo (reflow) e foca no campo de nome.
+- Prévia do quiz mostra perguntas reais de Relação, Lógica e Conjuntos, alternando a cada 10s; pausa quando a aba fica oculta.
+- Mini FAQ acessível.
 
 ## Estrutura do projeto
 
 ```
-conteudoConjuntos.js   # Banco de questões de Conjuntos
-conteudoLogica.js      # Banco de questões de Lógica
-conteudoRelacao.js     # Banco de questões de Relação
-dom.js                 # Mapeamento central de elementos do DOM
-index.html             # Estrutura da aplicação e marcação do painel de configurações
-script.js              # Lógica do quiz, timers, ranking, tema manual
-style.css              # Estilos, variáveis de tema, responsividade, painel de configurações
-readme.md              # Este arquivo
+conteudoConjuntos.js         # Banco de questões de Conjuntos
+conteudoLogica.js            # Banco de questões de Lógica
+conteudoRelacao.js           # Banco de questões de Relação
+dom.js                       # Mapeamento central de elementos do DOM
+index.html                   # Estrutura da aplicação e hero
+script.js                    # Lógica do quiz, timers, ranking, tema manual
+style.css                    # Estilos do app e padronizações legado
+styles/tokens.css            # Tokens de design (cores, espaçamentos, raios, sombras)
+styles/hero.css              # Estilos da landing Hero e padronização global
+scripts/hero.js              # Comportamento do Hero (CTAs, rolagem, prévia de perguntas)
+readme.md                    # Este arquivo
 ```
 
 ## Como executar
@@ -57,6 +64,7 @@ Não há dependências externas obrigatórias além do próprio navegador. Ícon
 Detalhes técnicos:
 - O tema é aplicado via atributo `data-theme` no elemento raiz (`<html>`): `light` ou `dark`.
 - Os estilos usam variáveis CSS em `:root` e blocos `[data-theme="light"]`/`[data-theme="dark"]` para sobrescritas previsíveis.
+- Tokens centrais ficam em `styles/tokens.css`; evite cores fixas no restante do CSS.
 
 ## Persistência e ranking
 
@@ -72,9 +80,10 @@ Detalhes técnicos:
 
 ## Personalização rápida
 
-- Cores: ajuste as variáveis em `style.css` para cada tema (`[data-theme="light"]` e `[data-theme="dark"]`).
-- Durações: `CONFIG` em `script.js` controla tempos de mensagens, feedback e cálculo de bônus.
+- Cores/raios/sombras: ajuste em `styles/tokens.css` (e se necessário nos blocos `[data-theme="light"/"dark"]` em `style.css`).
+- Durações do quiz: `CONFIG` em `script.js` controla tempos de mensagens, feedback e cálculo de bônus.
 - Quantidade de questões: altere os slices (`.slice(0, 6)`) em `script.js` para aumentar/diminuir por rodada.
+- Prévia do Hero: o intervalo de troca está em `scripts/hero.js` na constante `PREVIEW_INTERVAL_MS` (padrão 10000ms). 
 ## Interface
 ---
 ### Tema Claro
