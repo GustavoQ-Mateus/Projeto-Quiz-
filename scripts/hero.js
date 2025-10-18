@@ -15,6 +15,9 @@ function smoothScrollTo(el) {
 }
 
 function initHero() {
+  if (window.__heroInitDone) return; // evita inicialização dupla
+  window.__heroInitDone = true;
+  const PREVIEW_INTERVAL_MS = 10000; // 10s entre trocas de pergunta
   const primary = document.getElementById('hero-cta-start');
   const secondary = document.getElementById('hero-cta-how');
   const difficultySection = document.getElementById('menu-dificuldade');
@@ -56,14 +59,9 @@ function initHero() {
   function setPreviewFromQuestion(q) {
     if (!q || !previewQuestion || !previewOptions) return;
     previewQuestion.textContent = q.pergunta || '';
+    // Para evitar confusão visual, não exibimos alternativas na prévia
     previewOptions.innerHTML = '';
-    const alts = q.alternativas || (typeof q.resposta === 'boolean' ? ['Sim', 'Não'] : []);
-    (alts || []).slice(0, 3).forEach((alt) => {
-      const div = document.createElement('div');
-      div.className = 'preview-option';
-      div.textContent = String(alt);
-      previewOptions.appendChild(div);
-    });
+    previewOptions.style.display = 'none';
   }
   // Aggregated random preview from all available content arrays
   function resolvePerguntas() {
@@ -96,9 +94,9 @@ function initHero() {
     } catch (_) { /* ignora erros de amostragem */ }
   }
 
-  // Rotacionar destaque dos conteúdos e atualizar preview a cada 4s
+  // Rotacionar destaque dos conteúdos e atualizar preview a cada 10s
   refreshPreview();
-  let previewTimer = setInterval(refreshPreview, 4000);
+  let previewTimer = setInterval(refreshPreview, PREVIEW_INTERVAL_MS);
 
   // Pausa quando a aba fica oculta para economizar recursos
   document.addEventListener('visibilitychange', () => {
@@ -106,7 +104,7 @@ function initHero() {
       clearInterval(previewTimer);
     } else {
       refreshPreview();
-      previewTimer = setInterval(refreshPreview, 4000);
+      previewTimer = setInterval(refreshPreview, PREVIEW_INTERVAL_MS);
     }
   });
 }
