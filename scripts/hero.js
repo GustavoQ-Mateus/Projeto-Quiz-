@@ -19,10 +19,10 @@ function initHero() {
   const secondary = document.getElementById('hero-cta-how');
   const difficultySection = document.getElementById('menu-dificuldade');
   const nameInput = document.getElementById('nome');
-  const social = document.getElementById('hero-social-count');
+  // social count removed
   const previewQuestion = document.querySelector('#hero .preview-question');
   const previewOptions = document.querySelector('#hero .preview-options');
-  const highlightLabel = document.getElementById('hero-highlight-label');
+  // highlight label removed
 
   if (primary) {
     primary.addEventListener('click', (e) => {
@@ -48,16 +48,12 @@ function initHero() {
     });
   }
 
-  // Prova social simples (valor estático com incremento sutil)
-  if (social) {
-    // Texto fixo solicitado
-    social.textContent = '+12.021 participantes';
-  }
+  // Prova social removida
 
   // Prévia aleatória dos 3 conteúdos (Relação, Lógica, Conjuntos)
   // Utilitário de aleatoriedade (ainda usado para escolher a pergunta dentro do conjunto)
   function pickRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-  function setPreviewFromQuestion(q, tipo) {
+  function setPreviewFromQuestion(q) {
     if (!q || !previewQuestion || !previewOptions) return;
     previewQuestion.textContent = q.pergunta || '';
     previewOptions.innerHTML = '';
@@ -68,40 +64,35 @@ function initHero() {
       div.textContent = String(alt);
       previewOptions.appendChild(div);
     });
-    if (highlightLabel) highlightLabel.textContent = tipo;
   }
-
-  // Rotação determinística: Relação -> Lógica -> Conjuntos
-  let rotateIdx = 0;
-  const orderTipos = ['Relação', 'Lógica', 'Conjuntos'];
-  function getFonteByTipo(tipo) {
-    if (tipo === 'Relação') return { tipo, arr: window.perguntasRelacao };
-    if (tipo === 'Lógica') return { tipo, arr: window.perguntasLogica };
-    if (tipo === 'Conjuntos') return { tipo, arr: window.perguntasConjuntos };
-    return { tipo, arr: undefined };
+  // Aggregated random preview from all available content arrays
+  function resolvePerguntas() {
+    const rel = (typeof perguntasRelacao !== 'undefined' && Array.isArray(perguntasRelacao))
+      ? perguntasRelacao
+      : (Array.isArray(globalThis.perguntasRelacao) ? globalThis.perguntasRelacao : []);
+    const log = (typeof perguntasLogica !== 'undefined' && Array.isArray(perguntasLogica))
+      ? perguntasLogica
+      : (Array.isArray(globalThis.perguntasLogica) ? globalThis.perguntasLogica : []);
+    const conj = (typeof perguntasConjuntos !== 'undefined' && Array.isArray(perguntasConjuntos))
+      ? perguntasConjuntos
+      : (Array.isArray(globalThis.perguntasConjuntos) ? globalThis.perguntasConjuntos : []);
+    return { rel, log, conj };
   }
 
   function refreshPreview() {
     try {
-      const len = orderTipos.length;
-      let chosen = null;
-      let chosenIdx = rotateIdx;
-      for (let step = 0; step < len; step++) {
-        const idx = (rotateIdx + step) % len;
-        const fonte = getFonteByTipo(orderTipos[idx]);
-        if (Array.isArray(fonte.arr) && fonte.arr.length) {
-          chosen = fonte;
-          chosenIdx = idx;
-          break;
-        }
-      }
-      if (!chosen) return; // nenhuma fonte disponível
-      const easy = (chosen.arr || []).filter(q => q && q.dificuldade === 'Easy');
-      const base = easy.length ? easy : chosen.arr;
-      if (!base || !base.length) return;
+      const { rel, log, conj } = resolvePerguntas();
+      const fontes = [];
+      if (rel && rel.length) fontes.push(rel);
+      if (log && log.length) fontes.push(log);
+      if (conj && conj.length) fontes.push(conj);
+      if (!fontes.length) return;
+      // Preferir perguntas Easy quando houver, caindo para qualquer dificuldade
+      const todas = fontes.flat();
+      const easy = todas.filter(q => q && q.dificuldade === 'Easy');
+      const base = easy.length ? easy : todas;
       const q = pickRandom(base);
-      setPreviewFromQuestion(q, chosen.tipo);
-      rotateIdx = (chosenIdx + 1) % len;
+      setPreviewFromQuestion(q);
     } catch (_) { /* ignora erros de amostragem */ }
   }
 
