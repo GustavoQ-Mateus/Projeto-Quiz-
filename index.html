@@ -4,12 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Lógico</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <!-- Usa a folha fixa que importa a original e aplica overrides seguros -->
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles/tokens.css">
+    <link rel="stylesheet" href="styles/hero.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Pular para o conteúdo</a>
     <header class="header">
         <div class="logo">
             <span class="logo-emoji" aria-label="Cérebro" role="img">🧠</span>
@@ -29,8 +34,36 @@
         </div>
     </header>
 
-    <main class="main-container">
-        <section id="menu-dificuldade" class="menu active">
+    <section id="hero" aria-labelledby="hero-title">
+        <div class="hero-container">
+            <div class="hero-copy">
+                <p class="hero-eyebrow">Desafie seu raciocínio</p>
+                <p class="hero-highlight" aria-live="polite"><span id="hero-highlight-label">Lógica</span> em destaque</p>
+                <h1 id="hero-title">Aprenda lógica jogando: rápido, divertido e direto ao ponto</h1>
+                <p class="hero-subhead">Em ~2 minutos você responde 10 perguntas, sem cadastro. Evolua sua velocidade de raciocínio e dispute o topo do ranking.</p>
+                <div class="hero-ctas">
+                    <a href="#menu-dificuldade" id="hero-cta-start" class="hero-cta-primary" aria-label="Começar agora">Começar agora</a>
+                    <a href="#como-funciona" id="hero-cta-how" class="hero-cta-secondary" aria-label="Como funciona">Como funciona</a>
+                </div>
+                <div class="hero-social-proof" aria-live="polite">
+                    <span class="icon ion-ios-people"></span>
+                    <span id="hero-social-count">+12.000 participantes</span>
+                </div>
+            </div>
+            <div class="hero-preview" aria-hidden="false">
+                <div class="preview-card" role="region" aria-label="Prévia do quiz">
+                    <div class="preview-header">
+                        <span>Pergunta 1 de 10</span>
+                        <span class="icon ion-ios-timer"></span>
+                    </div>
+                    <p class="preview-question">Carregando exemplo…</p>
+                    <div class="preview-options"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <main id="main-content" class="main-container">
+        <section id="menu-dificuldade" class="menu">
             <div class="painel-pergunta-row">
                 <div class="card card-menu transicao">
                     <h2 class="titulo">Bem-vindo!</h2>
@@ -141,11 +174,44 @@
         </section>
     </main>
 
+    <!-- Seção simples explicativa para o CTA "Como funciona" -->
+    <section id="como-funciona" class="main-container" aria-labelledby="como-funciona-titulo" style="padding-top: 0;">
+        <div class="card" style="max-width: 920px;">
+            <h2 id="como-funciona-titulo" class="titulo">Como funciona</h2>
+            <p style="color: var(--color-text); text-align: center; max-width: 70ch;">
+                Escolha a <strong>dificuldade</strong>, selecione o <strong>conteúdo</strong> (Relação, Lógica ou Conjuntos) e responda <strong>10 perguntas</strong> contra o tempo.
+                Ganhe <strong>bônus por velocidade</strong> e tente alcançar o topo do <strong>ranking</strong>. Tudo isso <strong>sem cadastro</strong>, direto no navegador.
+            </p>
+        </div>
+    </section>
+
+    <!-- Mini FAQ acessível -->
+    <section id="faq" class="main-container" aria-labelledby="faq-titulo" style="padding-top: 0;">
+        <div class="card" style="max-width: 920px;">
+            <h2 id="faq-titulo" class="titulo">Perguntas frequentes</h2>
+            <div class="faq-list">
+                <details>
+                    <summary>Preciso criar conta para jogar?</summary>
+                    <div>Não. É só informar um nome para aparecer no ranking — nenhuma conta é necessária.</div>
+                </details>
+                <details>
+                    <summary>Como a pontuação é calculada?</summary>
+                    <div>Você ganha pontos por acerto e bônus por velocidade. Quanto mais rápido, maior o bônus.</div>
+                </details>
+                <details>
+                    <summary>Posso jogar em celular?</summary>
+                    <div>Sim. O quiz é responsivo e funciona bem de 360px até telas grandes.</div>
+                </details>
+            </div>
+        </div>
+    </section>
+
     <!-- Scripts -->
     <script src="conteudoRelacao.js"></script>
     <script src="conteudoLogica.js"></script>
     <script src="conteudoConjuntos.js"></script>
     <script type="module" src="dom.js"></script>
     <script type="module" src="script.js"></script>
+    <script type="module" src="scripts/hero.js"></script>
 </body>
 </html>
