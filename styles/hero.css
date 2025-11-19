@@ -1,12 +1,9 @@
-/* Hero Playful/Flat 2.0 */
 #hero {
   position: relative;
   isolation: isolate;
   background: var(--hero-gradient);
   color: var(--fg);
 }
-
-/* Skip link acessível */
 .skip-link {
   position: absolute;
   left: -9999px;
@@ -39,7 +36,6 @@
   gap: var(--space-8);
 }
 
-/* Mobile first */
 @media (max-width: 860px) {
   .hero-container { grid-template-columns: 1fr; padding: var(--space-10) var(--space-4); }
 }
@@ -93,7 +89,6 @@
 .hero-cta-primary, .hero-cta-secondary { scroll-margin-top: 80px; }
 #menu-dificuldade, #menu-quiz, #menu-ranking, #como-funciona, #faq { scroll-margin-top: 80px; }
 
-/* Modo reflow para qualquer menu, evitando overlay/flutuante */
 .menu.reflow {
   position: static;
   left: auto; right: auto; top: auto; bottom: auto;
@@ -102,20 +97,16 @@
   display: flex;
   pointer-events: auto;
 }
-
-/* Unificar botões roxos ao estilo hero (sem animação de gradiente infinita) */
 .btn-roxo {
-  background: linear-gradient(50deg, var(--brand-600), var(--brand-700), var(--brand-600)) !important;
+  background: var(--brand-700) !important;
   animation: none !important;
   background-size: auto !important;
-  border: 2px solid var(--brand-600) !important;
+  border: 2px solid var(--brand-700) !important;
   box-shadow: var(--shadow-md) !important;
 }
 .btn-roxo:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg) !important; }
 .btn-roxo:active { transform: translateY(0); }
 .btn-roxo:focus-visible { outline: 2px solid var(--brand-600); outline-offset: 2px; }
-
-/* Header: barra inferior estática para consistência (sem animação) */
 .header:after {
   animation: none !important;
   background: linear-gradient(to right, var(--brand-600), var(--brand-700)) !important;
@@ -136,7 +127,7 @@
 }
 
 .hero-cta-primary {
-  background: linear-gradient(50deg, var(--brand-600), var(--brand-700), var(--brand-600));
+  background: var(--brand-700);
   color: #fff;
   box-shadow: var(--shadow-md);
 }
@@ -162,7 +153,6 @@
   color: var(--brand-700);
 }
 
-/* Preview Card */
 .hero-preview {
   align-self: center;
 }
@@ -204,12 +194,9 @@
   font-weight: 600;
 }
 
-/* Microinterações e motion preferences */
 @media (prefers-reduced-motion: reduce) {
   .hero-cta-primary, .hero-cta-secondary { transition: none; }
 }
-
-/* mini FAQ */
 .faq-list { display: grid; gap: var(--space-3); }
 .faq-list details {
   background: var(--surface);
@@ -219,11 +206,6 @@
 }
 .faq-list summary { cursor: pointer; font-weight: 700; color: var(--brand-700); }
 .faq-list details > div { color: var(--fg); margin-top: 6px; }
-
-/* ===================== */
-/* Padronização global   */
-/* ===================== */
-/* Cards e painéis no padrão hero */
 .card, .painel-card, .painel-pergunta, .painel-extra, .painel-usuario {
   border-radius: var(--radius-xl) !important;
   box-shadow: var(--shadow-md) !important;
@@ -233,8 +215,6 @@
   transform: translateY(-1px) !important;
   box-shadow: var(--shadow-lg) !important;
 }
-
-/* Botões com raio em pílula e foco visível */
 .btn { border-radius: var(--radius-pill) !important; }
 .btn-voltar {
   border-radius: var(--radius-pill) !important;
@@ -242,8 +222,6 @@
 }
 .btn-voltar:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg) !important; }
 .btn-voltar:focus-visible { outline: 2px solid var(--danger-600); outline-offset: 2px; }
-
-/* Select e opções de conteúdo no padrão da marca */
 .select-dificuldade { border-color: var(--color-primary) !important; }
 .boxed-check-group .boxed-check .boxed-check-label {
   border-color: var(--color-border);
@@ -254,8 +232,6 @@
   border-color: var(--color-primary);
   color: #fff;
 }
-
-/* Remover animação de gradiente do input inferior para manter consistência */
 .webflow-style-input:after {
   animation: none !important;
   background: linear-gradient(to right, var(--brand-600), var(--brand-700)) !important;

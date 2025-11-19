@@ -1,7 +1,3 @@
-// script.fixed.js
-// Versão corrigida do script com melhorias em ranking, timers e tratamento de tempo esgotado
-
-// Configurações globais do quiz
 const CONFIG = {
     DIFICULDADE_PADRAO: 'Easy',
     PERGUNTAS_TOTAIS: 10,
@@ -15,12 +11,9 @@ const CONFIG = {
     }
 };
 
-// Referência aos elementos do DOM definidos em dom.js
 const elementos = window.elementos;
 
-// Variáveis de estado do quiz
 let nomeJogador = '';
-// Tempo limite por dificuldade
 const temposPorDificuldade = {
     Easy: 18,
     Basic: 15,
@@ -49,7 +42,6 @@ let logicaDificuldadeAtual = CONFIG.DIFICULDADE_PADRAO;
 let logicaPerguntasTotais = 0;
 let logicaPerguntasRestantes = 0;
 
-// --- CONJUNTOS ---
 let conjuntosPerguntasSelecionadas = [];
 let conjuntosPerguntaAtualIndex = 0;
 let conjuntosPontuacao = 0;
@@ -60,19 +52,16 @@ let conjuntosDificuldadeAtual = CONFIG.DIFICULDADE_PADRAO;
 let conjuntosPerguntasTotais = 0;
 let conjuntosPerguntasRestantes = 0;
 
-// Controle do conteúdo atual e ranking visível
 let conteudoAtual = 'relacao';
 let rankingDificuldadeVisivel = dificuldadeAtual;
 let rankingConteudoVisivel = conteudoAtual;
 
-// Atualiza o nome do usuário no painel do quiz
 function atualizarNomeUsuarioPainel() {
     const nomeSalvo = localStorage.getItem('quizNome') || '';
     elementos.labelNomeUsuario.textContent = nomeSalvo ? 'Usuário: ' + nomeSalvo : '';
     elementos.labelNomeUsuario.className = 'label-nome-usuario';
 }
 
-// Inicialização
 window.addEventListener('DOMContentLoaded', function () {
     atualizarNomeUsuarioPainel();
     try {
@@ -112,6 +101,11 @@ window.addEventListener('DOMContentLoaded', function () {
     elementos.inputNome.addEventListener('input', function () {
         elementos.msgNome.style.opacity = '0';
     });
+    try {
+        if (elementos.radioConjuntos) elementos.radioConjuntos.checked = true;
+        if (elementos.radioLogica) elementos.radioLogica.disabled = true;
+        if (elementos.radioRelacao) elementos.radioRelacao.disabled = true;
+    } catch (_) {}
     elementos.btnNome.addEventListener('click', function (e) {
         e.preventDefault();
         const nome = elementos.inputNome.value.trim();
@@ -124,8 +118,6 @@ window.addEventListener('DOMContentLoaded', function () {
         mostrarMensagemNome('Nome salvo!', CONFIG.CORES.SUCESSO, CONFIG.MENSAGEM_TEMPO_SUCESSO);
         atualizarNomeUsuarioPainel();
     });
-
-    // Restore last ranking tab (content + difficulty)
     try {
         const savedCont = localStorage.getItem('quizLastRankingConteudo');
         const savedDiff = localStorage.getItem('quizLastRankingDificuldade');
@@ -134,7 +126,6 @@ window.addEventListener('DOMContentLoaded', function () {
     } catch (_) {}
 });
 
-// Helpers de Ranking (localStorage) por conteúdo + dificuldade
 function rankingKey(conteudo, dificuldade) {
     const c = conteudo || conteudoAtual;
     const d = dificuldade || dificuldadeAtual;
@@ -149,15 +140,166 @@ function setRanking(ranking, conteudo, dificuldade) {
     localStorage.setItem(key, JSON.stringify(ranking));
 }
 
-// Alternar menus
 function mostrarMenu(menu) {
-    const menus = [elementos.menuDificuldade, elementos.menuQuiz, elementos.menuRanking];
-    for (let i = 0; i < menus.length; i++) {
-        if (!menus[i]) continue;
-        menus[i].classList.remove('active', 'reflow');
+    const menus = [elementos.menuDificuldade, elementos.menuQuiz, elementos.menuRanking, elementos.menuComoFunciona, elementos.menuFaq];
+    menus.forEach(m => {
+        if (!m) return;
+        if (m !== menu && m.classList.contains('active')) {
+            m.classList.add('closing');
+            const handler = () => {
+                m.removeEventListener('transitionend', handler);
+                m.classList.remove('active', 'closing', 'reflow');
+                m.style.display = 'none';
+                deactivateFocusTrap(m);
+            };
+            m.addEventListener('transitionend', handler);
+        }
+    });
+    if (menu) {
+        menu.classList.remove('closing');
+        menu.style.display = 'flex';
+        menu.classList.add('active');
+        activateFocusTrap(menu);
     }
-    if (menu) menu.classList.add('reflow');
+    if (menu && menu.classList.contains('active')) {
+        document.body.classList.add('menu-open');
+    } else {
+        document.body.classList.remove('menu-open');
+    }
+    if (menu && menu.classList.contains('active')) {
+        const heading = menu.querySelector('h2[tabindex="-1"], .titulo[tabindex="-1"]');
+        const closeBtn = menu.querySelector('.card-close-btn');
+        const target = heading || closeBtn;
+        if (target) {
+            setTimeout(() => { try { target.focus(); } catch(_){} }, 50);
+        }
+    }
 }
+window.mostrarMenu = mostrarMenu;
+function voltarParaSetup() {
+    const allMenus = [elementos.menuDificuldade, elementos.menuQuiz, elementos.menuRanking, elementos.menuComoFunciona, elementos.menuFaq];
+    allMenus.forEach(m => { if (m) { m.classList.remove('active','reflow'); m.style.display='none'; } });
+    if (elementos.menuDificuldade) {
+        mostrarMenu(elementos.menuDificuldade);
+        const titulo = document.getElementById('setup-titulo');
+        if (titulo) titulo.focus(); else if (elementos.inputNome) elementos.inputNome.focus();
+    }
+}
+
+function voltarParaHero() {
+    const allMenus = [elementos.menuDificuldade, elementos.menuQuiz, elementos.menuRanking, elementos.menuComoFunciona, elementos.menuFaq];
+    allMenus.forEach(m => {
+        if (!m) return;
+        if (m.classList.contains('active')) {
+            m.classList.add('closing');
+            const handler = () => {
+                m.removeEventListener('transitionend', handler);
+                m.classList.remove('active','closing','reflow');
+                m.style.display='none';
+                deactivateFocusTrap(m);
+            };
+            m.addEventListener('transitionend', handler);
+        } else {
+            m.classList.remove('closing');
+            m.style.display='none';
+        }
+    });
+    document.body.classList.remove('menu-open');
+    const hero = document.getElementById('hero');
+    if (hero) hero.style.filter = '';
+}
+if (elementos.btnCloseQuiz) {
+    elementos.btnCloseQuiz.setAttribute('aria-label','Fechar quiz e voltar ao início');
+    elementos.btnCloseQuiz.addEventListener('click', voltarParaHero);
+}
+if (elementos.btnCloseFaq) {
+    elementos.btnCloseFaq.addEventListener('click', voltarParaHero);
+}
+if (elementos.btnCloseComo) {
+    elementos.btnCloseComo.addEventListener('click', voltarParaHero);
+}
+if (elementos.btnCloseSetup) {
+    elementos.btnCloseSetup.addEventListener('click', voltarParaHero);
+}
+if (elementos.btnCloseRanking) {
+    elementos.btnCloseRanking.addEventListener('click', voltarParaHero);
+}
+
+function activateFocusTrap(container){
+    if(!container) return;
+    const selectors = 'a[href], button:not([disabled]), textarea, input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    const nodes = Array.from(container.querySelectorAll(selectors)).filter(el => el.offsetParent !== null);
+    if(nodes.length === 0){ return; }
+    const first = nodes[0];
+    const last = nodes[nodes.length - 1];
+    const trapHandler = (e) => {
+        if(e.key === 'Tab'){
+            if(e.shiftKey){
+                if(document.activeElement === first){ e.preventDefault(); last.focus(); }
+            } else {
+                if(document.activeElement === last){ e.preventDefault(); first.focus(); }
+            }
+        }
+    };
+    container.__focusTrapHandler = trapHandler;
+    container.addEventListener('keydown', trapHandler);
+}
+function deactivateFocusTrap(container){
+    if(container && container.__focusTrapHandler){
+        container.removeEventListener('keydown', container.__focusTrapHandler);
+        delete container.__focusTrapHandler;
+    }
+}
+
+function ensureCloseFallback(btn){
+    if(!btn) return;
+    const icon = btn.querySelector('.icon');
+    if (icon) {
+        try {
+            const beforeContent = getComputedStyle(icon, '::before').getPropertyValue('content');
+            if (beforeContent && beforeContent !== 'none' && beforeContent !== 'normal' && beforeContent !== '""') {
+                return;
+            }
+        } catch (_) {}
+    }
+    if (!btn.querySelector('.close-fallback')) {
+        const span = document.createElement('span');
+        span.className = 'close-fallback';
+        span.textContent = 'X';
+        btn.appendChild(span);
+    }
+}
+['btnCloseQuiz','btnCloseFaq','btnCloseComo','btnCloseSetup','btnCloseRanking'].forEach(key => ensureCloseFallback(elementos[key]));
+function syncAnswerButtonsWidthWithHeroCTA(){
+    const cta = document.getElementById('hero-cta-start');
+    if(!cta){
+        document.documentElement.style.setProperty('--cta-width-px','300px');
+        return;
+    }
+    const rect = cta.getBoundingClientRect();
+    const width = Math.max(200, Math.round(rect.width));
+    document.documentElement.style.setProperty('--cta-width-px', width + 'px');
+}
+window.addEventListener('resize', () => { try { syncAnswerButtonsWidthWithHeroCTA(); } catch(_){} });
+if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => { try { syncAnswerButtonsWidthWithHeroCTA(); } catch(_){} });
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
+        if (elementos.menuQuiz && elementos.menuQuiz.classList.contains('active')) {
+            voltarParaSetup();
+        } else if (elementos.menuDificuldade && elementos.menuDificuldade.classList.contains('active')) {
+            voltarParaHero();
+        } else {
+            voltarParaHero();
+        }
+    }
+});
+window.addEventListener('DOMContentLoaded', () => {
+    voltarParaHero();
+    try { syncAnswerButtonsWidthWithHeroCTA(); } catch(_){}
+});
 
 function mostrarMensagemNome(msg, cor, tempo) {
     elementos.msgNome.textContent = msg;
@@ -171,7 +313,6 @@ function mostrarMensagemNome(msg, cor, tempo) {
     }
 }
 
-// Embaralha alternativas e atualiza respostaCorreta
 function embaralharAlternativas(pergunta) {
     if (!pergunta.alternativas || typeof pergunta.respostaCorreta !== 'number') return pergunta;
     const alternativas = pergunta.alternativas.map((alt, idx) => ({ texto: alt, originalIndex: idx }));
@@ -187,7 +328,6 @@ function embaralharAlternativas(pergunta) {
     };
 }
 
-// Shuffle genérico
 function shuffleArray(array) {
     const arr = array.slice();
     for (let i = arr.length - 1; i > 0; i--) {
@@ -197,7 +337,6 @@ function shuffleArray(array) {
     return arr;
 }
 
-// Iniciar quiz (roteia por conteúdo)
 elementos.btnIniciar.addEventListener('click', function (e) {
     nomeJogador = localStorage.getItem('quizNome') || '';
     if (!nomeJogador) {
@@ -208,18 +347,9 @@ elementos.btnIniciar.addEventListener('click', function (e) {
     clearInterval(timer);
     clearInterval(logicaTimer);
     clearInterval(conjuntosTimer);
-
     if (elementos.radioLogica && elementos.radioLogica.checked) {
         e.preventDefault();
-        conteudoAtual = 'logica';
-        logicaDificuldadeAtual = elementos.selectDificuldade.value;
-        tempoPergunta = temposPorDificuldade[logicaDificuldadeAtual];
-        if (!tempoPergunta) {
-            mostrarMensagemNome('Erro: Dificuldade inválida para o quiz de Lógica.', CONFIG.CORES.ERRO, CONFIG.MENSAGEM_TEMPO_PADRAO);
-            return;
-        }
-        iniciarQuizLogica(logicaDificuldadeAtual);
-        elementos.botoesResposta.style.display = 'none';
+        mostrarMensagemNome('O conteúdo de Lógica está temporariamente indisponível.', CONFIG.CORES.ERRO, CONFIG.MENSAGEM_TEMPO_PADRAO);
         return;
     }
     if (elementos.radioConjuntos && elementos.radioConjuntos.checked) {
@@ -235,44 +365,26 @@ elementos.btnIniciar.addEventListener('click', function (e) {
         elementos.botoesResposta.style.display = 'none';
         return;
     }
-
-    // Fluxo padrão: Relação (Sim/Não)
-    elementos.botoesResposta.style.display = '';
-    conteudoAtual = 'relacao';
-    dificuldadeAtual = elementos.selectDificuldade.value;
-    tempoPergunta = temposPorDificuldade[dificuldadeAtual];
-    if (!tempoPergunta) {
-        mostrarMensagemNome('Erro: Dificuldade inválida.', CONFIG.CORES.ERRO, CONFIG.MENSAGEM_TEMPO_PADRAO);
+    if (elementos.radioRelacao && elementos.radioRelacao.checked) {
+        e.preventDefault();
+        mostrarMensagemNome('O conteúdo de Relação está temporariamente indisponível.', CONFIG.CORES.ERRO, CONFIG.MENSAGEM_TEMPO_PADRAO);
         return;
     }
-    pontuacao = 0;
-    const perguntasConteudo = [];
-    if (elementos.radioRelacao && elementos.radioRelacao.checked && typeof perguntasRelacao !== 'undefined') {
-        perguntasConteudo.push(...perguntasRelacao);
+    if (elementos.radioConjuntos) {
+        elementos.radioConjuntos.checked = true;
+        elementos.btnIniciar.click();
     } else {
-        mostrarMensagemNome('Selecione um conteúdo válido!', CONFIG.CORES.ERRO, CONFIG.MENSAGEM_TEMPO_PADRAO);
-        return;
+        mostrarMensagemNome('Conteúdo temporariamente indisponível.', CONFIG.CORES.ERRO, CONFIG.MENSAGEM_TEMPO_PADRAO);
     }
-    if (perguntasConteudo.length === 0) {
-        mostrarMensagemNome('Erro: Nenhum conteúdo disponível. Verifique os arquivos de perguntas.', CONFIG.CORES.ERRO, CONFIG.MENSAGEM_TEMPO_PADRAO);
-        return;
-    }
-    const perguntasNivel = perguntasConteudo.filter(q => q.dificuldade === dificuldadeAtual);
-    if (perguntasNivel.length === 0) {
-        mostrarMensagemNome('Erro: Nenhuma pergunta disponível para a dificuldade selecionada.', CONFIG.CORES.ERRO, CONFIG.MENSAGEM_TEMPO_PADRAO);
-        return;
-    }
-    perguntasSelecionadas = shuffleArray(perguntasNivel).slice(0, 6).map(embaralharAlternativas);
-    perguntasTotais = perguntasSelecionadas.length;
-    perguntasRestantes = perguntasTotais;
-    perguntaAtualIndex = 0;
-    elementos.painelPontuacao.textContent = pontuacao;
-    elementos.painelFaltam.textContent = perguntasRestantes;
-    mostrarMenu(elementos.menuQuiz);
-    proximaPergunta();
 });
 
-// Avançar Relação
+if (elementos.setupForm) {
+    elementos.setupForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        if (elementos.btnIniciar) elementos.btnIniciar.click();
+    });
+}
+
 function proximaPergunta() {
     if (perguntasRestantes <= 0 || perguntaAtualIndex >= perguntasSelecionadas.length) {
         finalizarQuiz();
@@ -289,7 +401,6 @@ function proximaPergunta() {
     iniciarTimer();
 }
 
-// Exibir pergunta Relação
 function exibirPerguntaAtual() {
     const perguntaObj = perguntasSelecionadas[perguntaAtualIndex];
     if (!perguntaObj) {
@@ -303,7 +414,6 @@ function exibirPerguntaAtual() {
     elementos.cardAlternativasLogica.style.display = 'none';
 }
 
-// Timer Relação
 function iniciarTimer() {
     clearInterval(timer);
     timer = setInterval(function () {
@@ -313,7 +423,6 @@ function iniciarTimer() {
         if (tempoRestante <= 0) {
             clearInterval(timer);
             atualizarBarraProgresso(0);
-            // Padronizado: não assumir resposta
             responderQuiz(null, true);
         }
     }, 1000);
@@ -325,7 +434,6 @@ function atualizarBarraProgresso(percent) {
     }
 }
 
-// Responder Relação
 function responderQuiz(respostaUsuario, tempoEsgotado) {
     clearInterval(timer);
     const perguntaObj = perguntasSelecionadas[perguntaAtualIndex];
@@ -341,14 +449,12 @@ function responderQuiz(respostaUsuario, tempoEsgotado) {
     proximaPergunta();
 }
 
-// Botões Sim/Não/Cancelar
 if (elementos.btnSim) elementos.btnSim.addEventListener('click', function () { responderQuiz(true); });
 if (elementos.btnNao) elementos.btnNao.addEventListener('click', function () { responderQuiz(false); });
 if (elementos.btnCancelar) elementos.btnCancelar.addEventListener('click', function () {
     clearInterval(timer);
     clearInterval(logicaTimer);
     clearInterval(conjuntosTimer);
-    // Descobrir qual conteúdo/dificuldade mostrar no ranking
     const conteudoForRanking = (elementos.radioLogica && elementos.radioLogica.checked) ? 'logica'
         : (elementos.radioConjuntos && elementos.radioConjuntos.checked) ? 'conjuntos'
         : 'relacao';
@@ -358,7 +464,6 @@ if (elementos.btnCancelar) elementos.btnCancelar.addEventListener('click', funct
     mostrarRanking(false, conteudoForRanking, diffForRanking);
 });
 
-// Final de Relação
 function finalizarQuiz() {
     clearInterval(timer);
     clearInterval(logicaTimer);
@@ -371,7 +476,6 @@ function finalizarQuiz() {
     mostrarRanking(true, 'relacao', dificuldadeAtual);
 }
 
-// Ranking UI
 function labelConteudo(conteudo) {
     if (conteudo === 'logica') return 'Lógica';
     if (conteudo === 'conjuntos') return 'Conjuntos';
@@ -383,7 +487,6 @@ function mostrarRanking(adicionado, conteudoParam, dificuldadeParam) {
     rankingConteudoVisivel = cont;
     rankingDificuldadeVisivel = diff;
 
-    // Persist last ranking tab
     try {
         localStorage.setItem('quizLastRankingConteudo', cont);
         localStorage.setItem('quizLastRankingDificuldade', diff);
@@ -391,14 +494,14 @@ function mostrarRanking(adicionado, conteudoParam, dificuldadeParam) {
 
     const ranking = getRanking(cont, diff);
     elementos.listaRanking.innerHTML = '';
-    const medalEmojis = ['🥇', '🥈', '🥉'];
     ranking.forEach(function (item, idx) {
         const li = document.createElement('li');
         if (idx < 3) {
-            const medal = document.createElement('span');
-            medal.className = 'ranking-medal';
-            medal.textContent = medalEmojis[idx];
-            li.appendChild(medal);
+            const medalBadge = document.createElement('span');
+            medalBadge.className = 'ranking-medal-badge';
+            medalBadge.setAttribute('aria-hidden', 'true');
+            medalBadge.textContent = (idx + 1);
+            li.appendChild(medalBadge);
         }
         li.appendChild(document.createTextNode((idx + 1) + 'º - ' + item.nome + ': ' + item.pontos + ' pontos'));
         elementos.listaRanking.appendChild(li);
@@ -433,7 +536,6 @@ if (elementos.btnResetRanking) {
     });
 }
 
-// ---- CONJUNTOS ----
 function iniciarQuizConjuntos(dificuldade) {
     conjuntosDificuldadeAtual = dificuldade;
     conjuntosPontuacao = 0;
@@ -532,7 +634,6 @@ function finalizarQuizConjuntos() {
     mostrarRanking(true, 'conjuntos', conjuntosDificuldadeAtual);
 }
 
-// ---- LÓGICA ----
 function iniciarQuizLogica(dificuldade) {
     logicaDificuldadeAtual = dificuldade;
     logicaPontuacao = 0;

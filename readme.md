@@ -13,7 +13,7 @@ Um quiz de lógica/relacionamentos e conjuntos feito em HTML, CSS e JavaScript p
 - Pontuação com bônus por tempo restante
 - Barra de progresso dinâmica por pergunta
 - Ranking com persistência local (localStorage) separado por conteúdo e dificuldade
-	- Medalhas para os 3 primeiros (🥇🥈🥉)
+	- Medalhas para os 3 primeiros (ouro, prata e bronze via SVG)
 	- Botão para limpar o ranking atual
 - Tema claro/escuro com variáveis CSS (tokens), com alternância manual via painel de configurações (preferência salva)
 - Responsivo e com melhorias de a11y (skip link, foco visível, motion respeita Prefer-Reduced-Motion)

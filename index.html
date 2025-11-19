@@ -7,7 +7,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Usa a folha fixa que importa a original e aplica overrides seguros -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="styles/tokens.css">
     <link rel="stylesheet" href="styles/hero.css">
@@ -16,8 +15,7 @@
 <body>
     <a href="#main-content" class="skip-link">Pular para o conteúdo</a>
     <header class="header">
-        <div class="logo">
-            <span class="logo-emoji" aria-label="Cérebro" role="img">🧠</span>
+        <div class="logo" aria-label="Quiz Lógico">
             <span class="logo-titulo">Quiz Lógico</span>
         </div>
         <button id="btn-config" class="settings-btn" aria-label="Abrir configurações" title="Configurações">
@@ -33,6 +31,7 @@
             </div>
         </div>
     </header>
+    <div id="menu-backdrop" aria-hidden="true"></div>
 
     <section id="hero" aria-labelledby="hero-title">
         <div class="hero-container">
@@ -42,8 +41,9 @@
                 <h1 id="hero-title">Aprenda lógica jogando: rápido, divertido e direto ao ponto</h1>
                 <p class="hero-subhead">Em ~2 minutos você responde 10 perguntas, sem cadastro. Evolua sua velocidade de raciocínio e dispute o topo do ranking.</p>
                 <div class="hero-ctas">
-                    <a href="#menu-dificuldade" id="hero-cta-start" class="hero-cta-primary" aria-label="Começar agora">Começar agora</a>
+                    <a href="#setup" id="hero-cta-start" class="hero-cta-primary" aria-label="Começar agora">Começar agora</a>
                     <a href="#como-funciona" id="hero-cta-how" class="hero-cta-secondary" aria-label="Como funciona">Como funciona</a>
+                    <a href="#faq" id="hero-cta-faq" class="hero-cta-secondary" aria-label="Perguntas frequentes">Perguntas frequentes</a>
                 </div>
                 <div class="hero-social-proof" aria-live="polite">
                     <span class="icon ion-ios-people"></span>
@@ -62,154 +62,170 @@
         </div>
     </section>
     <main id="main-content" class="main-container">
-        <section id="menu-dificuldade" class="menu">
-            <div class="painel-pergunta-row">
-                <div class="card card-menu transicao">
-                    <h2 class="titulo">Bem-vindo!</h2>
-                    <div id="msg-nome" style="opacity: 0;"></div>
-                    <label for="dificuldade" class="label-dificuldade">Escolha a dificuldade:</label>
-                    <select id="dificuldade" class="select-dificuldade" aria-label="Selecionar dificuldade">
-                        <option value="Easy">Easy</option>
-                        <option value="Basic">Basic</option>
-                        <option value="Medium">Medium</option>
-                        <option value="Hard">Hard</option>
-                    </select>
-                    <label for="nome" class="label-nomeescolha">Nome do Jogador:</label>
-                    <div class="input-hero">
-                        <input type="text" id="nome" placeholder="Coloque seu Nome" aria-label="Seu nome" autocomplete="name" inputmode="text">
-                        <button type="submit" id="btn-email" aria-label="Confirmar nome" role="button" tabindex="0">
-                            <i class="icon ion-android-arrow-forward"></i>
-                        </button>
+    <section id="setup" aria-labelledby="setup-titulo" class="menu" role="dialog" aria-modal="true">
+            <div class="card card--setup">
+                <button id="btn-close-setup" class="card-close-btn" aria-label="Fechar e voltar ao início" type="button">
+                    <span class="icon ion-close" aria-hidden="true"></span>
+                    <span class="sr-only">Fechar</span>
+                </button>
+                <form id="setup-form" novalidate>
+        <h2 id="setup-titulo" class="titulo" tabindex="-1">Bem-vindo!</h2>
+                <div id="msg-nome" class="msg-inline" style="opacity:0;" aria-live="polite"></div>
+                <div class="setup-grid" role="group" aria-labelledby="setup-titulo">
+                    <div class="setup-group">
+                        <label for="dificuldade" class="label-dificuldade">Escolha a dificuldade:</label>
+                        <select id="dificuldade" class="select-dificuldade" aria-label="Selecionar dificuldade">
+                            <option value="Easy">Fácil</option>
+                            <option value="Basic">Básico</option>
+                            <option value="Medium">Médio</option>
+                            <option value="Hard">Difícil</option>
+                        </select>
                     </div>
-                </div>
-                <div class="painel-extra card-menu">
-                    <h2 class="label-escolha-quiz">Escolha o conteúdo do quiz</h2>
-                    <div class="painel painel-card painel-conteudo" style="width:100%; margin-bottom:10px;">
+                    <div class="setup-group">
+                        <label for="nome" class="label-nomeescolha">Nome do Jogador:</label>
+                        <div class="input-hero">
+                            <input type="text" id="nome" placeholder="Coloque seu Nome" aria-label="Seu nome" autocomplete="name" inputmode="text">
+                            <button type="submit" id="btn-email" aria-label="Confirmar nome" role="button" tabindex="0">
+                                <i class="icon ion-android-arrow-forward"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <fieldset class="setup-group" aria-labelledby="conteudo-label">
+                        <legend id="conteudo-label" class="label-escolha-quiz">Conteúdo do quiz</legend>
                         <div class="boxed-check-group boxed-check-lg">
-                            <label class="boxed-check">
-                                <input class="boxed-check-input" type="radio" name="conteudo-quiz" id="radio-logica" value="logica" aria-label="Quiz de Lógica">
-                                <div class="boxed-check-label">Lógica</div>
+                            <label class="boxed-check" style="display:none;">
+                                <input class="boxed-check-input" type="radio" name="conteudo-quiz" id="radio-logica" value="logica" aria-label="Quiz de Lógica" disabled>
+                                <span class="boxed-check-label">Lógica</span>
+                            </label>
+                            <label class="boxed-check" style="display:none;">
+                                <input class="boxed-check-input" type="radio" name="conteudo-quiz" id="radio-relacao" value="relacao" aria-label="Quiz de Relação" disabled>
+                                <span class="boxed-check-label">Relação</span>
                             </label>
                             <label class="boxed-check">
-                                <input class="boxed-check-input" type="radio" name="conteudo-quiz" id="radio-relacao" value="relacao" aria-label="Quiz de Relação">
-                                <div class="boxed-check-label">Relação</div>
-                            </label>
-                            <label class="boxed-check">
-                                <input class="boxed-check-input" type="radio" name="conteudo-quiz" id="radio-conjuntos" value="conjuntos" aria-label="Quiz de Conjuntos">
-                                <div class="boxed-check-label">Conjuntos</div>
+                                <input class="boxed-check-input" type="radio" name="conteudo-quiz" id="radio-conjuntos" value="conjuntos" aria-label="Quiz de Conjuntos" checked>
+                                <span class="boxed-check-label">Conjuntos</span>
                             </label>
                         </div>
+                    </fieldset>
+                    <div class="setup-group">
+                        <span id="label-nome-usuario" class="label-nome-usuario" aria-live="polite"></span>
                     </div>
-                    <div class="painel painel-card painel-usuario" style="width:100%; margin-bottom:10px;">
-                        <span id="label-nome-usuario" class="label-nome-usuario"></span>
-                    </div>
-                    <button id="btn-iniciar" class="btn btn-roxo" aria-label="Iniciar Quiz" role="button" tabindex="0">
-                        <span class="icon ion-play"></span>
-                        Iniciar Quiz
-                    </button>
                 </div>
+                <button id="btn-iniciar" type="submit" class="btn btn-roxo" aria-label="Iniciar Quiz" role="button" tabindex="0">
+                    <span class="icon ion-play"></span>
+                    Iniciar Quiz
+                </button>
+                </form>
             </div>
         </section>
 
-        <section id="menu-quiz" class="menu">
-            <div class="painel-pergunta-row">
-                <div class="card card-quiz transicao">
-                    <div class="painel-quiz-grid">
-                        <div class="painel painel-card pontuacao">
-                            <span class="painel-titulo">Pontuação</span>
-                            <span id="pontuacao" class="painel-valor">0</span>
-                        </div>
-                        <div class="painel painel-card tempo">
-                            <span class="painel-titulo">Tempo</span>
-                            <span id="tempo" class="painel-valor">00</span>s
-                            <div class="barra-progresso-container">
-                                <div id="barra-progresso" class="barra-progresso" data-tooltip="Tempo restante"></div>
-                            </div>
-                        </div>
-                        <div class="painel painel-card faltam">
-                            <span class="painel-titulo">Perguntas faltam</span>
-                            <span id="faltam" class="painel-valor">0</span>
+        <section id="quiz" class="menu" aria-labelledby="quiz-titulo" role="dialog" aria-modal="true">
+            <h2 id="quiz-titulo" class="sr-only" tabindex="-1">Quiz em andamento</h2>
+            <div class="card card--quiz">
+                <button id="btn-close-quiz" class="card-close-btn" aria-label="Fechar quiz e voltar ao início" type="button">
+                    <span class="icon ion-close" aria-hidden="true"></span>
+                    <span class="sr-only">Fechar</span>
+                </button>
+                <div class="status-bar" role="status" aria-live="polite">
+                    <div class="status-item">
+                        <span class="status-label">Pontuação</span>
+                        <span id="pontuacao" class="status-value">0</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Tempo</span>
+                        <span id="tempo" class="status-value">00</span>s
+                        <div class="barra-progresso-container">
+                            <div id="barra-progresso" class="barra-progresso" data-tooltip="Tempo restante"></div>
                         </div>
                     </div>
-                    <div id="painel-pergunta" class="painel-pergunta">
-                        <div class="pergunta-pares"></div>
-                        <div class="painel-pergunta-texto"></div>
+                    <div class="status-item">
+                        <span class="status-label">Faltam</span>
+                        <span id="faltam" class="status-value">0</span>
                     </div>
-                    <div class="botoes-resposta">
-                        <button id="btn-sim" class="btn btn-roxo" aria-label="Responder Sim" role="button" tabindex="0">
-                            <span class="icon ion-thumbsup"></span>
-                            Sim
-                        </button>
-                        <button id="btn-nao" class="btn btn-roxo" aria-label="Responder Não" role="button" tabindex="0">
-                            <span class="icon ion-thumbsdown"></span>
-                            Não
-                        </button>
-                    </div>
-                    <button id="btn-cancelar" class="btn btn-voltar" aria-label="Cancelar ou Voltar" role="button" tabindex="0">
+                    <button id="btn-cancelar" class="btn btn-voltar btn-small" aria-label="Cancelar Quiz" role="button" tabindex="0">
                         <span class="icon ion-close"></span>
-                        Cancelar/Voltar
+                        Cancelar
                     </button>
                 </div>
-                <div class="card card-alternativas-logica" style="display: none;">
-                    <div class="alternativas-logica"></div>
+                <div id="painel-pergunta" class="painel-pergunta question-area">
+                    <div class="pergunta-pares"></div>
+                    <div class="painel-pergunta-texto"></div>
+                </div>
+                <div id="alternativas-logica" class="alternativas-logica" hidden></div>
+                <div class="answer-buttons">
+                    <button id="btn-sim" class="btn btn-roxo" aria-label="Responder Sim" role="button" tabindex="0">
+                        <span class="icon ion-thumbsup"></span>
+                        Sim
+                    </button>
+                    <button id="btn-nao" class="btn btn-roxo" aria-label="Responder Não" role="button" tabindex="0">
+                        <span class="icon ion-thumbsdown"></span>
+                        Não
+                    </button>
                 </div>
             </div>
         </section>
 
-        <section id="menu-ranking" class="menu">
-            <div class="card card-ranking transicao">
-                <h2 class="titulo">Ranking de Pontuações</h2>
-                <div id="msg-ranking" style="opacity: 0; color: #22c55e; text-align: center; font-weight: 600; margin: 12px 0 0 0; font-size: 1.1rem;"></div>
+    <section id="ranking" class="menu" aria-labelledby="ranking-titulo" role="dialog" aria-modal="true">
+            <div class="card card--ranking">
+                <button id="btn-close-ranking" class="card-close-btn" aria-label="Fechar ranking e voltar" type="button">
+                    <span class="icon ion-close" aria-hidden="true"></span>
+                    <span class="sr-only">Fechar</span>
+                </button>
+        <h2 id="ranking-titulo" class="titulo" tabindex="-1">Ranking de Pontuações</h2>
+                <div id="msg-ranking" class="msg-inline" style="opacity:0;" aria-live="polite"></div>
                 <ul id="lista-ranking"></ul>
-                <button id="btn-reset-ranking" class="btn btn-voltar" style="margin-bottom: 8px;" aria-label="Resetar Ranking" role="button" tabindex="0">
-                    <span class="icon ion-trash-a"></span>
-                    Resetar Ranking
-                </button>
-                <button id="btn-novo-quiz" class="btn btn-roxo" aria-label="Iniciar Outro Quiz" role="button" tabindex="0">
-                    <span class="icon ion-ios-refresh"></span>
-                    Iniciar Outro Quiz
-                </button>
+                <div class="ranking-actions">
+                    <button id="btn-reset-ranking" class="btn btn-voltar" aria-label="Resetar Ranking" role="button" tabindex="0">
+                        <span class="icon ion-trash-a"></span>
+                        Resetar Ranking
+                    </button>
+                    <button id="btn-novo-quiz" class="btn btn-roxo" aria-label="Iniciar Outro Quiz" role="button" tabindex="0">
+                        <span class="icon ion-ios-refresh"></span>
+                        Novo Quiz
+                    </button>
+                </div>
             </div>
         </section>
     </main>
 
-    <!-- Seção simples explicativa para o CTA "Como funciona" -->
-    <section id="como-funciona" class="main-container" aria-labelledby="como-funciona-titulo" style="padding-top: 0;">
-        <div class="card" style="max-width: 920px;">
-            <h2 id="como-funciona-titulo" class="titulo">Como funciona</h2>
-            <p style="color: var(--color-text); text-align: center; max-width: 70ch;">
-                Escolha a <strong>dificuldade</strong>, selecione o <strong>conteúdo</strong> (Relação, Lógica ou Conjuntos) e responda <strong>10 perguntas</strong> contra o tempo.
-                Ganhe <strong>bônus por velocidade</strong> e tente alcançar o topo do <strong>ranking</strong>. Tudo isso <strong>sem cadastro</strong>, direto no navegador.
-            </p>
-        </div>
-    </section>
-
-    <!-- Mini FAQ acessível -->
-    <section id="faq" class="main-container" aria-labelledby="faq-titulo" style="padding-top: 0;">
-        <div class="card" style="max-width: 920px;">
-            <h2 id="faq-titulo" class="titulo">Perguntas frequentes</h2>
-            <div class="faq-list">
-                <details>
-                    <summary>Preciso criar conta para jogar?</summary>
-                    <div>Não. É só informar um nome para aparecer no ranking — nenhuma conta é necessária.</div>
-                </details>
-                <details>
-                    <summary>Como a pontuação é calculada?</summary>
-                    <div>Você ganha pontos por acerto e bônus por velocidade. Quanto mais rápido, maior o bônus.</div>
-                </details>
-                <details>
-                    <summary>Posso jogar em celular?</summary>
-                    <div>Sim. O quiz é responsivo e funciona bem de 360px até telas grandes.</div>
-                </details>
+        <section id="como-funciona" class="menu" aria-labelledby="como-funciona-titulo" role="dialog" aria-modal="true">
+            <div class="card card--info">
+                <button id="btn-close-como" class="card-close-btn" aria-label="Fechar e voltar" type="button">
+                    <span class="icon ion-close"></span>
+                </button>
+                <h2 id="como-funciona-titulo" class="titulo" tabindex="-1">Como funciona</h2>
+                <p class="info-paragraph" style="text-align:center; max-width:70ch;">
+                    Escolha a <strong>dificuldade</strong>, selecione o <strong>conteúdo</strong> (Relação, Lógica ou Conjuntos) e responda <strong>10 perguntas</strong> contra o tempo.
+                    Ganhe <strong>bônus de velocidade</strong> e tente chegar ao topo do <strong>ranking</strong>. Tudo direto no navegador, sem cadastro.
+                </p>
             </div>
-        </div>
-    </section>
-
-    <!-- Scripts -->
+        </section>
+        <section id="faq" class="menu" aria-labelledby="faq-titulo" role="dialog" aria-modal="true">
+            <div class="card card--info">
+                <button id="btn-close-faq" class="card-close-btn" aria-label="Fechar e voltar" type="button">
+                    <span class="icon ion-close"></span>
+                </button>
+                <h2 id="faq-titulo" class="titulo" tabindex="-1">Perguntas frequentes</h2>
+                <div class="faq-list">
+                    <details>
+                        <summary>Preciso criar conta para jogar?</summary>
+                        <div>Não. Basta informar um nome para aparecer no ranking.</div>
+                    </details>
+                    <details>
+                        <summary>Como a pontuação é calculada?</summary>
+                        <div>Acertos + bônus proporcional ao tempo restante de cada pergunta.</div>
+                    </details>
+                    <details>
+                        <summary>Funciona bem no celular?</summary>
+                        <div>Sim. Layout responsivo de 360px até telas grandes.</div>
+                    </details>
+                </div>
+            </div>
+        </section>
+    
     <script src="conteudoRelacao.js"></script>
     <script src="conteudoLogica.js"></script>
     <script src="conteudoConjuntos.js"></script>
-        <!-- Shim: expõe os arrays de perguntas no window para acesso consistente pelo módulo hero.js -->
         <script>
             (function(){
                 try {

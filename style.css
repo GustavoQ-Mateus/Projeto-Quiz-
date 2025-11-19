@@ -1,5 +1,5 @@
-/* === Overrides: remover transições/elevacao dos dois painéis do card de menu === */
-/* Aplica somente aos painéis internos do painel-extra.card-menu (painel-conteudo e painel-usuario) */
+
+
 .painel-extra.card-menu .painel-card,
 .painel-extra.card-menu .painel.painel-card {
     transition: none !important;
@@ -14,80 +14,75 @@
     transform: none !important;
     box-shadow: var(--shadow-card) !important;
 }
-/*
-    style.css
-    Estilos para o Quiz Lógico
-    Inclui tema claro/escuro, animações, acessibilidade, progresso, ranking e ícones
-    Comentários explicam cada bloco principal de regras
-*/
-/* === MELHORIAS: TEMA CLARO/ESCURO, ANIMAÇÕES, ACESSIBILIDADE, PROGRESSO, RANKING, ÍCONES === */
-/* Variáveis de cor para tema claro */
+
+
+
 :root {
-  --color-bg: #f7f8fc;        /* fundo */
-  --color-card: #ffffff;      /* cartões/superfícies */
-  --color-card-alt: #f2f4ff;  /* superfícies secundárias */
-  --color-primary: #6f5cff;   /* roxo principal (match com dark) */
-  --color-secondary: #5148c5; /* roxo secundário */
-  --color-text: #1f2937;      /* texto padrão */
-  --color-muted: #667085;     /* rótulos/subtítulos */
-  --color-border: #e5e7eb;    /* bordas sutis */
-  --color-track: #e9edf7;     /* trilho da barra de progresso */
-
-  --color-danger: #ef4444;    /* erro */
-  --color-success: #16a34a;   /* sucesso */
-
-  --shadow-card: 0 8px 32px rgba(17,24,39,0.08);
-  --shadow-btn: 0 3px 12px rgba(111,92,255,0.18);
-
-  --ranking-gold: #ffd700;
-  --ranking-silver: #c0c0c0;
-  --ranking-bronze: #cd7f32;
-
-    /* Variáveis padrão para títulos/valores (tema claro) */
-    --color-panel-title: var(--color-primary);  /* rótulos dos painéis */
-    --color-pairs-text: var(--color-text);      /* texto dos pares */
-    --color-question-text: var(--color-text);   /* texto da pergunta */
-    --color-score-value: var(--color-text);  /* Pontuação (tema claro) */
-    --color-time-value: var(--color-text);   /* Tempo (tema claro) */
-    --color-remaining-value: var(--color-text); /* Perguntas faltam (tema claro) */
-
-    /* Raio padrão para botões em estilo pill */
+    
+    --color-bg: #0E1017;
+    --color-bg-gradient: radial-gradient(circle at 30% 20%, #1d2133 0%, #0E1017 70%);
+    --color-card: rgba(25,29,44,0.90);
+    --color-card-alt: rgba(32,37,55,0.75);
+    --color-surface-3: rgba(46,52,74,0.6);
+    --color-border: rgba(255,255,255,0.08);
+    --color-text: #ECEFF7;
+    --color-muted: #98a1b6;
+    --color-primary: #7B4DFF;
+    --color-secondary: #32E1E7;
+    --color-danger: #FF4D6D;
+    --color-success: #32E1A0;
+    --color-track: #202634;
+    --shadow-card: 0 2px 6px rgba(0,0,0,.45), 0 8px 32px -6px rgba(0,0,0,.65);
+    --shadow-btn: 0 6px 20px -6px rgba(123,77,255,0.55);
+    --ranking-gold: #ffd700;
+    --ranking-silver: #c0c0c0;
+    --ranking-bronze: #cd7f32;
+    --color-panel-title: var(--color-primary);
+    --color-pairs-text: var(--color-text);
+    --color-question-text: var(--color-text);
+    --color-score-value: var(--color-text);
+    --color-time-value: var(--color-text);
+    --color-remaining-value: var(--color-text);
     --radius-pill: 999px;
+    --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px; --space-6: 24px; --space-8: 32px;
+    --gradient-primary: linear-gradient(135deg,#7B4DFF 0%,#32E1E7 100%);
+    --gradient-bar: linear-gradient(90deg,#7B4DFF,#5E6CFF,#32E1E7);
+    --focus-ring: 0 0 0 3px rgba(123,77,255,.55);
 }
-/* Tema escuro: sobrescreve variáveis de cor */
+
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-bg: #0f1117;         /* fundo da página */
-    --color-card: #151a23;       /* superfícies/card principal */
-    --color-card-alt: #1b2230;   /* superfícies secundárias */
-    --color-primary: #9b87fd;    /* roxo de destaque no dark */
-    --color-secondary: #6e56cf;  /* roxo secundário */
-    --color-text: #e6eaf2;       /* texto principal */
-    --color-danger: #ff6b6b;     /* feedback erro no dark */
-    --color-success: #2bdc81;    /* feedback sucesso no dark */
+    --color-bg: #0f1117;         
+    --color-card: #151a23;       
+    --color-card-alt: #1b2230;   
+    --color-primary: #9b87fd;    
+    --color-secondary: #6e56cf;  
+    --color-text: #e6eaf2;       
+    --color-danger: #ff6b6b;     
+    --color-success: #2bdc81;    
     --shadow-card: 0 10px 30px rgba(0,0,0,0.55);
     --shadow-btn: 0 4px 16px rgba(0,0,0,0.40);
 
-    /* extras úteis no dark */
-    --color-border: #2a3244;     /* borda sutil */
-    --color-muted: #a1a8b3;      /* rótulos/subtítulos */
-        --color-track: #253050;      /* trilho da barra de progresso */
+    
+    --color-border: #2a3244;     
+    --color-muted: #a1a8b3;      
+        --color-track: #253050;      
 
-        /* Ajustes das novas variáveis de texto/valores no dark */
-        /* Títulos dos painéis (Pontuação/Tempo/Faltam) */
+        
+        
         --color-panel-title: #6f5cff;
-        /* Textos dos pares e da pergunta */
+        
         --color-pairs-text: #e5e7eb;
         --color-question-text: #f1f5f9;
-                /* Valores: pontuação, tempo, faltam (tema escuro) */
+                
                 --color-score-value: var(--color-text);
                 --color-time-value: var(--color-text);
                 --color-remaining-value: var(--color-text);
   }
 }
-/* Estilo do corpo da página */
+
 body {
-    background: var(--color-bg);
+    background: var(--color-bg-gradient);
     color: var(--color-text);
     font-family: 'Poppins', Arial, sans-serif;
     transition: background 0.6s, color 0.6s;
@@ -96,33 +91,33 @@ body {
 .card, .painel-card, .painel-extra, .painel-pergunta, .painel-usuario { border: 1px solid var(--color-border); }
 .label-nome-usuario, .label-dificuldade, .painel-titulo { color: var(--color-muted); }
 
-/* Estilo dos cards e painéis principais */
+
 .card, .painel-card, .painel-extra, .painel-pergunta, .painel-usuario {
     background: var(--color-card);
+    backdrop-filter: blur(8px);
     box-shadow: var(--shadow-card);
     transition: background 0.4s, box-shadow 0.3s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
 }
-/* Efeito hover nos cards */
+.card::before {
+    content:"";
+    position:absolute; inset:0;
+    background: radial-gradient(circle at 20% 15%, rgba(123,77,255,0.18), transparent 60%);
+    pointer-events:none;
+    mix-blend-mode:plus-lighter;
+}
+
 .card:hover, .painel-card:hover, .painel-extra.card-menu:hover, .card.card-ranking:hover {
     transform: translateY(-1px);
     box-shadow: var(--shadow-card);
 }
-/* Menu principal: transição de visibilidade */
-.menu {
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.7s;
-}
-.menu.active {
-    opacity: 1;
-    pointer-events: auto;
-    z-index: 2;
-}
-/* Animação de entrada dos cards */
+
+
 .card-menu, .card-quiz, .card-ranking {
     animation: fadeIn 0.7s;
 }
-/* Keyframes para animação de fadeIn */
+
 @keyframes fadeIn {
     from { opacity: 0; transform: scale(0.97) translateY(20px); }
     to { opacity: 1; transform: scale(1) translateY(0); }
@@ -153,13 +148,17 @@ body {
     outline-offset: 2px;
 }
 .btn-roxo {
-    background: linear-gradient(50deg, var(--color-primary), var(--color-secondary), var(--color-primary));
-    border: 2.5px solid var(--color-primary);
+    background: var(--gradient-primary);
+    border: none;
     color: #fff;
     position: relative;
     overflow: hidden;
     z-index: 1;
+    box-shadow: var(--shadow-btn);
 }
+.btn-roxo:hover { box-shadow: 0 0 0 2px rgba(123,77,255,0.35), 0 0 22px rgba(123,77,255,0.6); transform: translateY(-2px); }
+.btn-roxo:active { transform: translateY(0); }
+.btn-roxo:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .btn-roxo .icon, .btn-roxo .emoji {
     font-size: 1.4em;
     margin-right: 0.4em;
@@ -183,12 +182,15 @@ body {
 }
 .barra-progresso {
     height: 100%;
-    background: linear-gradient(90deg, var(--color-primary) 60%, var(--color-secondary) 100%);
+    background: var(--gradient-bar);
+    background-size: 180% 100%;
+    animation: progressMove 4s linear infinite;
     border-radius: 6px;
     transition: width 0.5s linear, background 0.4s;
     width: 100%;
     position: relative;
 }
+@keyframes progressMove { 0% { background-position: 0% 50%; } 100% { background-position: 180% 50%; } }
 .barra-progresso[data-tooltip]:hover::after {
     content: attr(data-tooltip);
     position: absolute;
@@ -256,21 +258,54 @@ button[role="button"], .btn[role="button"] {
     box-shadow: 0 12px 36px rgba(108,99,255,0.22);
     transform: scale(1.02);
 }
-/* ========== FIM DAS MELHORIAS ========== */
 
-/* === SEU CSS ORIGINAL ABAIXO (NÃO REMOVA NADA!) === */
-.menu.reflow {
-    position: static;
-    display: block;
-    opacity: 1;
-    transform: none;
-    pointer-events: auto;
+
+
+
+
+.menu {
+    display: none;
     width: 100%;
-    height: auto;
-    z-index: 1;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.35s, transform 0.35s;
+    opacity: 0;
+    transform: translateY(18px);
+    padding: 40px 2vw;
+}
+.menu.active,
+.menu.reflow {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+    z-index: 50;
+    position: fixed;
+    inset: 0;
+    overflow-y: auto;
+    pointer-events: auto;
 }
 
-/* Padronização específica do #menu-dificuldade no estilo Hero */
+
+body.menu-open { overflow: hidden; }
+
+
+#menu-backdrop {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at 30% 20%, rgba(60,35,120,0.55), rgba(10,10,22,0.85));
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .4s ease;
+    z-index: 40;
+}
+body.menu-open #menu-backdrop { opacity: 1; pointer-events: auto; }
+
+
+body.menu-open #hero { filter: blur(2px) brightness(.7); pointer-events: none; }
+
+
 #menu-dificuldade { scroll-margin-top: 88px; }
 #menu-dificuldade .card {
     width: min(100%, 720px);
@@ -292,7 +327,64 @@ button[role="button"], .btn[role="button"] {
     font-weight: 600;
     letter-spacing: .2px;
 }
-/* limpeza: removido .webflow-style-input do menu de dificuldade */
+
+
+#setup .card--setup,
+#quiz .card--quiz,
+#ranking .card--ranking,
+#como-funciona .card--info,
+#faq .card--info {
+    width: min(100%, 720px);
+    max-width: 720px;
+    padding: clamp(24px, 4vw, 40px);
+    gap: clamp(14px, 2vw, 20px);
+}
+
+
+.card-close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--color-surface-3, rgba(255,255,255,0.08));
+    border: none;
+    color: var(--color-text);
+    padding: 8px 10px;
+    border-radius: var(--radius-sm, 8px);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem; 
+    transition: background .25s, transform .25s;
+    z-index: 10; 
+    line-height: 1;
+    min-width: 40px;
+    min-height: 40px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+}
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+.card-close-btn:hover {
+    background: var(--color-surface-4, rgba(255,255,255,0.15));
+    transform: scale(1.05);
+}
+.card-close-btn:active {
+    transform: scale(.95);
+}
+.card-close-btn .icon { pointer-events: none; }
+
+
+.card-close-btn:focus { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
 #menu-dificuldade .input-hero {
     display: flex;
     align-items: center;
@@ -307,7 +399,7 @@ button[role="button"], .btn[role="button"] {
     flex: 1 1 auto;
     font-size: 1.1rem;
     color: var(--color-text);
-    line-height: 1.35; /* ritmo vertical consistente */
+    line-height: 1.35; 
 }
 #menu-dificuldade .input-hero input::placeholder { color: var(--color-muted); }
 #menu-dificuldade .input-hero button {
@@ -334,7 +426,7 @@ button[role="button"], .btn[role="button"] {
     color: var(--color-text);
     font-size: 1.1rem;
     padding: 14px;
-    margin-bottom: 10px; /* afinado */
+    margin-bottom: 10px; 
 }
 #menu-dificuldade .boxed-check-label {
     border-radius: 12px;
@@ -379,12 +471,12 @@ button[role="button"], .btn[role="button"] {
     }
 }
 
-/* === Hero: ajuste dos painéis da coluna direita (#menu-dificuldade) === */
+
 #menu-dificuldade .painel-extra.card-menu {
     gap: 12px;
     align-items: stretch;
 }
-#menu-dificuldade .painel-pergunta-row { gap: 16px; } /* afinado o espaçamento horizontal */
+#menu-dificuldade .painel-pergunta-row { gap: 16px; } 
 #menu-dificuldade .label-escolha-quiz {
     color: var(--color-text);
     font-size: 1.25rem;
@@ -408,7 +500,7 @@ button[role="button"], .btn[role="button"] {
 #menu-dificuldade .boxed-check-group.boxed-check-lg { margin: 0; }
 #menu-dificuldade .boxed-check-group.boxed-check-lg .boxed-check { margin-bottom: 8px; }
 #menu-dificuldade .boxed-check-group.boxed-check-lg .boxed-check:last-child { margin-bottom: 0; }
-/* === fim ajustes coluna direita === */
+
 .radio-roxo {
     font-size: 1.25rem;
     color: var(--color-primary);
@@ -466,7 +558,7 @@ button[role="button"], .btn[role="button"] {
     position: relative;
     overflow: hidden;
     z-index: 1;
-    background: linear-gradient(50deg, var(--color-primary), var(--color-secondary), var(--color-primary));
+    background: var(--color-primary);
     background-size: auto;
     animation: none;
 }
@@ -555,7 +647,7 @@ button { padding: 0; background: none; border: none; outline: none; }
     color: var(--color-muted);
     margin-bottom: -15px;
 }
-/* (removido: .webflow-style-input legado não é mais usado) */
+
 @keyframes gradient {
     0% { background-position: 0 0; }
     100% { background-position: 100% 0; }
@@ -570,9 +662,9 @@ body {
 .header {
     width: 100%;
     box-shadow: 0 2px 12px rgba(108,99,255,0.08);
-    padding: 0.5rem 0;
+    padding: 0.5rem 16px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     position: sticky;
     top: 0;
@@ -598,24 +690,6 @@ body {
     align-items: center;
     justify-content: center;
     padding: 2vw;
-}
-.menu {
-    display: none;
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.5s, transform 0.5s;
-    opacity: 0;
-    transform: translateY(30px);
-    position: absolute;
-    left: 0; right: 0; top: 0; bottom: 0;
-}
-.menu.active {
-    display: flex;
-    opacity: 1;
-    transform: translateY(0);
-    z-index: 2;
 }
 .card {
     background: var(--color-card);
@@ -774,7 +848,7 @@ body {
         max-width: 98vw;
         padding: 18px 6vw;
     }
-    /* Empilha os dois painéis do menu verticalmente e ocupa a largura completa */
+    
     .painel-pergunta-row {
         flex-direction: column;
         align-items: stretch;
@@ -900,8 +974,8 @@ body {
     font-weight: 500;
 }
 
-/* === Overrides incorporados de style.fixed.css para manter tema claro/escuro por variáveis === */
-/* Estes overrides garantem que regras tardias com cores fixas não quebrem o tema dinâmico */
+
+
 body {
     background: var(--color-bg) !important;
     color: var(--color-text) !important;
@@ -921,12 +995,12 @@ body {
     color: var(--color-primary) !important;
 }
 
-/* Aplicação das cores nos spans de valor */
+
 #pontuacao.painel-valor { color: var(--color-score-value) !important; }
 #tempo.painel-valor { color: var(--color-time-value) !important; }
 #faltam.painel-valor { color: var(--color-remaining-value) !important; }
 
-/* Regras aplicadas (no final, com !important para prevalecer) */
+
 .painel-titulo {
     color: var(--color-panel-title) !important;
 }
@@ -937,10 +1011,10 @@ body {
     color: var(--color-question-text) !important;
 }
 
-/* Evita overflow horizontal: header já usa width:100% globalmente */
 
-/* (consolidado no bloco dark acima) */
-/* ====== Configurações (engrenagem) e toggle de tema ====== */
+
+
+
 .settings-btn {
     position: absolute;
     right: 12px;
@@ -971,7 +1045,7 @@ body {
 .settings-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .settings-label { font-size: 1rem; color: var(--color-text); }
 
-/* Switch control */
+
 .switch { position: relative; display: inline-block; width: 48px; height: 26px; }
 .switch input { opacity: 0; width: 0; height: 0; }
 .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .2s; border-radius: 999px; }
@@ -979,7 +1053,7 @@ body {
 .switch input:checked + .slider { background-color: var(--color-primary); }
 .switch input:checked + .slider:before { transform: translateX(22px); }
 
-/* ====== Forçar tema via atributo data-theme no html/body ====== */
+
 [data-theme="light"] {
     --color-bg: #f7f8fc;
     --color-card: #ffffff;
@@ -1025,4 +1099,119 @@ body {
     --color-score-value: var(--color-text);
     --color-time-value: var(--color-text);
     --color-remaining-value: var(--color-text);
+}
+
+
+.sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
+
+.card--setup, .card--ranking, .card--quiz { width:min(100%, 860px); max-width:860px; margin-inline:auto; }
+
+.status-bar {
+    display:flex;
+    flex-wrap:wrap;
+    gap:var(--space-5);
+    align-items:center;
+    justify-content:space-between;
+    background:var(--color-card);
+    border:1px solid var(--color-border);
+    border-radius:16px;
+    padding:var(--space-3) var(--space-4);
+    box-shadow:var(--shadow-card);
+    margin-bottom:var(--space-6);
+}
+.status-item { display:flex; flex-direction:column; min-width:90px; text-align:center; gap:var(--space-1); }
+.status-label { font-size:.85rem; font-weight:600; color:var(--color-muted); letter-spacing:.5px; }
+.status-value { font-size:1.4rem; font-weight:700; color:var(--color-primary); }
+
+.question-area { margin-top:var(--space-5); }
+.answer-buttons, .botoes-resposta { display:flex; gap:var(--space-4); flex-wrap:wrap; justify-content:center; margin-top:var(--space-5); }
+
+.answer-buttons .btn, .botoes-resposta .btn { width: var(--cta-width-px, 300px) !important; max-width: 100% !important; flex: 0 0 auto !important; font-size:1.2rem !important; padding:18px 0 !important; }
+
+
+#alternativas-logica.alternativas-logica { display:flex; flex-wrap:wrap; gap:var(--space-4); justify-content:center; margin-top:var(--space-5); }
+.btn-alternativa-logica { width: var(--cta-width-px, 300px) !important; max-width:100% !important; flex:0 0 auto; font-size:1.2rem; padding:18px 0; background:#232A3A; border:1px solid var(--color-border); color:var(--color-text); }
+.btn-alternativa-logica:hover { background:#2B3346; box-shadow:0 0 0 2px rgba(123,77,255,0.35); }
+
+@media (max-width:700px){
+    .status-bar { justify-content:center; }
+    .status-item { flex:1 1 28%; }
+    
+}
+
+
+.ranking-actions { display:flex; gap:var(--space-4); flex-wrap:wrap; justify-content:center; margin-top:var(--space-6); }
+.ranking-actions .btn { flex:1 1 200px; }
+
+
+.setup-grid { display:grid; gap:var(--space-6); grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); width:100%; }
+.setup-group { display:flex; flex-direction:column; gap:var(--space-3); }
+
+
+.card--setup .titulo { margin-bottom: var(--space-2); }
+.msg-inline { margin-bottom: var(--space-2); }
+.card--quiz .painel-pergunta { margin-bottom: var(--space-4); padding-top: var(--space-4); padding-bottom: var(--space-4); }
+
+
+.btn, .btn-roxo, .btn-voltar, .btn-alternativa-logica {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+    box-shadow: none !important;
+    filter: none !important;
+}
+.btn-roxo {
+    background: var(--color-primary) !important;
+    background-image: none !important;
+    border: 1px solid var(--color-primary) !important;
+}
+.btn-voltar {
+    background: var(--color-danger) !important;
+    background-image: none !important;
+    border: 1px solid var(--color-danger) !important;
+}
+.btn:hover, .btn-roxo:hover, .btn-voltar:hover,
+.btn:active, .btn-roxo:active, .btn-voltar:active {
+    transform: none !important;
+    box-shadow: none !important;
+    filter: none !important;
+}
+.btn-alternativa-logica:hover { box-shadow: none !important; }
+
+
+.logo-emoji { display:none !important; }
+.logo-svg { display:none !important; }
+.menu.closing { opacity:0 !important; transform: translateY(18px) !important; pointer-events:none !important; }
+.card-close-btn { font-size:1.35rem !important; line-height:1; min-width:40px; min-height:40px; box-shadow:0 2px 8px rgba(0,0,0,.35); }
+.close-fallback { font-weight:600; margin-left:4px; }
+
+
+.ranking-medal-badge {
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: #fff;
+    font-weight: 800;
+    margin-right: 8px;
+    line-height: 1;
+}
+
+
+#setup .label-nomeescolha { text-align: center; display: block; }
+#setup .input-hero {
+    display: flex; align-items: center; gap: 8px;
+    margin-left: auto; margin-right: auto;
+    width: 100%; max-width: 420px;
+}
+
+#setup .input-hero input {
+    color: #fff;
+    caret-color: #fff;
+}
+#setup .input-hero input::placeholder {
+    color: rgba(255,255,255,0.6);
 }

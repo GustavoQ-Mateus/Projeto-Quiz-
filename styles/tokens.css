@@ -1,6 +1,4 @@
-/* Design tokens para o hero - Playful/Flat 2.0 */
 :root {
-  /* cores base */
   --brand-600: #6f5cff;
   --brand-700: #5148c5;
   --bg: #f7f8fc;
@@ -12,8 +10,6 @@
   --track: #e9edf7;
   --success-600: #16a34a;
   --danger-600: #ef4444;
-
-  /* alias para variáveis globais já usadas no projeto */
   --color-primary: var(--brand-600);
   --color-secondary: var(--brand-700);
   --color-bg: var(--bg);
@@ -25,8 +21,6 @@
   --color-track: var(--track);
   --color-success: var(--success-600);
   --color-danger: var(--danger-600);
-
-  /* tipografia */
   --font-sans: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   --fz-eyebrow: clamp(0.75rem, 1vw + 0.5rem, 0.95rem);
   --fz-h1: clamp(1.9rem, 2.8vw + 1.1rem, 3rem);
@@ -34,26 +28,16 @@
   --fz-cta: clamp(1rem, 0.6vw + 0.8rem, 1.125rem);
   --lh-tight: 1.15;
   --lh-normal: 1.5;
-
-  /* espaçamentos */
   --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-6: 24px; --space-8: 32px; --space-10: 40px; --space-12: 48px;
-
-  /* radius e sombras */
   --radius-sm: 6px; --radius-md: 10px; --radius-lg: 14px; --radius-xl: 18px; --radius-pill: 999px;
   --shadow-sm: 0 2px 8px rgba(17,24,39,0.06);
   --shadow-md: 0 8px 24px rgba(17,24,39,0.10);
   --shadow-lg: 0 12px 36px rgba(17,24,39,0.15);
-
-  /* durações */
   --dur-fast: 120ms; --dur-mid: 180ms;
-
-  /* gradiente de fundo do hero (leve e performático) */
   --hero-gradient: radial-gradient(1200px 600px at 10% -10%, rgba(111,92,255,0.18), transparent 60%),
                    radial-gradient(900px 500px at 95% 20%, rgba(81,72,197,0.16), transparent 60%),
                    linear-gradient(180deg, rgba(111,92,255,0.06), rgba(81,72,197,0.02) 45%, transparent 100%);
 }
-
-/* Tema escuro */
 [data-theme="dark"] {
   --bg: #0f1117;
   --surface: #151a23;
@@ -66,7 +50,6 @@
   --brand-700: #6e56cf;
   --success-600: #2bdc81;
   --danger-600: #ff6b6b;
-  /* aliases para integração com style.css */
   --color-primary: var(--brand-600);
   --color-secondary: var(--brand-700);
   --color-bg: var(--bg);

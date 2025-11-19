@@ -1,10 +1,9 @@
-// dom.js
-// Mapeia e armazena referências aos principais elementos do DOM usados no quiz
-// Facilita o acesso aos elementos em outros scripts
 window.elementos = {
-    menuDificuldade: document.getElementById('menu-dificuldade'),
-    menuQuiz: document.getElementById('menu-quiz'),
-    menuRanking: document.getElementById('menu-ranking'),
+    menuDificuldade: document.getElementById('setup') || document.getElementById('menu-dificuldade'),
+    menuQuiz: document.getElementById('quiz') || document.getElementById('menu-quiz'),
+    menuRanking: document.getElementById('ranking') || document.getElementById('menu-ranking'),
+    menuComoFunciona: document.getElementById('como-funciona'),
+    menuFaq: document.getElementById('faq'),
     inputNome: document.getElementById('nome'),
     btnNome: document.getElementById('btn-email'),
     radioLogica: document.getElementById('radio-logica'),
@@ -26,18 +25,23 @@ window.elementos = {
     painelPergunta: document.getElementById('painel-pergunta'),
     perguntaPares: document.querySelector('.pergunta-pares'),
     painelPerguntaTexto: document.querySelector('.painel-pergunta-texto'),
-    cardAlternativasLogica: document.querySelector('.card-alternativas-logica'),
-    alternativasLogica: document.querySelector('.alternativas-logica'),
+    cardAlternativasLogica: document.querySelector('.card-alternativas-logica') || document.getElementById('alternativas-logica'),
+    alternativasLogica: document.querySelector('.alternativas-logica') || document.getElementById('alternativas-logica'),
     msgNome: document.getElementById('msg-nome'),
     msgRanking: document.getElementById('msg-ranking'),
-    cardQuiz: document.querySelector('.card-quiz'),
-    cardMenu: document.querySelector('.card-menu'),
+    cardQuiz: document.querySelector('.card--quiz') || document.querySelector('.card-quiz'),
+    cardMenu: document.querySelector('.card--setup') || document.querySelector('.card-menu'),
     labelDificuldade: document.querySelector('.label-dificuldade'),
-    botoesResposta: document.querySelector('.botoes-resposta'),
-    cardRanking: document.querySelector('.card-ranking')
+    botoesResposta: document.querySelector('.botoes-resposta') || document.querySelector('.answer-buttons'),
+    cardRanking: document.querySelector('.card--ranking') || document.querySelector('.card-ranking')
+    ,setupForm: document.getElementById('setup-form')
+    ,btnCloseQuiz: document.getElementById('btn-close-quiz')
+    ,btnCloseFaq: document.getElementById('btn-close-faq')
+    ,btnCloseComo: document.getElementById('btn-close-como')
+    ,btnCloseSetup: document.getElementById('btn-close-setup')
+    ,btnCloseRanking: document.getElementById('btn-close-ranking')
 };
 
-// Validação: alerta se algum elemento não foi encontrado no DOM
 for (let key in window.elementos) {
     if (!window.elementos[key]) {
         console.warn('Elemento "' + key + '" não encontrado no DOM. Verifique o HTML.');
