@@ -1,103 +1,10 @@
-const perguntasLogica = [
-  // Pergunta Easy 1
-  {
-    dificuldade: "Easy",
-    pergunta: "Qual é a negação de 'Está chovendo'?",
-    alternativas: ["Está chovendo muito", "Não está chovendo", "Está sol", "Vai chover"],
-    respostaCorreta: 1,
-    explicacao: "A negação de 'Está chovendo' é 'Não está chovendo'."
-  },
-  // Pergunta Easy 2
-  {
-    dificuldade: "Easy",
-    pergunta: "Qual é o valor de verdade de (V ∧ V)?",
-    alternativas: ["V", "F", "Depende", "Não é possível saber"],
-    respostaCorreta: 0,
-    explicacao: "(V ∧ V) é verdadeiro pois ambas as proposições são verdadeiras."
-  },
-  // Pergunta Easy 3
-  {
-    dificuldade: "Easy",
-    pergunta: "Qual é o valor de verdade de (V ∨ F)?",
-    alternativas: ["V", "F", "Depende", "Inconclusivo"],
-    respostaCorreta: 0,
-    explicacao: "(V ∨ F) é verdadeiro pois pelo menos uma das proposições é verdadeira."
-  },
-  // Pergunta Easy 4
-  {
-    dificuldade: "Easy",
-    pergunta: "A operação '¬' representa:",
-    alternativas: ["Conjunção", "Negação", "Disjunção", "Implicação"],
-    respostaCorreta: 1,
-    explicacao: "O símbolo '¬' representa a negação lógica."
-  },
-  // Pergunta Easy 5
-  {
-    dificuldade: "Easy",
-    pergunta: "Qual conectivo é usado para representar 'ou'?",
-    alternativas: ["∧", "¬", "∨", "→"],
-    respostaCorreta: 2,
-    explicacao: "O símbolo '∨' representa a disjunção (ou lógico)."
-  },
-  // Pergunta Easy 6
-  {
-    dificuldade: "Easy",
-    pergunta: "Qual conectivo é usado para representar 'e'?",
-    alternativas: ["∧", "∨", "¬", "↔"],
-    respostaCorreta: 0,
-    explicacao: "O símbolo '∧' representa a conjunção (e lógico)."
-  },
-  // Pergunta Easy 7
-  {
-    dificuldade: "Easy",
-    pergunta: "Se P é falso e Q é verdadeiro, qual é o valor de (P ∨ Q)?",
-    alternativas: ["V", "F", "Depende", "Indeterminado"],
-    respostaCorreta: 0,
-    explicacao: "Basta que um seja verdadeiro para que a disjunção seja verdadeira."
-  },
-  // Pergunta Easy 8
-  {
-    dificuldade: "Easy",
-    pergunta: "Qual é o valor de verdade de (F ∧ V)?",
-    alternativas: ["V", "F", "Depende", "Indeterminado"],
-    respostaCorreta: 1,
-    explicacao: "Conjunção só é verdadeira se ambos forem verdadeiros. Como um é falso, o resultado é falso."
-  },
-  // Pergunta Easy 9
-  {
-    dificuldade: "Easy",
-    pergunta: "Qual é o valor de verdade de ¬F?",
-    alternativas: ["V", "F", "Depende", "Não é definido"],
-    respostaCorreta: 0,
-    explicacao: "A negação de F (falso) é V (verdadeiro)."
-  },
-  // Pergunta Easy 10
-  {
-    dificuldade: "Easy",
-    pergunta: "O que significa a expressão (P → Q)?",
-    alternativas: ["P e Q são equivalentes", "Se P então Q", "P ou Q", "P é a negação de Q"],
-    respostaCorreta: 1,
-    explicacao: "(P → Q) é lido como 'Se P então Q'."
-  },
-  // Pergunta Easy 11
-  {
-    dificuldade: "Easy",
-    pergunta: "Qual é o valor de verdade de (V → F)?",
-    alternativas: ["V", "F", "Depende", "Indeterminado"],
-    respostaCorreta: 1,
-    explicacao: "Uma implicação só é falsa quando o antecedente é verdadeiro e o consequente é falso."
-  },
-  // Pergunta Easy 12
-  {
-    dificuldade: "Easy",
-    pergunta: "O que significa a expressão (P ↔ Q)?",
-    alternativas: ["P é igual a Q", "P implica Q", "P é equivalente a Q", "P ou Q"],
-    respostaCorreta: 2,
-    explicacao: "(P ↔ Q) é lido como 'P se e somente se Q', ou seja, são equivalentes."
-  },
-  // Pergunta Easy 13
-  {
-    dificuldade: "Easy",
+// Quiz de lógica desativado. Usar perguntasLogica (array vazio) como stub.
+const perguntasLogica = [];
+/* REMOVIDO: dataset original inativo
+const perguntasLogica_inativo = [
+  // Arquivo de conteúdo de Lógica removido (quiz de lógica desativado).
+  // Mantido vazio para evitar erros de carregamento caso o script seja referenciado futuramente.
+  const perguntasLogica = [];
     pergunta: "Qual é o resultado de ¬(V)?",
     alternativas: ["V", "F", "Não muda", "Indeterminado"],
     respostaCorreta: 1,
@@ -799,4 +706,4 @@ const perguntasLogica = [
     respostaCorreta: 0,
     explicacao: "Fatorando: (P ∧ Q) ∨ (P ∧ ¬Q) = P ∧ (Q ∨ ¬Q) = P. Então P ∨ (¬P ∧ Q) = (P ∨ ¬P) ∧ (P ∨ Q) = P ∨ Q."
   }
-];
+];*/

@@ -1,4 +1,7 @@
-const perguntasRelacao = [
+// Quiz de relação desativado. Stub vazio para evitar erros.
+const perguntasRelacao = [];
+/* REMOVIDO: dataset original inativo
+const perguntasRelacao_inativo = [
  // Easy 1
  {
 	"dificuldade": "Easy",
@@ -799,4 +802,4 @@ const perguntasRelacao = [
 	"resposta": true,
 	"explicacao": "A relação é reflexiva (contém (a,a) para todo a ∈ A), simétrica (todos os pares (a,b) têm (b,a)) e transitiva (ex.: (1,2) e (2,3) implicam (1,3) não presente, mas (1,5) e (5,4) cobrem as cadeias). É de equivalência."
   }
-]
+];*/
