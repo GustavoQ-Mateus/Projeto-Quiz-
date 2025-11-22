@@ -8,8 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="styles/tokens.css">
-    <link rel="stylesheet" href="styles/hero.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 </head>
 <body>
@@ -18,18 +16,7 @@
         <div class="logo" aria-label="Quiz Lógico">
             <span class="logo-titulo">Quiz Lógico</span>
         </div>
-        <button id="btn-config" class="settings-btn" aria-label="Abrir configurações" title="Configurações">
-            <i class="icon ion-gear-a"></i>
-        </button>
-        <div id="settings-panel" class="settings-panel" aria-hidden="true">
-            <div class="settings-row">
-                <label for="toggle-dark" class="settings-label">Tema escuro</label>
-                <label class="switch">
-                    <input type="checkbox" id="toggle-dark">
-                    <span class="slider"></span>
-                </label>
-            </div>
-        </div>
+        
     </header>
     <div id="menu-backdrop" aria-hidden="true"></div>
 
@@ -38,25 +25,19 @@
             <div class="hero-copy">
                 <p class="hero-eyebrow">Desafie seu raciocínio</p>
                 
-                <h1 id="hero-title">Aprenda lógica jogando: rápido, divertido e direto ao ponto</h1>
-                <p class="hero-subhead">Em ~2 minutos você responde 10 perguntas, sem cadastro. Evolua sua velocidade de raciocínio e dispute o topo do ranking.</p>
+                <h1 id="hero-title">Aprenda matematica jogando.</h1>
                 <div class="hero-ctas">
                     <a href="#setup" id="hero-cta-start" class="hero-cta-primary" aria-label="Começar agora">Começar agora</a>
                     <a href="#como-funciona" id="hero-cta-how" class="hero-cta-secondary" aria-label="Como funciona">Como funciona</a>
-                    <a href="#faq" id="hero-cta-faq" class="hero-cta-secondary" aria-label="Perguntas frequentes">Perguntas frequentes</a>
                 </div>
                 <div class="hero-social-proof" aria-live="polite">
                     <span class="icon ion-ios-people"></span>
                 </div>
             </div>
             <div class="hero-preview" aria-hidden="false">
-                <div class="preview-card" role="region" aria-label="Prévia do quiz">
-                    <div class="preview-header">
-                        <span>Pergunta 1 de 10</span>
-                        <span class="icon ion-ios-timer"></span>
-                    </div>
-                    <p class="preview-question">Carregando exemplo…</p>
-                    <div class="preview-options"></div>
+                <div class="preview-card" role="region" aria-label="Prévia do ranking">
+                    <div class="preview-header"><span>Ranking — Conjuntos (easy)</span></div>
+                    <ol class="preview-ranking-list"></ol>
                 </div>
             </div>
         </div>
@@ -75,10 +56,10 @@
                     <div class="setup-group">
                         <label for="dificuldade" class="label-dificuldade">Escolha a dificuldade:</label>
                         <select id="dificuldade" class="select-dificuldade" aria-label="Selecionar dificuldade">
-                            <option value="Easy">Fácil</option>
-                            <option value="Basic">Básico</option>
-                            <option value="Medium">Médio</option>
-                            <option value="Hard">Difícil</option>
+                            <option value="Easy">Easy</option>
+                            <option value="Basic">Basic</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Hard">Hard</option>
                         </select>
                     </div>
                     <div class="setup-group">
@@ -93,14 +74,6 @@
                     <fieldset class="setup-group" aria-labelledby="conteudo-label">
                         <legend id="conteudo-label" class="label-escolha-quiz">Conteúdo do quiz</legend>
                         <div class="boxed-check-group boxed-check-lg">
-                            <label class="boxed-check" style="display:none;">
-                                <input class="boxed-check-input" type="radio" name="conteudo-quiz" id="radio-logica" value="logica" aria-label="Quiz de Lógica" disabled>
-                                <span class="boxed-check-label">Lógica</span>
-                            </label>
-                            <label class="boxed-check" style="display:none;">
-                                <input class="boxed-check-input" type="radio" name="conteudo-quiz" id="radio-relacao" value="relacao" aria-label="Quiz de Relação" disabled>
-                                <span class="boxed-check-label">Relação</span>
-                            </label>
                             <label class="boxed-check">
                                 <input class="boxed-check-input" type="radio" name="conteudo-quiz" id="radio-conjuntos" value="conjuntos" aria-label="Quiz de Conjuntos" checked>
                                 <span class="boxed-check-label">Conjuntos</span>
@@ -200,40 +173,11 @@
                 </p>
             </div>
         </section>
-        <section id="faq" class="menu" aria-labelledby="faq-titulo" role="dialog" aria-modal="true">
-            <div class="card card--info">
-                <button id="btn-close-faq" class="card-close-btn" aria-label="Fechar e voltar" type="button">
-                    <span class="icon ion-close"></span>
-                </button>
-                <h2 id="faq-titulo" class="titulo" tabindex="-1">Perguntas frequentes</h2>
-                <div class="faq-list">
-                    <details>
-                        <summary>Preciso criar conta para jogar?</summary>
-                        <div>Não. Basta informar um nome para aparecer no ranking.</div>
-                    </details>
-                    <details>
-                        <summary>Como a pontuação é calculada?</summary>
-                        <div>Acertos + bônus proporcional ao tempo restante de cada pergunta.</div>
-                    </details>
-                    <details>
-                        <summary>Funciona bem no celular?</summary>
-                        <div>Sim. Layout responsivo de 360px até telas grandes.</div>
-                    </details>
-                </div>
-            </div>
-        </section>
+        
     
-    <script src="conteudoRelacao.js"></script>
-    <script src="conteudoLogica.js"></script>
     <script src="conteudoConjuntos.js"></script>
         <script>
             (function(){
-                try {
-                    if (typeof perguntasRelacao !== 'undefined' && !Array.isArray(window.perguntasRelacao)) window.perguntasRelacao = perguntasRelacao;
-                } catch (_) {}
-                try {
-                    if (typeof perguntasLogica !== 'undefined' && !Array.isArray(window.perguntasLogica)) window.perguntasLogica = perguntasLogica;
-                } catch (_) {}
                 try {
                     if (typeof perguntasConjuntos !== 'undefined' && !Array.isArray(window.perguntasConjuntos)) window.perguntasConjuntos = perguntasConjuntos;
                 } catch (_) {}
