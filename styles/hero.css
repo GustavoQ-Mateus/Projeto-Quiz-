@@ -1,9 +1,5 @@
-#hero {
-  position: relative;
-  isolation: isolate;
-  background: var(--hero-gradient);
-  color: var(--fg);
-}
+/* LEGACY hero.css REMOVIDO: conteúdo consolidado em style.css
+#hero { }
 .skip-link {
   position: absolute;
   left: -9999px;
@@ -175,23 +171,24 @@
   color: var(--brand-700);
 }
 
-.preview-question {
-  font-size: 1.05rem;
-  color: var(--fg);
-}
-
-.preview-options {
+.preview-ranking-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: grid;
   gap: var(--space-3);
 }
-
-.preview-option {
+.preview-ranking-item {
   background: var(--surface-alt);
   color: var(--fg);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: 12px 14px;
+  padding: 10px 12px;
   font-weight: 600;
+}
+.preview-ranking-empty {
+  color: var(--muted);
+  font-style: italic;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -232,7 +229,5 @@
   border-color: var(--color-primary);
   color: #fff;
 }
-.webflow-style-input:after {
-  animation: none !important;
-  background: linear-gradient(to right, var(--brand-600), var(--brand-700)) !important;
-}
+.webflow-style-input:after { }
+*/
