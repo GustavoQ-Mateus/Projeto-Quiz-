@@ -3,7 +3,6 @@ window.elementos = {
     menuQuiz: document.getElementById('quiz') || document.getElementById('menu-quiz'),
     menuRanking: document.getElementById('ranking') || document.getElementById('menu-ranking'),
     menuComoFunciona: document.getElementById('como-funciona'),
-    menuFaq: document.getElementById('faq'),
     inputNome: document.getElementById('nome'),
     btnNome: document.getElementById('btn-email'),
     radioLogica: document.getElementById('radio-logica'),
@@ -36,7 +35,6 @@ window.elementos = {
     cardRanking: document.querySelector('.card--ranking') || document.querySelector('.card-ranking')
     ,setupForm: document.getElementById('setup-form')
     ,btnCloseQuiz: document.getElementById('btn-close-quiz')
-    ,btnCloseFaq: document.getElementById('btn-close-faq')
     ,btnCloseComo: document.getElementById('btn-close-como')
     ,btnCloseSetup: document.getElementById('btn-close-setup')
     ,btnCloseRanking: document.getElementById('btn-close-ranking')

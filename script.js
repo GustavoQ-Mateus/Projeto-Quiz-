@@ -64,40 +64,6 @@ function atualizarNomeUsuarioPainel() {
 
 window.addEventListener('DOMContentLoaded', function () {
     atualizarNomeUsuarioPainel();
-    try {
-        var savedTheme = localStorage.getItem('quizTheme');
-        if (savedTheme === 'dark' || savedTheme === 'light') {
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        }
-    } catch (_) {}
-    var btnConfig = document.getElementById('btn-config');
-    var settingsPanel = document.getElementById('settings-panel');
-    var toggleDark = document.getElementById('toggle-dark');
-    if (btnConfig && settingsPanel) {
-        btnConfig.addEventListener('click', function () {
-            var isOpen = settingsPanel.classList.contains('open');
-            settingsPanel.classList.toggle('open', !isOpen);
-            settingsPanel.setAttribute('aria-hidden', String(isOpen));
-        });
-        document.addEventListener('click', function (ev) {
-            if (!settingsPanel.classList.contains('open')) return;
-            var target = ev.target;
-            var inside = settingsPanel.contains(target) || (btnConfig && btnConfig.contains(target));
-            if (!inside) {
-                settingsPanel.classList.remove('open');
-                settingsPanel.setAttribute('aria-hidden', 'true');
-            }
-        });
-    }
-    if (toggleDark) {
-        var current = document.documentElement.getAttribute('data-theme');
-        toggleDark.checked = current === 'dark';
-        toggleDark.addEventListener('change', function () {
-            var theme = toggleDark.checked ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-theme', theme);
-            try { localStorage.setItem('quizTheme', theme); } catch (_) {}
-        });
-    }
     elementos.inputNome.addEventListener('input', function () {
         elementos.msgNome.style.opacity = '0';
     });
@@ -122,7 +88,7 @@ window.addEventListener('DOMContentLoaded', function () {
         const savedCont = localStorage.getItem('quizLastRankingConteudo');
         const savedDiff = localStorage.getItem('quizLastRankingDificuldade');
         if (savedCont) rankingConteudoVisivel = savedCont;
-        if (savedDiff) rankingDificuldadeVisivel = savedDiff;
+    if (savedDiff) rankingDificuldadeVisivel = savedDiff;
     } catch (_) {}
 });
 
@@ -131,53 +97,42 @@ function rankingKey(conteudo, dificuldade) {
     const d = dificuldade || dificuldadeAtual;
     return 'quizRanking_' + c + '_' + d;
 }
-function getRanking(conteudo, dificuldade) {
+export function getRanking(conteudo, dificuldade) {
     const key = rankingKey(conteudo, dificuldade);
     return localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key)) : [];
 }
-function setRanking(ranking, conteudo, dificuldade) {
+export function setRanking(ranking, conteudo, dificuldade) {
     const key = rankingKey(conteudo, dificuldade);
     localStorage.setItem(key, JSON.stringify(ranking));
 }
 
-function mostrarMenu(menu) {
-    const menus = [elementos.menuDificuldade, elementos.menuQuiz, elementos.menuRanking, elementos.menuComoFunciona, elementos.menuFaq];
+export function getVisibleRankingState(){
+    return { conteudo: rankingConteudoVisivel, dificuldade: rankingDificuldadeVisivel };
+}
+
+export function mostrarMenu(menu) {
+    const menus = [elementos.menuDificuldade, elementos.menuQuiz, elementos.menuRanking, elementos.menuComoFunciona];
     menus.forEach(m => {
         if (!m) return;
-        if (m !== menu && m.classList.contains('active')) {
-            m.classList.add('closing');
-            const handler = () => {
-                m.removeEventListener('transitionend', handler);
-                m.classList.remove('active', 'closing', 'reflow');
-                m.style.display = 'none';
-                deactivateFocusTrap(m);
-            };
-            m.addEventListener('transitionend', handler);
+        if (m !== menu) {
+            m.classList.remove('active','reflow','closing');
+            m.style.display = 'none';
+            deactivateFocusTrap(m);
         }
     });
     if (menu) {
-        menu.classList.remove('closing');
         menu.style.display = 'flex';
         menu.classList.add('active');
         activateFocusTrap(menu);
-    }
-    if (menu && menu.classList.contains('active')) {
         document.body.classList.add('menu-open');
+        const target = menu.querySelector('h2[tabindex="-1"], .titulo[tabindex="-1"], .card-close-btn');
+        if (target) { try { target.focus(); } catch(_){} }
     } else {
         document.body.classList.remove('menu-open');
     }
-    if (menu && menu.classList.contains('active')) {
-        const heading = menu.querySelector('h2[tabindex="-1"], .titulo[tabindex="-1"]');
-        const closeBtn = menu.querySelector('.card-close-btn');
-        const target = heading || closeBtn;
-        if (target) {
-            setTimeout(() => { try { target.focus(); } catch(_){} }, 50);
-        }
-    }
 }
-window.mostrarMenu = mostrarMenu;
-function voltarParaSetup() {
-    const allMenus = [elementos.menuDificuldade, elementos.menuQuiz, elementos.menuRanking, elementos.menuComoFunciona, elementos.menuFaq];
+export function voltarParaSetup() {
+    const allMenus = [elementos.menuDificuldade, elementos.menuQuiz, elementos.menuRanking, elementos.menuComoFunciona];
     allMenus.forEach(m => { if (m) { m.classList.remove('active','reflow'); m.style.display='none'; } });
     if (elementos.menuDificuldade) {
         mostrarMenu(elementos.menuDificuldade);
@@ -186,24 +141,9 @@ function voltarParaSetup() {
     }
 }
 
-function voltarParaHero() {
-    const allMenus = [elementos.menuDificuldade, elementos.menuQuiz, elementos.menuRanking, elementos.menuComoFunciona, elementos.menuFaq];
-    allMenus.forEach(m => {
-        if (!m) return;
-        if (m.classList.contains('active')) {
-            m.classList.add('closing');
-            const handler = () => {
-                m.removeEventListener('transitionend', handler);
-                m.classList.remove('active','closing','reflow');
-                m.style.display='none';
-                deactivateFocusTrap(m);
-            };
-            m.addEventListener('transitionend', handler);
-        } else {
-            m.classList.remove('closing');
-            m.style.display='none';
-        }
-    });
+export function voltarParaHero() {
+    const allMenus = [elementos.menuDificuldade, elementos.menuQuiz, elementos.menuRanking, elementos.menuComoFunciona];
+    allMenus.forEach(m => { if (m) { m.classList.remove('active','reflow','closing'); m.style.display='none'; deactivateFocusTrap(m); } });
     document.body.classList.remove('menu-open');
     const hero = document.getElementById('hero');
     if (hero) hero.style.filter = '';
@@ -211,9 +151,6 @@ function voltarParaHero() {
 if (elementos.btnCloseQuiz) {
     elementos.btnCloseQuiz.setAttribute('aria-label','Fechar quiz e voltar ao início');
     elementos.btnCloseQuiz.addEventListener('click', voltarParaHero);
-}
-if (elementos.btnCloseFaq) {
-    elementos.btnCloseFaq.addEventListener('click', voltarParaHero);
 }
 if (elementos.btnCloseComo) {
     elementos.btnCloseComo.addEventListener('click', voltarParaHero);
@@ -269,7 +206,7 @@ function ensureCloseFallback(btn){
         btn.appendChild(span);
     }
 }
-['btnCloseQuiz','btnCloseFaq','btnCloseComo','btnCloseSetup','btnCloseRanking'].forEach(key => ensureCloseFallback(elementos[key]));
+['btnCloseQuiz','btnCloseComo','btnCloseSetup','btnCloseRanking'].forEach(key => ensureCloseFallback(elementos[key]));
 function syncAnswerButtonsWidthWithHeroCTA(){
     const cta = document.getElementById('hero-cta-start');
     if(!cta){
@@ -487,6 +424,8 @@ function mostrarRanking(adicionado, conteudoParam, dificuldadeParam) {
     rankingConteudoVisivel = cont;
     rankingDificuldadeVisivel = diff;
 
+    
+
     try {
         localStorage.setItem('quizLastRankingConteudo', cont);
         localStorage.setItem('quizLastRankingDificuldade', diff);
@@ -508,9 +447,10 @@ function mostrarRanking(adicionado, conteudoParam, dificuldadeParam) {
     });
     if (elementos.cardRanking) {
         const titulo = elementos.cardRanking.querySelector('.titulo');
-        if (titulo) titulo.textContent = 'Ranking de Pontuações — ' + labelConteudo(cont) + ' (' + diff + ')';
+        if (titulo) titulo.textContent = 'Ranking de Pontuações — ' + labelConteudo(cont) + ' (' + String(diff).toLowerCase() + ')';
     }
     mostrarMenu(elementos.menuRanking);
+    try { document.dispatchEvent(new Event('ranking-updated')); } catch(_){}
     if (adicionado) {
         elementos.msgRanking.textContent = 'Você foi adicionado ao ranking!';
         elementos.msgRanking.style.opacity = '1';
