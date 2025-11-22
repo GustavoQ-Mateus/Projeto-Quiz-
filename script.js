@@ -14,11 +14,12 @@ const CONFIG = {
 const elementos = window.elementos;
 
 let nomeJogador = '';
+// Tempo por pergunta ajustado para 60 segundos em todas as dificuldades
 const temposPorDificuldade = {
-    Easy: 18,
-    Basic: 15,
-    Medium: 10,
-    Hard: 8
+    Easy: 60,
+    Basic: 60,
+    Medium: 60,
+    Hard: 60
 };
 
 let dificuldadeAtual = CONFIG.DIFICULDADE_PADRAO;
