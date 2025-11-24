@@ -1,19 +1,14 @@
-// Proto inicial da lógica do quiz
-// Nada de arquitetura perfeita; somente o necessário.
-
-(function(){
-  // Estado principal (agora via backend)
+ (function(){
   let idPartida = null;
   let pontuacao = 0;
   let nomeJogador = '';
   let nivelAtual = '';
-  let tempoLimite = 0; // segundos por pergunta
+  let tempoLimite = 0;
   let momentoInicioPergunta = 0;
   let rodadaEncerrada = false;
   let numeroAtual = 0;
   let totalPerguntas = 0;
 
-  // Pega elementos do DOM de forma direta
   const formInicio = document.getElementById('formInicio');
   const painelStatus = document.getElementById('painelStatus');
   const infoJog = document.getElementById('infoJog');
@@ -32,9 +27,43 @@
   const resumoFinal = document.getElementById('resumoFinal');
   const textoResumo = document.getElementById('textoResumo');
   const btnReiniciar = document.getElementById('btnReiniciar');
+  const btnDetalhes = document.getElementById('btnDetalhes');
+  const painelDetalhes = document.getElementById('painelDetalhes');
 
-  // Embaralhar meio tosco (suficiente aqui)
-  // Não precisa mais das perguntas locais, tudo virá do backend.
+  try {
+    const antigoNome = localStorage.getItem('quizNome');
+    if(antigoNome){
+      const nomeInput = document.getElementById('nomeJog');
+      if(nomeInput && !nomeInput.value) nomeInput.value = antigoNome;
+    }
+  } catch(e){}
+
+  mostraRankingCacheInicial();
+
+  function mostraRankingCacheInicial(){
+    try {
+      const nivelSel = document.getElementById('nivelSel');
+      const nivelVal = nivelSel ? nivelSel.value : '';
+      if(!nivelVal) return;
+      const cacheStr = localStorage.getItem('rank_' + nivelVal);
+      if(!cacheStr) return;
+      const listaRanking = document.getElementById('listaRanking');
+      if(!listaRanking) return;
+      listaRanking.innerHTML = '';
+      const arr = JSON.parse(cacheStr);
+      arr.forEach((item,i)=>{
+        const li = document.createElement('li');
+        li.textContent = (i+1) + '. ' + item.nome + ' - ' + item.pontos + ' pts (' + item.tempoLimite + 's / ' + item.mediaTempo.toFixed(2) + 's médio)';
+        listaRanking.appendChild(li);
+      });
+    } catch(e){}
+  }
+
+  function salvaRankingCache(nivel, lista){
+    try {
+      localStorage.setItem('rank_' + nivel, JSON.stringify(lista));
+    } catch(e){}
+  }
 
   function mostraStatus(){
     infoJog.textContent = 'Jogador: ' + nomeJogador;
@@ -43,8 +72,6 @@
     infoPontuacao.textContent = 'Pontuação: ' + pontuacao;
     infoProgresso.textContent = 'Pergunta ' + numeroAtual + '/' + totalPerguntas;
   }
-
-  // Bônus e pontuação agora calculados no servidor; aqui só cronômetro para envio do tempo.
 
   function renderPergunta(bloco){
     if(!bloco){ finalizarRodada(); return; }
@@ -71,7 +98,6 @@
     if(rodadaEncerrada) return;
     rodadaEncerrada = true;
     const tempoGasto = (performance.now() - momentoInicioPergunta)/1000;
-    // desabilita imediatamente
     Array.from(caixaRespostas.children).forEach(b => b.disabled = true);
     try {
       const r = await fetch('/resposta', {
@@ -92,7 +118,6 @@
           finalizarRodada();
         } else {
           btnProx.style.display = 'inline-block';
-          // guarda próxima para quando clicar
           btnProx.dataset.proxima = JSON.stringify(json.proxima);
         }
       } else {
@@ -118,7 +143,7 @@
         const restante = Math.max(0, tempoLimite - decorrido);
         cronometro.textContent = 'Tempo restante: ' + restante.toFixed(1) + 's';
         if(restante <= 0){
-          enviaResposta(-1); // estourou tempo => errado
+          enviaResposta(-1);
         }
       }
     requestAnimationFrame(loopCronometro);
@@ -146,6 +171,7 @@
       const json = await r.json();
       if(!r.ok){ alert('Falhou iniciar'); return; }
       idPartida = json.id;
+      try { localStorage.setItem('quizNome', nomeJogador); } catch(e){}
       painelStatus.style.display = 'block';
       blocoPergunta.style.display = 'block';
       resumoFinal.style.display = 'none';
@@ -157,45 +183,69 @@
 
   function finalizarRodada(){
     blocoPergunta.style.display = 'none';
-    // Busca confirmação final e ranking
     fetch('/final/' + idPartida)
       .then(r=>r.json())
       .then(fin=>{
         resumoFinal.style.display = 'block';
-        textoResumo.textContent = 'Pontuação final de ' + fin.nome + ': ' + fin.pontos + ' em ' + fin.totalPerguntas + ' perguntas.';
-        // Depois ranking
-        return fetch('/ranking');
+        textoResumo.textContent = 'Pontuação final de ' + fin.nome + ': ' + fin.pontos + ' em ' + fin.totalPerguntas + ' perguntas. Tempo total ' + fin.tempoTotal.toFixed(2) + 's (média ' + fin.mediaTempo.toFixed(2) + 's).';
+        return Promise.all([
+          fetch('/ranking?nivel=' + encodeURIComponent(nivelAtual)),
+          fetch('/historico/' + idPartida)
+        ]);
       })
-      .then(r=> r.ok ? r.json() : [])
-      .then(list => {
+      .then(resps => Promise.all(resps.map(r => r.ok ? r.json() : Promise.resolve([]))))
+      .then(([rankList, historico]) => {
         const listaRanking = document.getElementById('listaRanking');
         if(listaRanking){
           listaRanking.innerHTML = '';
-          list.forEach((item,i)=>{
+          (rankList || []).forEach((item,i)=>{
             const li = document.createElement('li');
-            li.textContent = (i+1) + '. ' + item.nome + ' - ' + item.pontos + ' pts (' + item.nivel + ', ' + item.tempoLimite + 's)';
+            li.textContent = (i+1) + '. ' + item.nome + ' - ' + item.pontos + ' pts (' + item.tempoLimite + 's / ' + item.mediaTempo.toFixed(2) + 's médio)';
             listaRanking.appendChild(li);
           });
-          if(list.length === 0){
+          if(!rankList || rankList.length === 0){
             const li = document.createElement('li');
             li.textContent = 'Sem dados ainda';
             listaRanking.appendChild(li);
           }
+          salvaRankingCache(nivelAtual, rankList || []);
+        }
+        const listaDetalhes = document.getElementById('listaDetalhes');
+        if(listaDetalhes && historico && historico.respostas){
+          listaDetalhes.innerHTML = '';
+          historico.respostas.forEach((r,i)=>{
+            const div = document.createElement('div');
+            const prefixo = r.certa ? '✔' : '✖';
+            div.style.marginBottom = '6px';
+            div.textContent = (i+1) + ') ' + prefixo + ' ' + r.pergunta + ' | Escolhida: ' + (r.escolhida>=0? r.alternativas[r.escolhida] : '—') + ' | Correta: ' + r.corretaTexto + ' | Tempo ' + r.tempo.toFixed(2) + 's';
+            const exp = document.createElement('div');
+            exp.style.marginLeft = '14px';
+            exp.style.color = '#444';
+            exp.textContent = 'Explicação: ' + r.explicacao;
+            listaDetalhes.appendChild(div);
+            listaDetalhes.appendChild(exp);
+          });
         }
       })
       .catch(()=>{
         resumoFinal.style.display = 'block';
-        textoResumo.textContent += ' (Falhou carregar ranking)';
+        textoResumo.textContent += ' (Falhou carregar ranking/histórico)';
       });
   }
 
-  // reinício simples
   btnReiniciar.addEventListener('click', () => {
     painelStatus.style.display = 'none';
     resumoFinal.style.display = 'none';
     blocoPergunta.style.display = 'none';
     formInicio.reset();
   });
+
+  if(btnDetalhes){
+    btnDetalhes.addEventListener('click', ()=>{
+      if(!painelDetalhes) return;
+      painelDetalhes.style.display = painelDetalhes.style.display === 'none' ? 'block' : 'none';
+    });
+  }
 
   formInicio.addEventListener('submit', function(ev){
     ev.preventDefault();
@@ -204,9 +254,7 @@
 
   btnProx.addEventListener('click', mostraProxima);
 
-  // loop de cronômetro
   requestAnimationFrame(loopCronometro);
 
-  // Exposição mínima se quiser inspecionar
   window.__quizProto = { iniciar };
 })();

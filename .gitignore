@@ -28,5 +28,5 @@ Thumbs.db
 .idea/
 .vscode/
 
-# Se gerar arquivo de ranking permanente, descomenta:
-# ranking.json
+# Arquivo de ranking persistente (não versionar)
+ranking.json

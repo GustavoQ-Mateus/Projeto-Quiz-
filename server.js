@@ -1,23 +1,42 @@
-// Backend bem direto só para registrar pontuação opcional
-// Não está "perfeito". Guarda partidas em memória. Se reiniciar, perde.
-
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const app = express();
 app.use(express.json());
 
-// Armazena as partidas em memória (é só um proto, some ao reiniciar)
-// partidas[id] = { nome, nivel, tempoLimite, perguntas:[...], atual, pontos }
 const partidas = {};
 let seq = 1;
 
-// Ranking em memória
-// Cada entrada: { nome, pontos, nivel, tempoLimite, dataISO }
-const ranking = [];
+const rankingPath = path.join(__dirname, 'ranking.json');
+let rankingNivel = { Easy: [], Basic: [], Medium: [], Hard: [] };
 
-// Carrega perguntas do arquivo local (node usa require)
-const perguntasArquivo = require('./conteudoConjuntos.js'); // vai pegar o array exportado (ajuste se não estiver module.exports)
-// Se o arquivo não exportar, adaptar manualmente abaixo
+function carregaRanking(){
+  try {
+    if(fs.existsSync(rankingPath)){
+      const raw = fs.readFileSync(rankingPath,'utf8');
+      const obj = JSON.parse(raw);
+      if(obj && typeof obj === 'object'){
+        rankingNivel = { Easy:[], Basic:[], Medium:[], Hard:[], ...obj };
+      }
+    }
+  } catch(e){
+    console.warn('Falha carregar ranking.json', e.message);
+  }
+}
+
+function salvaRanking(){
+  try {
+    fs.writeFile(rankingPath, JSON.stringify(rankingNivel, null, 2), err => {
+      if(err) console.warn('Falha salvar ranking.json', err.message);
+    });
+  } catch(e){
+    console.warn('Erro sync salvar ranking', e.message);
+  }
+}
+
+carregaRanking();
+
+const perguntasArquivo = require('./conteudoConjuntos.js');
 const fontePerguntas = perguntasArquivo.perguntasConjuntos || perguntasArquivo || global.perguntasConjuntos;
 
 function shuffle(arr){
@@ -35,7 +54,6 @@ function sorteia(dif){
   shuffle(todas);
   const limite = limitePorNivel[dif] || 5;
   const escolhidas = todas.slice(0, limite);
-  // Para cada pergunta, embaralhar alternativas e recalcular índice correto
   return escolhidas.map(orig => {
     const indices = orig.alternativas.map((_,i)=>i);
     shuffle(indices);
@@ -54,20 +72,22 @@ function sorteia(dif){
 const bonusPorTempo = {20:0.05,30:0.04,40:0.03,50:0.015,60:0};
 
 function registraNoRanking(partida){
-  // Evita duplicar mesma partida (checa se já existe combinação nome+nivel+pontos+tempoLimite+atual==total)
-  const ja = ranking.find(r => r.nome===partida.nome && r.pontos===partida.pontos && r.nivel===partida.nivel && r.tempoLimite===partida.tempoLimite);
-  if(ja) return; // simples
-  ranking.push({
+  const arr = rankingNivel[partida.nivel] || (rankingNivel[partida.nivel] = []);
+  const ja = arr.find(r => r.nome===partida.nome && r.pontos===partida.pontos && r.tempoLimite===partida.tempoLimite && r.tempoTotal===partida.tempoTotal);
+  if(ja) return;
+  arr.push({
     nome: partida.nome,
     pontos: partida.pontos,
     nivel: partida.nivel,
     tempoLimite: partida.tempoLimite,
+    tempoTotal: partida.tempoTotal,
+    mediaTempo: partida.mediaTempo,
     dataISO: new Date().toISOString()
   });
-  // Mantém só últimos 100 para não crescer infinito
-  if(ranking.length > 100){
-    ranking.splice(0, ranking.length - 100);
+  if(arr.length > 100){
+    arr.splice(0, arr.length - 100);
   }
+  salvaRanking();
 }
 
 app.post('/partida', (req,res) => {
@@ -80,7 +100,9 @@ app.post('/partida', (req,res) => {
     tempoLimite: parseInt(tempoLimite,10),
     perguntas: sorteia(nivel),
     atual: 0,
-    pontos: 0
+    pontos: 0,
+    tempoTotal: 0,
+    respostas: []
   };
   const primeira = partidas[id].perguntas[0];
   res.json({ id, pergunta: { texto: primeira.pergunta, alternativas: primeira.alternativas, numero: 1, total: partidas[id].perguntas.length } });
@@ -103,6 +125,17 @@ app.post('/resposta', (req,res) => {
     ganho = Math.round(100 * (1 + pct));
     partida.pontos += ganho;
   }
+  partida.tempoTotal += tempoGasto;
+  partida.respostas.push({
+    pergunta: perg.pergunta,
+    alternativas: perg.alternativas,
+    escolhida: indiceResposta,
+    corretaIndex: perg.respostaCorreta,
+    corretaTexto: perg.alternativas[perg.respostaCorreta],
+    certa,
+    explicacao: perg.explicacao,
+    tempo: tempoGasto
+  });
   partida.atual++;
   const fim = partida.atual >= partida.perguntas.length;
   let proxima = null;
@@ -110,7 +143,6 @@ app.post('/resposta', (req,res) => {
     const np = partida.perguntas[partida.atual];
     proxima = { texto: np.pergunta, alternativas: np.alternativas, numero: partida.atual+1, total: partida.perguntas.length };
   } else {
-    // Finalizou aqui (sem chamar /final ainda). Deixa registro quando o cliente chamar /final
   }
   res.json({ certo: certa, ganho, pontos: partida.pontos, fim, proxima, explicacao: perg.explicacao, corretaTexto: perg.alternativas[perg.respostaCorreta] });
 });
@@ -118,30 +150,46 @@ app.post('/resposta', (req,res) => {
 app.get('/final/:id', (req,res)=>{
   const partida = partidas[req.params.id];
   if(!partida) return res.status(404).json({ erro: 'id inválido' });
-  // Garante que chegou ao fim antes de registrar
   if(partida.atual >= partida.perguntas.length){
+    partida.mediaTempo = partida.perguntas.length ? (partida.tempoTotal / partida.perguntas.length) : 0;
     registraNoRanking(partida);
   }
-  res.json({ nome: partida.nome, pontos: partida.pontos, totalPerguntas: partida.perguntas.length });
+  res.json({ nome: partida.nome, pontos: partida.pontos, totalPerguntas: partida.perguntas.length, tempoTotal: partida.tempoTotal, mediaTempo: partida.mediaTempo });
 });
 
-// Endpoint para ver estado rápido (debug) - não para produção
 app.get('/estado/:id', (req,res)=>{
   const partida = partidas[req.params.id];
   if(!partida) return res.status(404).json({ erro: 'id inválido' });
   res.json({ atual: partida.atual, pontos: partida.pontos });
 });
 
-// Endpoint ranking: top 10 ordenado por pontos desc; empate por data mais antiga primeiro
 app.get('/ranking', (req,res) => {
-  const ordenado = ranking.slice().sort((a,b)=>{
+  const nivel = req.query.nivel;
+  if(!nivel){
+    const pack = {};
+    Object.keys(rankingNivel).forEach(n => {
+      pack[n] = rankingNivel[n].slice().sort((a,b)=>{
+        if(b.pontos !== a.pontos) return b.pontos - a.pontos;
+        return new Date(a.dataISO) - new Date(b.dataISO);
+      }).slice(0,10);
+    });
+    return res.json(pack);
+  }
+  const arr = rankingNivel[nivel] || [];
+  const ordenado = arr.slice().sort((a,b)=>{
     if(b.pontos !== a.pontos) return b.pontos - a.pontos;
     return new Date(a.dataISO) - new Date(b.dataISO);
   }).slice(0,10);
   res.json(ordenado);
 });
 
-// Servir front (direto)
+app.get('/historico/:id', (req,res) => {
+  const partida = partidas[req.params.id];
+  if(!partida) return res.status(404).json({ erro: 'id inválido' });
+  if(partida.atual < partida.perguntas.length) return res.status(400).json({ erro: 'partida não finalizada' });
+  res.json({ respostas: partida.respostas });
+});
+
 app.use('/', express.static(path.join(__dirname)));
 
 const porta = process.env.PORT || 3000;
