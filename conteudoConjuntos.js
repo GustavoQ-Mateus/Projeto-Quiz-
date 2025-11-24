@@ -904,3 +904,8 @@ const perguntasConjuntos = [
   }
 
 ];
+
+// Export simples para Node (sem quebrar uso no browser)
+if (typeof module !== 'undefined') {
+  module.exports = { perguntasConjuntos };
+}

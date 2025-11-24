@@ -1,0 +1,32 @@
+# Ignora coisas chatas do Node e do SO
+node_modules/
+
+# Logs variados
+*.log
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Cobertura e caches
+coverage/
+*.lcov
+.cache/
+tmp/
+
+# Builds gerados (caso crie futuramente)
+dist/
+build/
+
+# Ambiente (não versionar credenciais)
+.env
+.env.local
+.env.*.local
+
+# Sistema operacional / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Se gerar arquivo de ranking permanente, descomenta:
+# ranking.json

@@ -1,0 +1,13 @@
+{
+  "name": "quiz-logico-cru",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Proto inicial quiz lógico níveis",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
