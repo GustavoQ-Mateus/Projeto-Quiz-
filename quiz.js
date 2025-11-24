@@ -1,4 +1,5 @@
- (function(){
+;(function(){
+  // Estado interno
   let idPartida = null;
   let pontuacao = 0;
   let nomeJogador = '';
@@ -9,26 +10,25 @@
   let numeroAtual = 0;
   let totalPerguntas = 0;
 
+  // Elementos principais
   const formInicio = document.getElementById('formInicio');
-  const painelStatus = document.getElementById('painelStatus');
   const infoJog = document.getElementById('infoJog');
   const infoNivel = document.getElementById('infoNivel');
   const infoTempo = document.getElementById('infoTempo');
   const infoPontuacao = document.getElementById('infoPontuacao');
   const infoProgresso = document.getElementById('infoProgresso');
-
-  const blocoPergunta = document.getElementById('blocoPergunta');
   const textoPergunta = document.getElementById('textoPergunta');
-  const caixaRespostas = document.getElementById('caixaRespostas');
+  const listaAlternativas = document.getElementById('listaAlternativas');
   const cronometro = document.getElementById('cronometro');
   const explicacao = document.getElementById('explicacao');
   const btnProx = document.getElementById('btnProx');
-
-  const resumoFinal = document.getElementById('resumoFinal');
   const textoResumo = document.getElementById('textoResumo');
   const btnReiniciar = document.getElementById('btnReiniciar');
   const btnDetalhes = document.getElementById('btnDetalhes');
   const painelDetalhes = document.getElementById('painelDetalhes');
+  const timerBarFill = document.getElementById('timerBarFill');
+
+  function setState(st){ document.body.dataset.state = st; }
 
   try {
     const antigoNome = localStorage.getItem('quizNome');
@@ -53,7 +53,8 @@
       const arr = JSON.parse(cacheStr);
       arr.forEach((item,i)=>{
         const li = document.createElement('li');
-        li.textContent = (i+1) + '. ' + item.nome + ' - ' + item.pontos + ' pts (' + item.tempoLimite + 's / ' + item.mediaTempo.toFixed(2) + 's médio)';
+        // <ol> já fornece a numeração; remover prefixo manual
+        li.textContent = item.nome + ' - ' + item.pontos + ' pts (' + item.tempoLimite + 's / ' + item.mediaTempo.toFixed(2) + 's médio)';
         listaRanking.appendChild(li);
       });
     } catch(e){}
@@ -78,19 +79,25 @@
     numeroAtual = bloco.numero;
     totalPerguntas = bloco.total;
     textoPergunta.textContent = bloco.texto;
-    caixaRespostas.innerHTML = '';
+    listaAlternativas.innerHTML = '';
     explicacao.textContent = '';
-    btnProx.style.display = 'none';
+    btnProx.hidden = true;
     rodadaEncerrada = false;
     momentoInicioPergunta = performance.now();
     bloco.alternativas.forEach((alt,i)=>{
+      const li = document.createElement('li');
       const b = document.createElement('button');
+      b.type = 'button';
       b.textContent = alt;
-      b.style.display = 'block';
-      b.style.margin = '4px 0';
+      b.className = 'btn answer-btn';
       b.addEventListener('click', ()=> enviaResposta(i));
-      caixaRespostas.appendChild(b);
+      li.appendChild(b);
+      listaAlternativas.appendChild(li);
     });
+    // Foco primeira alternativa
+    const primeiro = listaAlternativas.querySelector('button');
+    if(primeiro) primeiro.focus();
+    atualizaTimerBar(1); // cheio no início
     mostraStatus();
   }
 
@@ -98,7 +105,8 @@
     if(rodadaEncerrada) return;
     rodadaEncerrada = true;
     const tempoGasto = (performance.now() - momentoInicioPergunta)/1000;
-    Array.from(caixaRespostas.children).forEach(b => b.disabled = true);
+    const botoes = Array.from(listaAlternativas.querySelectorAll('button'));
+    botoes.forEach(b => b.disabled = true);
     try {
       const r = await fetch('/resposta', {
         method: 'POST',
@@ -109,15 +117,30 @@
       if(r.ok){
         pontuacao = json.pontos;
         if(json.certo){
-          explicacao.textContent = '✔ Correta. +' + json.ganho + '. ' + (json.explicacao || '');
+          explicacao.textContent = 'Correta. +' + json.ganho + '. ' + (json.explicacao || '');
+          if(indiceResposta >= 0){
+            const escolhido = botoes[indiceResposta];
+            if(escolhido) escolhido.classList.add('answer-btn--certa');
+          }
         } else {
-          explicacao.textContent = '✖ Errada. Correta: ' + json.corretaTexto + '. ' + (json.explicacao || '');
+          // Ajuste: usar "Explicação" e destacar correta vs escolhida
+          explicacao.textContent = 'Errada. Explicação: ' + json.corretaTexto + '. ' + (json.explicacao || '');
+          // Marcar botão correto (comparando texto, já que índice não vem)
+          botoes.forEach(b => {
+            if(b.textContent === json.corretaTexto){
+              b.classList.add('answer-btn--certa');
+            }
+          });
+          if(indiceResposta >= 0){
+            const escolhido = botoes[indiceResposta];
+            if(escolhido) escolhido.classList.add('answer-btn--errada');
+          }
         }
         mostraStatus();
         if(json.fim){
           finalizarRodada();
         } else {
-          btnProx.style.display = 'inline-block';
+          btnProx.hidden = false;
           btnProx.dataset.proxima = JSON.stringify(json.proxima);
         }
       } else {
@@ -138,15 +161,23 @@
   }
 
   function loopCronometro(){
-      if(blocoPergunta.style.display !== 'none' && !rodadaEncerrada){
-        const decorrido = (performance.now() - momentoInicioPergunta)/1000;
-        const restante = Math.max(0, tempoLimite - decorrido);
-        cronometro.textContent = 'Tempo restante: ' + restante.toFixed(1) + 's';
-        if(restante <= 0){
-          enviaResposta(-1);
-        }
+    if(document.body.dataset.state === 'jogo' && !rodadaEncerrada){
+      const decorrido = (performance.now() - momentoInicioPergunta)/1000;
+      const restante = Math.max(0, tempoLimite - decorrido);
+      cronometro.textContent = 'Tempo restante: ' + restante.toFixed(1) + 's';
+      const ratio = tempoLimite ? (restante / tempoLimite) : 0;
+      atualizaTimerBar(ratio);
+      if(restante <= 0){
+        enviaResposta(-1);
       }
+    }
     requestAnimationFrame(loopCronometro);
+  }
+
+  function atualizaTimerBar(ratio){
+    if(!timerBarFill) return;
+    const pct = Math.max(0, Math.min(1, ratio))*100;
+    timerBarFill.style.width = pct + '%';
   }
 
   async function iniciar(){
@@ -172,9 +203,7 @@
       if(!r.ok){ alert('Falhou iniciar'); return; }
       idPartida = json.id;
       try { localStorage.setItem('quizNome', nomeJogador); } catch(e){}
-      painelStatus.style.display = 'block';
-      blocoPergunta.style.display = 'block';
-      resumoFinal.style.display = 'none';
+      setState('jogo');
       renderPergunta(json.pergunta);
     } catch(e){
       alert('Erro rede ao iniciar');
@@ -182,11 +211,10 @@
   }
 
   function finalizarRodada(){
-    blocoPergunta.style.display = 'none';
+    setState('final');
     fetch('/final/' + idPartida)
       .then(r=>r.json())
       .then(fin=>{
-        resumoFinal.style.display = 'block';
         textoResumo.textContent = 'Pontuação final de ' + fin.nome + ': ' + fin.pontos + ' em ' + fin.totalPerguntas + ' perguntas. Tempo total ' + fin.tempoTotal.toFixed(2) + 's (média ' + fin.mediaTempo.toFixed(2) + 's).';
         return Promise.all([
           fetch('/ranking?nivel=' + encodeURIComponent(nivelAtual)),
@@ -200,7 +228,8 @@
           listaRanking.innerHTML = '';
           (rankList || []).forEach((item,i)=>{
             const li = document.createElement('li');
-            li.textContent = (i+1) + '. ' + item.nome + ' - ' + item.pontos + ' pts (' + item.tempoLimite + 's / ' + item.mediaTempo.toFixed(2) + 's médio)';
+            // Evitar duplicação da numeração (ol já numera)
+            li.textContent = item.nome + ' - ' + item.pontos + ' pts (' + item.tempoLimite + 's / ' + item.mediaTempo.toFixed(2) + 's médio)';
             listaRanking.appendChild(li);
           });
           if(!rankList || rankList.length === 0){
@@ -214,36 +243,44 @@
         if(listaDetalhes && historico && historico.respostas){
           listaDetalhes.innerHTML = '';
           historico.respostas.forEach((r,i)=>{
-            const div = document.createElement('div');
-            const prefixo = r.certa ? '✔' : '✖';
-            div.style.marginBottom = '6px';
-            div.textContent = (i+1) + ') ' + prefixo + ' ' + r.pergunta + ' | Escolhida: ' + (r.escolhida>=0? r.alternativas[r.escolhida] : '—') + ' | Correta: ' + r.corretaTexto + ' | Tempo ' + r.tempo.toFixed(2) + 's';
+            const item = document.createElement('div');
+            item.className = 'item-hist';
+            const cab = document.createElement('div');
+            const badge = document.createElement('span');
+            badge.className = 'badge ' + (r.certa ? 'badge--ok' : 'badge--fail');
+            badge.textContent = r.certa ? 'ACERTO' : 'ERRO';
+            const titulo = document.createElement('span');
+            titulo.textContent = (i+1) + ') ' + r.pergunta;
+            cab.appendChild(badge);
+            cab.appendChild(document.createTextNode(' '));
+            cab.appendChild(titulo);
+            const meta = document.createElement('div');
+            meta.textContent = 'Escolhida: ' + (r.escolhida>=0? r.alternativas[r.escolhida] : '—') + ' | Correta: ' + r.corretaTexto + ' | Tempo ' + r.tempo.toFixed(2) + 's';
             const exp = document.createElement('div');
-            exp.style.marginLeft = '14px';
-            exp.style.color = '#444';
             exp.textContent = 'Explicação: ' + r.explicacao;
-            listaDetalhes.appendChild(div);
-            listaDetalhes.appendChild(exp);
+            item.appendChild(cab);
+            item.appendChild(meta);
+            item.appendChild(exp);
+            listaDetalhes.appendChild(item);
           });
         }
       })
       .catch(()=>{
-        resumoFinal.style.display = 'block';
         textoResumo.textContent += ' (Falhou carregar ranking/histórico)';
       });
   }
 
   btnReiniciar.addEventListener('click', () => {
-    painelStatus.style.display = 'none';
-    resumoFinal.style.display = 'none';
-    blocoPergunta.style.display = 'none';
     formInicio.reset();
+    setState('inicio');
   });
 
   if(btnDetalhes){
     btnDetalhes.addEventListener('click', ()=>{
       if(!painelDetalhes) return;
-      painelDetalhes.style.display = painelDetalhes.style.display === 'none' ? 'block' : 'none';
+      painelDetalhes.classList.toggle('is-hidden');
+      const aberto = !painelDetalhes.classList.contains('is-hidden');
+      btnDetalhes.setAttribute('aria-expanded', aberto ? 'true' : 'false');
     });
   }
 
