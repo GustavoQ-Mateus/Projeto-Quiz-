@@ -123,9 +123,8 @@
             if(escolhido) escolhido.classList.add('answer-btn--certa');
           }
         } else {
-          // Ajuste: usar "Explicação" e destacar correta vs escolhida
+          
           explicacao.textContent = 'Errada. Explicação: ' + json.corretaTexto + '. ' + (json.explicacao || '');
-          // Marcar botão correto (comparando texto, já que índice não vem)
           botoes.forEach(b => {
             if(b.textContent === json.corretaTexto){
               b.classList.add('answer-btn--certa');
@@ -228,7 +227,6 @@
           listaRanking.innerHTML = '';
           (rankList || []).forEach((item,i)=>{
             const li = document.createElement('li');
-            // Evitar duplicação da numeração (ol já numera)
             li.textContent = item.nome + ' - ' + item.pontos + ' pts (' + item.tempoLimite + 's / ' + item.mediaTempo.toFixed(2) + 's médio)';
             listaRanking.appendChild(li);
           });

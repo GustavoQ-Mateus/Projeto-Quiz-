@@ -193,4 +193,4 @@ app.get('/historico/:id', (req,res) => {
 app.use('/', express.static(path.join(__dirname)));
 
 const porta = process.env.PORT || 3000;
-app.listen(porta, ()=> console.log('Servidor quiz cru na porta', porta));
+app.listen(porta, ()=> console.log('Servidor ONLINE porta: ', porta));
