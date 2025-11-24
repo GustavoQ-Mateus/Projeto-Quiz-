@@ -44,7 +44,7 @@ const perguntasConjuntos = [
     explicacao: "Um subconjunto pode conter apenas parte dos elementos do conjunto."
   },
 
-  // ⚠️ Substituta da Pergunta Easy 6 (removida – cardinalidade)
+  // Pergunta Easy 6
   {
     dificuldade: "Easy",
     pergunta: "O número 4 pertence ao conjunto A={2,4,6,8}?",
@@ -134,7 +134,7 @@ const perguntasConjuntos = [
     explicacao: "A diferença contém apenas elementos que pertencem apenas a B."
   },
 
-  // ⚠️ Substituta da Pergunta Easy 16 (removida – cardinalidade implícita)
+  // Pergunta Easy 16
   {
     dificuldade: "Easy",
     pergunta: "O conjunto {a,b} é subconjunto de {a,b,c,d}?",
@@ -143,7 +143,7 @@ const perguntasConjuntos = [
     explicacao: "Todos os elementos de {a,b} estão no conjunto maior."
   },
 
-  // ⚠️ Substituta da Pergunta Easy 17 (removida – conjunto potência)
+  // Pergunta Easy 17
   {
     dificuldade: "Easy",
     pergunta: "O conjunto {a} possui quais subconjuntos básicos?",
@@ -179,7 +179,7 @@ const perguntasConjuntos = [
     explicacao: "O vazio é subconjunto de qualquer conjunto."
   },
 
-  // ⚠️ Substituta da Pergunta Easy 21 (removida – cardinalidade)
+  // Pergunta Easy 21
   {
     dificuldade: "Easy",
     pergunta: "O conjunto vazio possui algum elemento?",
@@ -214,6 +214,7 @@ const perguntasConjuntos = [
     respostaCorreta: 1,
     explicacao: "O elemento d não está no conjunto."
   },
+
   // Pergunta Easy 25
   {
     dificuldade: "Easy",
@@ -222,7 +223,8 @@ const perguntasConjuntos = [
     respostaCorreta: 0,
     explicacao: "Os pares até 4 são {0,2,4}."
   },
-// Pergunta Basic 1
+
+  // Pergunta Basic 1
 {
   dificuldade: "Basic",
   pergunta: "O conjunto A={1,2} é subconjunto próprio de B={1,2,3}?",
@@ -231,7 +233,7 @@ const perguntasConjuntos = [
   explicacao: "A possui todos os seus elementos em B e é diferente de B, logo é um subconjunto próprio."
 },
 
-// Pergunta Basic 2 (NOVA — substitui cardinalidade/potência)
+// Pergunta Basic 2
 {
   dificuldade: "Basic",
   pergunta: "Se A={a,b} e B={b,c}, qual é A ∩ B?",
@@ -276,7 +278,7 @@ const perguntasConjuntos = [
   explicacao: "A união contém todos os elementos dos três conjuntos."
 },
 
-// Pergunta Basic 7 (NOVA — substitui subconjuntos próprios contagem)
+// Pergunta Basic 7
 {
   dificuldade: "Basic",
   pergunta: "O conjunto {x,y} é subconjunto de {x,y,z}?",
@@ -321,7 +323,7 @@ const perguntasConjuntos = [
   explicacao: "Removendo elementos de A, sobra {3}."
 },
 
-// Pergunta Basic 12 (NOVA — substitui potência)
+// Pergunta Basic 12
 {
   dificuldade: "Basic",
   pergunta: "O conjunto vazio é subconjunto de {a,b,c}?",
@@ -330,7 +332,7 @@ const perguntasConjuntos = [
   explicacao: "O conjunto vazio é subconjunto de qualquer conjunto."
 },
 
-// Pergunta Basic 13 (NOVA — substitui cardinalidade)
+// Pergunta Basic 13
 {
   dificuldade: "Basic",
   pergunta: "Se A={1,2} e B={2,3}, qual é A ∪ B?",
@@ -375,7 +377,7 @@ const perguntasConjuntos = [
   explicacao: "Retira os elementos comuns."
 },
 
-// Pergunta Basic 18 (NOVA — substitui produto cartesiano)
+// Pergunta Basic 18
 {
   dificuldade: "Basic",
   pergunta: "Se A={a,b} e B={b,c,d}, qual é A ∩ B?",
@@ -411,7 +413,7 @@ const perguntasConjuntos = [
   explicacao: "Remove os elementos em comum."
 },
 
-// Pergunta Basic 22 (NOVA — substitui contagem de subconjuntos)
+// Pergunta Basic 22
 {
   dificuldade: "Basic",
   pergunta: "O conjunto {a,b,c} contém o elemento b?",
@@ -446,6 +448,7 @@ const perguntasConjuntos = [
   respostaCorreta: 0,
   explicacao: "União reúne todos os elementos sem repetição."
 },
+
 // Pergunta Medium 1
 {
   dificuldade: "Medium",
@@ -669,7 +672,9 @@ const perguntasConjuntos = [
   alternativas: ["{a,b,c}", "{b,c}", "{a,d}", "{a,b,c,d}"],
   respostaCorreta: 0,
   explicacao: "A ∩ B = {b,c}. União com {a} = {a,b,c}."
-},// Hard 1
+},
+
+// Pergunta Hard 1
   {
     dificuldade: "Hard",
     pergunta: "Se U={1,2,3,4,5}, A={1,2}, B={2,3,4}, qual é (A ∪ B) ∩ (A ∩ B)?",
@@ -678,7 +683,7 @@ const perguntasConjuntos = [
     explicacao: "A ∪ B = {1,2,3,4} e A ∩ B = {2}; a interseção desses é {2}."
   },
 
-  // Hard 2
+  // Pergunta Hard 2
   {
     dificuldade: "Hard",
     pergunta: "Se A={a,b,c} e B={b,c,d}, qual é A - (B - A)?",
@@ -687,7 +692,7 @@ const perguntasConjuntos = [
     explicacao: "B - A = {d} (pois b,c ∈ A), então A - {d} = A = {a,b,c}. Porém d∉A, logo A - (B-A)=A. Correção: reavaliando, como B-A = {d}, A - {d} = A = {a,b,c}. Alternativa correspondente: \"{a,b,c}\".",
   },
 
-  // Hard 3 (corrigida: manter coerência com explicação -> set correct index 0)
+  // Pergunta Hard 3
   {
     dificuldade: "Hard",
     pergunta: "Se A={a,b,c} e B={b,c,d}, qual é A - (B - A)?",
@@ -696,7 +701,7 @@ const perguntasConjuntos = [
     explicacao: "B - A = {d}, então A - {d} = A = {a,b,c}."
   },
 
-  // Hard 4
+  // Pergunta Hard 4
   {
     dificuldade: "Hard",
     pergunta: "Para A={1,2,3}, B={3,4,5}, C={5,6}, qual é (A ∪ B) - (B ∪ C)?",
@@ -705,7 +710,7 @@ const perguntasConjuntos = [
     explicacao: "A ∪ B = {1,2,3,4,5}; B ∪ C = {3,4,5,6}; a diferença remove {3,4,5}, sobrando {1,2}."
   },
 
-  // Hard 5
+  // Pergunta Hard 5
   {
     dificuldade: "Hard",
     pergunta: "Se U={a,b,c,d}, A={a,b}, qual é (Aᶜ) ∪ A?",
@@ -714,7 +719,7 @@ const perguntasConjuntos = [
     explicacao: "Complemento de A unido com A contém todos os elementos do universo U."
   },
 
-  // Hard 6
+  // Pergunta Hard 6
   {
     dificuldade: "Hard",
     pergunta: "Se A={x,y}, B={y,z}, qual é (A ∩ B) ∪ (A - B)?",
@@ -723,7 +728,7 @@ const perguntasConjuntos = [
     explicacao: "A ∩ B = {y}, A - B = {x}; união = {x,y}."
   },
 
-  // Hard 7
+  // Pergunta Hard 7
   {
     dificuldade: "Hard",
     pergunta: "Se A⊆B e B⊆C, qual relação é sempre verdadeira?",
@@ -732,7 +737,7 @@ const perguntasConjuntos = [
     explicacao: "Subconjunto é transitivo: se A⊆B e B⊆C então A⊆C."
   },
 
-  // Hard 8
+  // Pergunta Hard 8
   {
     dificuldade: "Hard",
     pergunta: "Se A={1,2,3} e B={2,3}, qual é A ∆ B (diferença simétrica)?",
@@ -741,7 +746,7 @@ const perguntasConjuntos = [
     explicacao: "Diferença simétrica remove elementos comuns; resta apenas {1}."
   },
 
-  // Hard 9
+  // Pergunta Hard 9
   {
     dificuldade: "Hard",
     pergunta: "Se U={1,2,3,4}, A={1,3}, qual é (U - A) ∩ {3,4}?",
@@ -750,7 +755,7 @@ const perguntasConjuntos = [
     explicacao: "U - A = {2,4}; intersectando com {3,4} resulta em {4}."
   },
 
-  // Hard 10
+  // Pergunta Hard 10
   {
     dificuldade: "Hard",
     pergunta: "Se A={a,b,c}, qual é A ∪ (A ∩ ∅)?",
@@ -759,7 +764,7 @@ const perguntasConjuntos = [
     explicacao: "Interseção com o conjunto vazio é ∅; união com A retorna A."
   },
 
-  // Hard 11
+  // Pergunta Hard 11
   {
     dificuldade: "Hard",
     pergunta: "Se A={1,2,3}, B={3}, qual é (A - B) ∪ (A ∩ B)?",
@@ -768,7 +773,7 @@ const perguntasConjuntos = [
     explicacao: "A-B={1,2}, A∩B={3}; união = {1,2,3} (que é A)."
   },
 
-  // Hard 12
+  // Pergunta Hard 12
   {
     dificuldade: "Hard",
     pergunta: "Se A={x,y,z} e B={y,z}, A é subconjunto próprio de B?",
@@ -777,7 +782,7 @@ const perguntasConjuntos = [
     explicacao: "A contém x que não está em B, então A não é subconjunto de B."
   },
 
-  // Hard 13
+  // Pergunta Hard 13
   {
     dificuldade: "Hard",
     pergunta: "Se U={1,2,3,4,5}, A={1,4,5}, qual é (Aᶜ)ᶜ?",
@@ -786,7 +791,7 @@ const perguntasConjuntos = [
     explicacao: "O complemento do complemento retorna o próprio conjunto A."
   },
 
-  // Hard 14
+  // Pergunta Hard 14
   {
     dificuldade: "Hard",
     pergunta: "Se A={a,b}, B={b,c}, C={a,c}, qual é (A ∩ B) ∪ (B ∩ C) ∪ (C ∩ A)?",
@@ -795,7 +800,7 @@ const perguntasConjuntos = [
     explicacao: "Interseções: A∩B={b}, B∩C={c}, C∩A={a}; união = {a,b,c}."
   },
 
-  // Hard 15
+  // Pergunta Hard 15
   {
     dificuldade: "Hard",
     pergunta: "Se A⊂B (subconjunto próprio), qual das alternativas é impossível?",
@@ -804,7 +809,7 @@ const perguntasConjuntos = [
     explicacao: "Se A é subconjunto próprio de B, B não pode ser subconjunto próprio de A."
   },
 
-  // Hard 16
+  // Pergunta Hard 16
   {
     dificuldade: "Hard",
     pergunta: "Qual é (A ∪ B) - (A ∩ B) em termos de operadores básicos?",
@@ -813,7 +818,7 @@ const perguntasConjuntos = [
     explicacao: "União menos interseção é exatamente a diferença simétrica A ∆ B."
   },
 
-  // Hard 17
+  // Pergunta Hard 17
   {
     dificuldade: "Hard",
     pergunta: "Se A={1,2}, B={2,3}, qual é (A ∪ B) ∩ (A - B)?",
@@ -822,7 +827,7 @@ const perguntasConjuntos = [
     explicacao: "A ∪ B = {1,2,3}; A - B = {1}; interseção = {1}."
   },
 
-  // Hard 18
+  // Pergunta Hard 18
   {
     dificuldade: "Hard",
     pergunta: "Se A={a,b,c} e B={b,c}, B é subconjunto próprio de A?",
@@ -831,7 +836,7 @@ const perguntasConjuntos = [
     explicacao: "B⊆A e B≠A, logo B é subconjunto próprio de A."
   },
 
-  // Hard 19
+  // Pergunta Hard 19
   {
     dificuldade: "Hard",
     pergunta: "Se U é o universo e A⊆U, qual é A ∪ Aᶜ?",
@@ -840,7 +845,7 @@ const perguntasConjuntos = [
     explicacao: "Um conjunto unido ao seu complemento forma todo o universo U."
   },
 
-  // Hard 20
+  // Pergunta Hard 20
   {
     dificuldade: "Hard",
     pergunta: "Se A={1,2,3}, B={3,4}, qual é (A - (A ∩ B)) ∪ (B - (A ∩ B))?",
@@ -849,16 +854,7 @@ const perguntasConjuntos = [
     explicacao: "Remover a interseção de cada um e unir o resultado é a diferença simétrica A ∆ B."
   },
 
-  // Hard 21
-  {
-    dificuldade: "Hard",
-    pergunta: "Se A={x,y} e B={y,z}, qual é (A ∪ B) - (A ∩ Bᶜ)?",
-    alternativas: ["{z}", "{x,y}", "{x,z}", "{y}"],
-    respostaCorreta: 2,
-    explicacao: "Bᶜ depende do universo; interpretando Bᶜ como 'elementos não em B do universo restrito a {x,y,z}', A∩Bᶜ = {x}; (A∪B) - {x} = {y,z}. Alternativa mais adequada: \"{x,z}\" está incorreta — melhor formular sem ambiguidade do complementar. Para consistência, reformulei abaixo."
-  },
-
-  // Hard 21 — REFORMULAÇÃO (substitui a anterior para evitar ambiguidade)
+  // Pergunta Hard 21
   {
     dificuldade: "Hard",
     pergunta: "Se U={x,y,z}, A={x,y} e B={y,z}, qual é (A ∪ B) - (A ∩ Bᶜ)?",
@@ -867,7 +863,7 @@ const perguntasConjuntos = [
     explicacao: "Bᶜ em U = {x}; A ∩ Bᶜ = {x}; A ∪ B = {x,y,z}; diferença = {y,z}."
   },
 
-  // Hard 22
+  // Pergunta Hard 22
   {
     dificuldade: "Hard",
     pergunta: "Se A={1,2,3}, B={2}, C={3}, qual é (A - B) ∩ (A - C)?",
@@ -876,7 +872,7 @@ const perguntasConjuntos = [
     explicacao: "A-B={1,3}, A-C={1,2}; interseção = {1}."
   },
 
-  // Hard 23
+  // Pergunta Hard 23
   {
     dificuldade: "Hard",
     pergunta: "Se A={a,b,c}, qual é (A - {b}) ∪ ({b} ∩ A)?",
@@ -885,7 +881,7 @@ const perguntasConjuntos = [
     explicacao: "A - {b} = {a,c}; {b}∩A={b}; união = {a,b,c} = A."
   },
 
-  // Hard 24
+  // Pergunta Hard 24
   {
     dificuldade: "Hard",
     pergunta: "Se A={1,2}, B={2,3}, C={1,3}, qual é (A ∩ B) ∪ (A ∩ C)?",
@@ -894,7 +890,7 @@ const perguntasConjuntos = [
     explicacao: "A∩B={2}, A∩C={1}; união = {1,2}."
   },
 
-  // Hard 25
+  // Pergunta Hard 25
   {
     dificuldade: "Hard",
     pergunta: "Se U={1,2,3,4}, A={1,2}, B={2,3}, qual é (Aᶜ ∩ B) ∪ (A ∩ Bᶜ)?",
@@ -904,8 +900,7 @@ const perguntasConjuntos = [
   }
 
 ];
-
-// Export simples para Node (sem quebrar uso no browser)
+//exporta tudo para o node
 if (typeof module !== 'undefined') {
   module.exports = { perguntasConjuntos };
 }
